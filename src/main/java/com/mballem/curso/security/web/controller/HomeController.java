@@ -1,5 +1,7 @@
 package com.mballem.curso.security.web.controller;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +21,7 @@ public class HomeController {
 			return "login";
 		}	
 		
-		// login error
+		// login invalido
 		@GetMapping({"/login-error"})
 		public String loginError(ModelMap model) {
 			model.addAttribute("alerta", "erro");
@@ -28,4 +30,15 @@ public class HomeController {
 			model.addAttribute("subtexto", "Acesso permitido apenas para usuários cadastrados");
 			return "login";
 		}	
+		
+		// login negado
+		@GetMapping({"/acesso-negado"})
+		public String acessoNegado(ModelMap model, HttpServletResponse response ) {
+			model.addAttribute("status", response.getStatus());
+			model.addAttribute("error", "Área Restrita");
+			model.addAttribute("message", "Você não tem permissão de acesso para esta área ");
+			return "error";
+		}
+		
+		
 }
