@@ -1,16 +1,31 @@
 package com.mballem.curso.security.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.time.LocalDate;
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
-import javax.persistence.*;
-import java.time.LocalDate;
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "pacientes")
+@Getter
+@Setter
+@NoArgsConstructor
 public class Paciente extends AbstractEntity {
 
 	@Column(name = "nome", unique = true, nullable = false)
@@ -28,36 +43,5 @@ public class Paciente extends AbstractEntity {
 	@JoinColumn(name = "id_usuario")
 	private Usuario usuario;
 
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public LocalDate getDtNascimento() {
-		return dtNascimento;
-	}
-
-	public void setDtNascimento(LocalDate dtNascimento) {
-		this.dtNascimento = dtNascimento;
-	}
-
-	public List<Agendamento> getAgendamentos() {
-		return agendamentos;
-	}
-
-	public void setAgendamentos(List<Agendamento> agendamentos) {
-		this.agendamentos = agendamentos;
-	}
-
-	public Usuario getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
 
 }

@@ -1,14 +1,24 @@
 package com.mballem.curso.security.domain;
 
+import java.time.LocalDate;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
-import javax.persistence.*;
-import java.time.LocalDate;
+import lombok.Getter;
+import lombok.Setter;
 
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "agendamentos") 
+@Table(name = "agendamentos")
+@Getter
+@Setter
 public class Agendamento extends AbstractEntity {
 	
 	@ManyToOne
@@ -31,43 +41,4 @@ public class Agendamento extends AbstractEntity {
 	@DateTimeFormat(iso = ISO.DATE)
 	private LocalDate dataConsulta;
 	
-	public Especialidade getEspecialidade() {
-		return especialidade;
-	}
-
-	public void setEspecialidade(Especialidade especialidade) {
-		this.especialidade = especialidade;
-	}
-
-	public Medico getMedico() {
-		return medico;
-	}
-
-	public void setMedico(Medico medico) {
-		this.medico = medico;
-	}
-
-	public Paciente getPaciente() {
-		return paciente;
-	}
-
-	public void setPaciente(Paciente paciente) {
-		this.paciente = paciente;
-	}
-
-	public LocalDate getDataConsulta() {
-		return dataConsulta;
-	}
-
-	public void setDataConsulta(LocalDate dataConsulta) {
-		this.dataConsulta = dataConsulta;
-	}
-
-	public Horario getHorario() {
-		return horario;
-	}
-
-	public void setHorario(Horario horario) {
-		this.horario = horario;
-	}
 }

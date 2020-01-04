@@ -4,16 +4,31 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "medicos")
+@Getter
+@Setter
+@NoArgsConstructor
 public class Medico extends AbstractEntity {
 
 	@Column(name = "nome", unique = true, nullable = false)
@@ -45,63 +60,9 @@ public class Medico extends AbstractEntity {
 	@JoinColumn(name = "id_usuario")
 	private Usuario usuario;
 	
-	public Medico() {
-		super();
-	}
-
 	public Medico(Long id) {
 		super.setId(id);
 	}
 
-	public Medico(Usuario usuario) {
-		this.usuario = usuario;
-	}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public Integer getCrm() {
-		return crm;
-	}
-
-	public void setCrm(Integer crm) {
-		this.crm = crm;
-	}
-
-	public LocalDate getDtInscricao() {
-		return dtInscricao;
-	}
-
-	public void setDtInscricao(LocalDate dtInscricao) {
-		this.dtInscricao = dtInscricao;
-	}
-
-	public Set<Especialidade> getEspecialidades() {
-		return especialidades;
-	}
-
-	public void setEspecialidades(Set<Especialidade> especialidades) {
-		this.especialidades = especialidades;
-	}
-
-	public List<Agendamento> getAgendamentos() {
-		return agendamentos;
-	}
-
-	public void setAgendamentos(List<Agendamento> agendamentos) {
-		this.agendamentos = agendamentos;
-	}	
-
-	public Usuario getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
+	
 }
