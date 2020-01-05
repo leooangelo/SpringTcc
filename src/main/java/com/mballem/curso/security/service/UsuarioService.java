@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.mballem.curso.security.datatables.Datatables;
@@ -62,6 +63,20 @@ public class UsuarioService implements UserDetailsService{
 				? usuarioRepository.findAll(datatables.getPageable())
 						: usuarioRepository.findByEmailOrPerfil(datatables.getSearch(), datatables.getPageable());
 		return datatables.getResponse(page);
+	}
+	//metodo que salva o usuario novo cadastrado e criptografia na senha
+	@Transactional
+	public void salvarsuario(Usuario usuario) {
+		String crypt = new BCryptPasswordEncoder().encode(usuario.getSenha());
+		usuario.setSenha(crypt);
+		usuarioRepository.save(usuario);
+		
+		
+	}
+	@Transactional
+	public Usuario buscarPorId(Long id) {
+		// TODO Auto-generated method stub
+		return usuarioRepository.findById(id).get();
 	}
 	
 }
