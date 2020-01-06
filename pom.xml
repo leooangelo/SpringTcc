@@ -9,7 +9,7 @@
 		<version>2.1.4.RELEASE</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.mballem.curso.security</groupId>
+	<groupId>com.br.security</groupId>
 	<artifactId>demo-security</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>demo-security</name>

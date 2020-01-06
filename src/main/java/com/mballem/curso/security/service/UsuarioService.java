@@ -16,6 +16,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+
 import com.mballem.curso.security.datatables.Datatables;
 import com.mballem.curso.security.datatables.DatatablesColunas;
 import com.mballem.curso.security.domain.Perfil;
@@ -77,6 +78,13 @@ public class UsuarioService implements UserDetailsService{
 	public Usuario buscarPorId(Long id) {
 		// TODO Auto-generated method stub
 		return usuarioRepository.findById(id).get();
+	}
+	
+	@Transactional
+	public Usuario buscarPorIdEPerfis(Long usuarioId, Long[] perfisId) {
+		// TODO Auto-generated method stub
+		return usuarioRepository.findByIdEPerfis(usuarioId, perfisId)
+				.orElseThrow(() -> new UsernameNotFoundException("Usuario inexistente !"));
 	}
 	
 }

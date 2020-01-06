@@ -7,15 +7,21 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import com.mballem.curso.security.domain.PerfilTipo;
 import com.mballem.curso.security.service.UsuarioService;
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	
+	private static final String ADMIN = PerfilTipo.ADMIN.getDesc();
+	private static final String MEDICO = PerfilTipo.MEDICO.getDesc();
+	private static final String PACIENTE = PerfilTipo.PACIENTE.getDesc();
+	
 	@Autowired
 	private UsuarioService usuarioService;
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
+		
 		
 		http.authorizeRequests()
 		//acessos publicos liverados
@@ -23,10 +29,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		.antMatchers("/", "/home").permitAll()
 		
 		//acessos admin
-		.antMatchers("/u/**").hasAuthority("ADMIN")
+		.antMatchers("/u/**").hasAuthority(ADMIN)
 		
 		//acessos médicos
-		.antMatchers("/medicos/**").hasAuthority("MEDICO")
+		.antMatchers("/medicos/dados", "/medicos/salvar", "/medicos/editar").hasAnyAuthority(MEDICO,ADMIN)
+		.antMatchers("/medicos/**").hasAuthority(MEDICO)
+		//acessos pacientes
+		.antMatchers("/pacientes/**").hasAnyAuthority(PACIENTE, ADMIN)
+		
+		//acessos especialidades
+		.antMatchers("/especialidades/**").hasAuthority(ADMIN)
 		.anyRequest().authenticated()
 		.and()
 			.formLogin()
@@ -40,6 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		.and()
 			.exceptionHandling()
 			.accessDeniedPage("/acesso-negado");
+			
 	}
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {

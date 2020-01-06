@@ -63,6 +63,11 @@ public class Medico extends AbstractEntity {
 	public Medico(Long id) {
 		super.setId(id);
 	}
-
 	
+	public Medico(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
+
+
 }
