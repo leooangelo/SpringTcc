@@ -1,5 +1,6 @@
 package com.mballem.curso.security.service;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -45,5 +46,10 @@ public class EspecialidadeService {
 	public void remover(Long id) {
 		especialidadeRepository.deleteById(id);
 		
+	}
+	@Transactional
+	public List<String> buscarEspecialidadeByTermo(String termo) {
+		// TODO Auto-generated method stub
+		return  especialidadeRepository.findEspecialidadesByTermo(termo);
 	}
 }
