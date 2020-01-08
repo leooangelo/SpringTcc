@@ -60,4 +60,9 @@ public class EspecialidadeController {
 		List<String> especialidades = especialidadeService.buscarEspecialidadeByTermo(termo);
 		return ResponseEntity.ok(especialidades);
 	}
+	
+	@GetMapping("/datatables/server/medico/{id}")
+	public ResponseEntity<?> getEspecialidadesPorMedico(@PathVariable("id") Long id, HttpServletRequest request){
+		return ResponseEntity.ok(especialidadeService.buscarEspecialidadesPorMedico(id,request));
+	}
 }

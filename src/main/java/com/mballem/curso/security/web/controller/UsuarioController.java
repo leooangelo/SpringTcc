@@ -8,11 +8,14 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -55,9 +58,11 @@ public class UsuarioController {
 	@PostMapping("/cadastro/salvar")
 	public String salvarUsuario(Usuario usuario, RedirectAttributes attr) {
 		List<Perfil> perfis = usuario.getPerfis();
-		if (perfis.size() > 2 || perfis.containsAll(Arrays.asList(new Perfil(PerfilTipo.ADMIN.getCod()),
-																		new Perfil(PerfilTipo.PACIENTE.getCod())))
-				|| perfis.containsAll(Arrays.asList(new Perfil(PerfilTipo.MEDICO.getCod()), new Perfil(PerfilTipo.PACIENTE.getCod())))) {
+		if (perfis.size() > 2
+				|| perfis.containsAll(
+						Arrays.asList(new Perfil(PerfilTipo.ADMIN.getCod()), new Perfil(PerfilTipo.PACIENTE.getCod())))
+				|| perfis.containsAll(Arrays.asList(new Perfil(PerfilTipo.MEDICO.getCod()),
+						new Perfil(PerfilTipo.PACIENTE.getCod())))) {
 			attr.addFlashAttribute("falha", "Paciente não pode ser admin e/ou médico.");
 			attr.addFlashAttribute("usuario", usuario);
 		} else {
@@ -71,33 +76,33 @@ public class UsuarioController {
 		return "redirect:/u/novo/cadastro/usuario";
 
 	}
-	//Metodo pre para editar credenciais do usuario
+
+	// Metodo pre para editar credenciais do usuario
 	@GetMapping("/editar/credenciais/usuario/{id}")
-	public ModelAndView preEditarCredenciais(@PathVariable("id")Long id ) {
-		
+	public ModelAndView preEditarCredenciais(@PathVariable("id") Long id) {
+
 		return new ModelAndView("usuario/cadastro", "usuario", usuarioService.buscarPorId(id));
 	}
+
 	// metodo pre para editar cadastro de usuarios
 	@GetMapping("/editar/dados/usuario/{id}/perfis/{perfis}")
-	public ModelAndView preEditarCadastroDadosPessoais(@PathVariable("id")Long usuarioId,
-														@PathVariable("perfis") Long[] perfisId) {
-		
-		Usuario us = usuarioService.buscarPorIdEPerfis(usuarioId,perfisId);
-		if(us.getPerfis().contains(new Perfil(PerfilTipo.ADMIN.getCod())) &&
-				!us.getPerfis().contains(new Perfil(PerfilTipo.MEDICO.getCod())) ) 
-					return new ModelAndView("usuario/cadastro", "usuario",us);
-			
-		else if(us.getPerfis().contains(new Perfil(PerfilTipo.MEDICO.getCod())) ) {
-			
+	public ModelAndView preEditarCadastroDadosPessoais(@PathVariable("id") Long usuarioId,
+			@PathVariable("perfis") Long[] perfisId) {
+
+		Usuario us = usuarioService.buscarPorIdEPerfis(usuarioId, perfisId);
+		if (us.getPerfis().contains(new Perfil(PerfilTipo.ADMIN.getCod()))
+				&& !us.getPerfis().contains(new Perfil(PerfilTipo.MEDICO.getCod())))
+			return new ModelAndView("usuario/cadastro", "usuario", us);
+
+		else if (us.getPerfis().contains(new Perfil(PerfilTipo.MEDICO.getCod()))) {
+
 			Medico medico = medicoService.buscarPorUsuarioId(usuarioId);
-			return medico.hasNotId()
-				? new ModelAndView("medico/cadastro", "medico", new Medico(new Usuario(usuarioId)))
-				: new ModelAndView("medico/cadastro", "medico", medico);
-	
-		}
-		else if(us.getPerfis().contains(new Perfil(PerfilTipo.PACIENTE.getCod()))) {
+			return medico.hasNotId() ? new ModelAndView("medico/cadastro", "medico", new Medico(new Usuario(usuarioId)))
+					: new ModelAndView("medico/cadastro", "medico", medico);
+
+		} else if (us.getPerfis().contains(new Perfil(PerfilTipo.PACIENTE.getCod()))) {
 			ModelAndView model = new ModelAndView("error");
-			
+
 			model.addObject("status", 403);
 			model.addObject("error", "Área Restrita");
 			model.addObject("message", "Os dados de pacientes são restritos ");
@@ -106,6 +111,45 @@ public class UsuarioController {
 
 		return new ModelAndView("redirect:/u/lista");
 	}
-	
-	
+
+	/**
+	 * Metodo para abrir a page de editar senha
+	 * 
+	 * @return
+	 */
+	@GetMapping("/editar/senha")
+	public String abrirEditarSenhaPage() {
+		return "usuario/editar-senha";
+	}
+
+	/**
+	 * Metodo para editar a senha e recebe o submit da page.
+	 * 
+	 * @param senha1
+	 * @param senha2
+	 * @param senha3
+	 * @param user
+	 * @param attr
+	 * @return
+	 */
+	@PostMapping("/confirmar/senha")
+	public String editarSenha(@RequestParam("senha1") String senha1, @RequestParam("senha2") String senha2,
+			@RequestParam("senha3") String senha3, @AuthenticationPrincipal User user, RedirectAttributes attr) {
+
+		if (!senha1.equals(senha2)) {
+			attr.addFlashAttribute("falha", "Senhas não conferem, tente novamente.");
+			return "redirect:/u/editar/senha";
+		}
+		Usuario usuario = usuarioService.buscarPorEmail(user.getUsername());
+		if (!UsuarioService.isSenhaCorreta(senha3, usuario.getSenha())) {
+			attr.addFlashAttribute("falha", "Senha atual não confere, tente novamente.");
+			return "redirect:/u/editar/senha";
+		}
+
+		usuarioService.alterarSenha(usuario, senha1);
+		attr.addFlashAttribute("sucesso", "Senha alterada com sucesso. !");
+		return "redirect:/u/editar/senha";
+
+	}
+
 }

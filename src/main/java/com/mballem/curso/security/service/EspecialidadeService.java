@@ -2,6 +2,7 @@ package com.mballem.curso.security.service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
@@ -14,6 +15,7 @@ import com.mballem.curso.security.datatables.Datatables;
 import com.mballem.curso.security.datatables.DatatablesColunas;
 import com.mballem.curso.security.domain.Especialidade;
 import com.mballem.curso.security.repository.EspecialidadeRepository;
+
 
 @Service
 public class EspecialidadeService {
@@ -51,5 +53,17 @@ public class EspecialidadeService {
 	public List<String> buscarEspecialidadeByTermo(String termo) {
 		// TODO Auto-generated method stub
 		return  especialidadeRepository.findEspecialidadesByTermo(termo);
+	}
+	@Transactional
+	public Set<Especialidade> buscarPorTitulos(String[] titulos) {
+		// TODO Auto-generated method stub
+		return especialidadeRepository.findByTitulos(titulos);
+	}
+	@Transactional
+	public Map<String, Object> buscarEspecialidadesPorMedico(Long id, HttpServletRequest request) {
+		dataTables.setRequest(request);
+		dataTables.setColunas(DatatablesColunas.ESPECIALIDADES);
+		Page<Especialidade> page = especialidadeRepository.findByIdMedico(id, dataTables.getPageable());
+		return dataTables.getResponse(page);
 	}
 }
