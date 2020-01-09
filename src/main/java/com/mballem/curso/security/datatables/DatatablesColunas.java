@@ -1,5 +1,10 @@
 package com.mballem.curso.security.datatables;
-
+/**
+ * 
+ * @author leonardoangelo
+ * 
+ *	Classe de configuração das colunas do banco.
+ */
 public class DatatablesColunas {
 
 	public static final String[] ESPECIALIDADES = {"id", "titulo"};

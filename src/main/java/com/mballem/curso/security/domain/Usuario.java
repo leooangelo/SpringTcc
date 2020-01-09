@@ -16,7 +16,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
+/**
+ * 
+ * @author leonardoangelo
+ *
+ *	Classe de criação e congifuração de um usuário, esta classe usa lombok em Getter, Setter e no construtor
+ *	padrão.
+ */
 @Getter
 @Setter
 @SuppressWarnings("serial")

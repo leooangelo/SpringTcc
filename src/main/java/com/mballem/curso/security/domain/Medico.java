@@ -22,7 +22,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
+/**
+ * 
+ * @author leonardoangelo
+ *	
+ *	Classe de criação do Medico, esta classe utiliza lombok getters,setters e construtor padrão.
+ */
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "medicos")

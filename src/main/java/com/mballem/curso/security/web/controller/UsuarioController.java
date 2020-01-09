@@ -123,7 +123,7 @@ public class UsuarioController {
 	}
 
 	/**
-	 * Metodo para editar a senha e recebe o submit da page.
+	 * Metodo para editar a senha e receber o submit da page.
 	 * 
 	 * @param senha1
 	 * @param senha2

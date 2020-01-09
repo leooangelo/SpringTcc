@@ -7,15 +7,22 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
+/**
+ * 
+ * @author leonardoangelo
+ * 
+ *	Classe de configuração de HashCode e Equals, esta classe usa lombok getter e setter para id.
+ */
 @SuppressWarnings("serial")
 @MappedSuperclass
 @Getter
 @Setter
 @NoArgsConstructor
+@EqualsAndHashCode
 public abstract class AbstractEntity implements Serializable  {
 	
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,34 +35,10 @@ public abstract class AbstractEntity implements Serializable  {
 	public boolean hasId() {
 		return id != null;
 	}
-	
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		AbstractEntity other = (AbstractEntity) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		return true;
-	}
 
 	@Override
 	public String toString() {
 		return String.format("Entidade %s id: %s", this.getClass().getName(), getId());
-	}	
+	}
+
 }

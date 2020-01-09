@@ -9,7 +9,12 @@ import javax.persistence.Table;
 
 import lombok.Getter;
 import lombok.Setter;
-
+/**
+ * 
+ * @author leonardoangelo
+ *
+ *	Classe de configuração para marcar horario de consulta, esta classe utiliza lombok getters e setters.
+ */
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "horas", indexes = {@Index(name = "idx_hora_minuto", columnList = "hora_minuto")})

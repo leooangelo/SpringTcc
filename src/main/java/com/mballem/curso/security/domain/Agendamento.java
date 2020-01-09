@@ -13,7 +13,12 @@ import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 import lombok.Getter;
 import lombok.Setter;
-
+/**
+ * 
+ * @author leonardoangelo
+ *
+ *	Classe para realizar agendamento de consultas, esta classa contem Lombok para getters e setters.
+ */
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "agendamentos")

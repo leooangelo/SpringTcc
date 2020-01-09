@@ -10,7 +10,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
-
+/**
+ * 
+ * @author leonardoangelo
+ *
+ *	Classe componente para configuração das tables do banco.
+ */
 @Component
 public class Datatables {
 	

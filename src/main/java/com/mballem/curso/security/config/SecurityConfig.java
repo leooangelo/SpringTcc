@@ -9,7 +9,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.mballem.curso.security.domain.PerfilTipo;
 import com.mballem.curso.security.service.UsuarioService;
-
+/**
+ * 
+ * @author leonardoangelo
+ * 
+ * Classe para configuração de permissões nas páginas web para cada tipo de usuário. 
+ */
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	
@@ -22,23 +27,33 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		
-		
+		/**
+		 * Permissão de acesso para todos os usuários.
+		 */
 		http.authorizeRequests()
-		//acessos publicos liverados
 		.antMatchers("/webjars/**", "/css/**", "/image/**", "/js/**").permitAll()
 		.antMatchers("/", "/home").permitAll()
 		
-		//acessos admin
+		/**
+		 * Permissão de acesso para usuário ADMIN e MEDICO.
+		 */
 		.antMatchers("/u/editar/senha", "/u/confirmar/senha").hasAnyAuthority(MEDICO,ADMIN)
 		.antMatchers("/u/**").hasAuthority(ADMIN)
 		
-		//acessos médicos
+		/**
+		 * Permissão de acesso a paginas de MEDICO
+		 */
 		.antMatchers("/medicos/dados", "/medicos/salvar", "/medicos/editar").hasAnyAuthority(MEDICO,ADMIN)
 		.antMatchers("/medicos/**").hasAuthority(MEDICO)
-		//acessos pacientes
+		
+		/**
+		 * Permissão de acesso a paginas de PACIENTES.
+		 */
 		.antMatchers("/pacientes/**").hasAnyAuthority(PACIENTE, ADMIN)
 		
-		//acessos especialidades
+		/**
+		 * Permissão de acesso a paginas de ESPECIALIDADES.
+		 */
 		.antMatchers("/especialidades/datatables/server/medico/*").hasAnyAuthority(MEDICO, ADMIN)
 		.antMatchers("/especialidades/titulo").hasAnyAuthority(MEDICO, ADMIN)
 		.antMatchers("/especialidades/**").hasAuthority(ADMIN)

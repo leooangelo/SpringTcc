@@ -12,7 +12,12 @@ import javax.persistence.Table;
 
 import lombok.Getter;
 import lombok.Setter;
-
+/**
+ * 
+ * @author leonardoangelo
+ *
+ *	Classe de configuração de Especialidades, com anotações do hibernate para criação de tables, esta classe utiliza lombok getters e setters.
+ */
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "especialidades", indexes = {@Index(name = "idx_especialidade_titulo", columnList = "titulo")})

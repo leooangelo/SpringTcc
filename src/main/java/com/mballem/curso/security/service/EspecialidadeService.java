@@ -15,20 +15,36 @@ import com.mballem.curso.security.datatables.Datatables;
 import com.mballem.curso.security.datatables.DatatablesColunas;
 import com.mballem.curso.security.domain.Especialidade;
 import com.mballem.curso.security.repository.EspecialidadeRepository;
-
+/**
+ * 
+ * @author leonardoangelo
+ *
+ */
 
 @Service
 public class EspecialidadeService {
-
+	/**
+	 * Instância de outras classe.
+	 */
 	@Autowired
 	private EspecialidadeRepository especialidadeRepository;
 	@Autowired Datatables dataTables;
 	public Object buscarEspecialidade;
 	
+	/**
+	 * Metodo para salvar uma especialidade cadastrada.
+	 * @param especialidade
+	 */
 	@Transactional
 	public void salvar(Especialidade especialidade) {
 		especialidadeRepository.save(especialidade);	
 	}
+	/**
+	 * Metodo para buscar especialidades cadastradados no banco.
+	 * @param request
+	 * @return
+	 * 
+	 */
 	@Transactional
 	public	Map<String, Object> buscarEspecialidades(HttpServletRequest request) {
 		dataTables.setRequest(request);
@@ -39,26 +55,51 @@ public class EspecialidadeService {
 				
 		return dataTables.getResponse(page);
 	}
-	
+	/**
+	 * Metodo para buscar especialidade pelo id cadastrado no banco.
+	 * @param id
+	 * @return
+	 */
 	@Transactional
 	public Especialidade buscarPorId(Long id) {
 		return especialidadeRepository.findById(id).get();
 	}
+	/**
+	 * Metodo para remover uma especialidade cadastrada.
+	 * @param id
+	 */
 	@Transactional
 	public void remover(Long id) {
 		especialidadeRepository.deleteById(id);
 		
 	}
+	/**
+	 * Metodo para buscar uma especialidade pelo termo que é digitado na hora de cadastrar uma especialidade
+	 * para o medico caso esta especialidade ja esteja cadastrada no banco.
+	 * @param termo
+	 * @return
+	 */
 	@Transactional
 	public List<String> buscarEspecialidadeByTermo(String termo) {
 		// TODO Auto-generated method stub
 		return  especialidadeRepository.findEspecialidadesByTermo(termo);
 	}
+	/**
+	 * Metodo para buscar uma especialidade pelo nome completo da mesma.
+	 * @param titulos
+	 * @return
+	 */
 	@Transactional
 	public Set<Especialidade> buscarPorTitulos(String[] titulos) {
 		// TODO Auto-generated method stub
 		return especialidadeRepository.findByTitulos(titulos);
 	}
+	/**
+	 * Metodo para que o medico busque especialidades caso queira alterar alguma especialidade em seu cadastro.
+	 * @param id
+	 * @param request
+	 * @return
+	 */
 	@Transactional
 	public Map<String, Object> buscarEspecialidadesPorMedico(Long id, HttpServletRequest request) {
 		dataTables.setRequest(request);

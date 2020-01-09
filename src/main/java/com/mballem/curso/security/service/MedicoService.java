@@ -6,7 +6,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.mballem.curso.security.domain.Medico;
 import com.mballem.curso.security.repository.MedicoRepository;
-
+/**
+ * 
+ * @author leonardoangelo
+ *
+ */
 @Service
 public class MedicoService {
 
@@ -37,13 +41,22 @@ public class MedicoService {
 			medic.getEspecialidades().addAll(medico.getEspecialidades());
 
 	}
-
+	/**
+	 * Metodo para buscar um usuario medico pelo email cadastrado.
+	 * @param email
+	 * @return
+	 */
 	@Transactional
 	public Medico buscarPorEmail(String email) {
 		// TODO Auto-generated method stub
 		return medicoRepository.findByUsuarioEmail(email).orElse(new Medico());
 	}
-
+	
+	/**
+	 * Metodo para excluir uma especialidade cadastrada por um medico em seu cadastro.
+	 * @param idMed
+	 * @param idEsp
+	 */
 	@Transactional
 	public void excluirEspecialidadePorMedico(Long idMed, Long idEsp) {
 		Medico medico = medicoRepository.findById(idMed).get();

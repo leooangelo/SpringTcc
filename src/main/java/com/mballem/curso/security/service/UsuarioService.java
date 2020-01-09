@@ -21,7 +21,11 @@ import com.mballem.curso.security.datatables.DatatablesColunas;
 import com.mballem.curso.security.domain.Perfil;
 import com.mballem.curso.security.domain.Usuario;
 import com.mballem.curso.security.repository.UsuarioRepository;
-
+/**
+ * 
+ * @author leonardoangelo
+ *
+ */
 @Service
 public class UsuarioService implements UserDetailsService {
 
@@ -34,7 +38,10 @@ public class UsuarioService implements UserDetailsService {
 	public Usuario buscarPorEmail(String email) {
 		return usuarioRepository.findByEmail(email);
 	}
-
+	
+	/**
+	 * Metodo para verificar o usuario e senha que esta sendo utilizado para fazer login.
+	 */
 	@Override
 	@Transactional
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -52,7 +59,11 @@ public class UsuarioService implements UserDetailsService {
 		}
 		return authorities;
 	}
-
+	/**
+	 * Metodos para buscar todos os usuarios no banco.
+	 * @param request
+	 * @return
+	 */
 	@Transactional
 	public Map<String, Object> buscarTodos(HttpServletRequest request) {
 		datatables.setRequest(request);
@@ -62,7 +73,10 @@ public class UsuarioService implements UserDetailsService {
 		return datatables.getResponse(page);
 	}
 
-	// metodo que salva o usuario novo cadastrado e criptografia na senha
+	/**
+	 *  Metodo que salva o novo usuario cadastrado e criptografa a senha.
+	 * @param usuario
+	 */
 	@Transactional
 	public void salvarsuario(Usuario usuario) {
 		String crypt = new BCryptPasswordEncoder().encode(usuario.getSenha());
@@ -70,25 +84,43 @@ public class UsuarioService implements UserDetailsService {
 		usuarioRepository.save(usuario);
 
 	}
-
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
 	@Transactional
 	public Usuario buscarPorId(Long id) {
 		// TODO Auto-generated method stub
 		return usuarioRepository.findById(id).get();
 	}
-
+	/**
+	 * 
+	 * @param usuarioId
+	 * @param perfisId
+	 * @return
+	 */
 	@Transactional
 	public Usuario buscarPorIdEPerfis(Long usuarioId, Long[] perfisId) {
 		// TODO Auto-generated method stub
 		return usuarioRepository.findByIdEPerfis(usuarioId, perfisId)
 				.orElseThrow(() -> new UsernameNotFoundException("Usuario inexistente !"));
 	}
-
+	/**
+	 * 
+	 * @param senhaDigitada
+	 * @param senhaCadastradaNoBanco
+	 * @return
+	 */
 	public static boolean isSenhaCorreta(String senhaDigitada, String senhaCadastradaNoBanco) {
 		// TODO Auto-generated method stub
 		return new BCryptPasswordEncoder().matches(senhaDigitada, senhaCadastradaNoBanco);
 	}
-
+	/**
+	 * 
+	 * @param usuario
+	 * @param senha
+	 */
 	@Transactional
 	public void alterarSenha(Usuario usuario, String senha) {
 		usuario.setSenha(new BCryptPasswordEncoder().encode(senha));
