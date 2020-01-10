@@ -32,12 +32,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		 */
 		http.authorizeRequests()
 		.antMatchers("/webjars/**", "/css/**", "/image/**", "/js/**").permitAll()
+		//editado
 		.antMatchers("/", "/home").permitAll()
 		
 		/**
 		 * Permissão de acesso para usuário ADMIN e MEDICO.
 		 */
-		.antMatchers("/u/editar/senha", "/u/confirmar/senha").hasAnyAuthority(MEDICO,ADMIN)
+		.antMatchers("/u/editar/senha", "/u/confirmar/senha").hasAnyAuthority(MEDICO,ADMIN,PACIENTE)
 		.antMatchers("/u/**").hasAuthority(ADMIN)
 		
 		/**
@@ -49,7 +50,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		/**
 		 * Permissão de acesso a paginas de PACIENTES.
 		 */
-		.antMatchers("/pacientes/**").hasAnyAuthority(PACIENTE, ADMIN)
+		.antMatchers("/pacientes/dados", "/pacientes/salvar", "/pacientes/editar").hasAnyAuthority(PACIENTE,ADMIN)
+		.antMatchers("/pacientes/**").hasAnyAuthority(PACIENTE)
+		
 		
 		/**
 		 * Permissão de acesso a paginas de ESPECIALIDADES.

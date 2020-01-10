@@ -85,7 +85,6 @@ public class UsuarioService implements UserDetailsService {
 
 	}
 	/**
-	 * 
 	 * @param id
 	 * @return
 	 */

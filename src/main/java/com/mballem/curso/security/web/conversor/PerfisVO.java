@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import com.mballem.curso.security.domain.Perfil;
 
 @Component
-public class PerfisConverter implements Converter<String[], List<Perfil>> {
+public class PerfisVO implements Converter<String[], List<Perfil>> {
 
 	@Override
 	public List<Perfil> convert(String[] source) {
