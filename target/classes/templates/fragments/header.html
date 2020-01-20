@@ -24,7 +24,7 @@
 							<a class="dropdown-item" th:href="@{/u/lista}">Lista de Usuários</a>
 						</div>
 					</li>
-					<li class="nav-item dropdown" sec:authorize="hasAuthority('MEDICO')"><a
+					<li class="nav-item dropdown" sec:authorize="hasAnyAuthority('MEDICO','ADMIN')"><a
 						class="btn btn-dark dropdown-toggle" href="#" id="dropdown02"
 						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Médicos</a>
 						<div class="dropdown-menu" aria-labelledby="dropdown02">
@@ -34,7 +34,7 @@
 							<a class="dropdown-item" th:href="@{/agendamentos/historico/consultas}">Consultas Agendadas</a>
 						</div>
 					</li>
-					<li class="nav-item dropdown" sec:authorize="hasAuthority('PACIENTE')"><a
+					<li class="nav-item dropdown" sec:authorize="hasAnyAuthority('PACIENTE','ADMIN')"><a
 						class="btn btn-dark dropdown-toggle" href="#" id="dropdown03"
 						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Pacientes</a>
 						<div class="dropdown-menu" aria-labelledby="dropdown03">

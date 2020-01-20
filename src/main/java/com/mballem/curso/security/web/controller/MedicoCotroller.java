@@ -1,6 +1,7 @@
 package com.mballem.curso.security.web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
@@ -26,7 +27,13 @@ public class MedicoCotroller {
 	@Autowired
 	private UsuarioService usuarioService;
 	
-	//abre pagina de dados pessoais de médicos pelo perfil MEDICO
+	/**
+	 * abre pagina de dados pessoais de médicos pelo perfil MEDICO
+	 * @param medico
+	 * @param model
+	 * @param user
+	 * @return
+	 */
 	@GetMapping({"/dados"})
 	public String abrirPorMedico(Medico medico, ModelMap model, @AuthenticationPrincipal User user) {
 		if(medico.hasNotId()) {
@@ -36,7 +43,13 @@ public class MedicoCotroller {
 		return "medico/cadastro";
 	}	
 	
-	//Salva médico
+	/**
+	 * Salvar novo médico
+	 * @param medico
+	 * @param attr
+	 * @param user
+	 * @return
+	 */
 	@PostMapping({"/salvar"})
 	public String salvar(Medico medico, RedirectAttributes attr,@AuthenticationPrincipal User user) {
 		
@@ -51,7 +64,12 @@ public class MedicoCotroller {
 		return "redirect:/medicos/dados";
 	}
 	
-	//Edita médico
+	/**
+	 * Editar dados do médico
+	 * @param medico
+	 * @param attr
+	 * @return
+	 */
 	@PostMapping({"/editar"})
 	public String editar(Medico medico, RedirectAttributes attr) {
 			medicoService.editar(medico);
@@ -61,7 +79,13 @@ public class MedicoCotroller {
 			return "redirect:/medicos/dados";
 		}
 	
-	//excluir Especialidadeo medicos/id/5/excluir/especializacao/1
+	/**
+	 * excluir Especialidade do medico.
+	 * @param idMed
+	 * @param idEsp
+	 * @param attr
+	 * @return
+	 */
 		@GetMapping({"/id/{idMed}/excluir/especializacao/{idEsp}"})
 		public String excluirEspecialidadePorMedico(@PathVariable("idMed") Long idMed, @PathVariable("idEsp") Long idEsp, RedirectAttributes attr) {
 				medicoService.excluirEspecialidadePorMedico(idMed, idEsp);
@@ -69,5 +93,13 @@ public class MedicoCotroller {
 				
 				return "redirect:/medicos/dados";
 			}
-	
+	/**
+	 * buscar medicos por especialidade via ajax na marcação de consulta
+	 * @param titulo
+	 * @return
+	 */
+		@GetMapping("/especialidade/titulo/{titulo}")
+		public ResponseEntity<?> getMedicosPorEspecialidades(@PathVariable("titulo")String titulo){
+			return ResponseEntity.ok(medicoService.buscarMedicosPorEspecialidade(titulo));
+		}
 }

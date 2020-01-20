@@ -1,5 +1,7 @@
 package com.mballem.curso.security.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -62,5 +64,16 @@ public class MedicoService {
 		Medico medico = medicoRepository.findById(idMed).get();
 		medico.getEspecialidades().removeIf(e -> e.getId().equals(idEsp));
 
+	}
+	
+	/**
+	 * Metodo para buscar medico pela especialidade selecionada na hora de marcar a consulta.
+	 * @param titulo
+	 * @return
+	 */
+	@Transactional
+	public List<Medico> buscarMedicosPorEspecialidade(String titulo) {
+		// TODO Auto-generated method stub
+		return medicoRepository.findByMedicosPorEspecialidade(titulo);
 	}
 }

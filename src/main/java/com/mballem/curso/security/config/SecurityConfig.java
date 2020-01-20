@@ -44,6 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		/**
 		 * Permissão de acesso a paginas de MEDICO
 		 */
+		.antMatchers("/medicos/especialidade/titulo/*").hasAuthority(PACIENTE)
 		.antMatchers("/medicos/dados", "/medicos/salvar", "/medicos/editar").hasAnyAuthority(MEDICO,ADMIN)
 		.antMatchers("/medicos/**").hasAuthority(MEDICO)
 		
@@ -58,7 +59,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		 * Permissão de acesso a paginas de ESPECIALIDADES.
 		 */
 		.antMatchers("/especialidades/datatables/server/medico/*").hasAnyAuthority(MEDICO, ADMIN)
-		.antMatchers("/especialidades/titulo").hasAnyAuthority(MEDICO, ADMIN)
+		.antMatchers("/especialidades/titulo").hasAnyAuthority(MEDICO, ADMIN,PACIENTE)
 		.antMatchers("/especialidades/**").hasAuthority(ADMIN)
 		
 		.anyRequest().authenticated()
