@@ -10,6 +10,12 @@ import org.springframework.stereotype.Component;
 import com.mballem.curso.security.domain.Especialidade;
 import com.mballem.curso.security.service.EspecialidadeService;
 
+/**
+ * 
+ * 
+ * @author leonardoangelo
+ *
+ */
 @Component
 public class EspecialidadesVO implements Converter<String[], Set<Especialidade>> {
 
@@ -18,10 +24,11 @@ public class EspecialidadesVO implements Converter<String[], Set<Especialidade>>
 
 	@Override
 	public Set<Especialidade> convert(String[] titulos) {
+
 		Set<Especialidade> especialidades = new HashSet<>();
-		if (titulos != null && titulos.length > 0) {
+		if (titulos != null && titulos.length > 0)
 			especialidades.addAll(especialidadeService.buscarPorTitulos(titulos));
-		}
+
 		return especialidades;
 	}
 

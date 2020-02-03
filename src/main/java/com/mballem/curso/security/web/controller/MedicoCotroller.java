@@ -16,7 +16,11 @@ import com.mballem.curso.security.domain.Medico;
 import com.mballem.curso.security.domain.Usuario;
 import com.mballem.curso.security.service.MedicoService;
 import com.mballem.curso.security.service.UsuarioService;
-
+/**
+ * 
+ * @author leonardoangelo
+ *
+ */
 @Controller
 @RequestMapping("medicos")
 public class MedicoCotroller {
@@ -28,7 +32,7 @@ public class MedicoCotroller {
 	private UsuarioService usuarioService;
 	
 	/**
-	 * abre pagina de dados pessoais de médicos pelo perfil MEDICO
+	 * Abre a pagina de dados pessoais de médicos pelo perfil MEDICO
 	 * @param medico
 	 * @param model
 	 * @param user
@@ -80,7 +84,7 @@ public class MedicoCotroller {
 		}
 	
 	/**
-	 * excluir Especialidade do medico.
+	 * Excluir Especialidade do medico.
 	 * @param idMed
 	 * @param idEsp
 	 * @param attr
@@ -94,7 +98,7 @@ public class MedicoCotroller {
 				return "redirect:/medicos/dados";
 			}
 	/**
-	 * buscar medicos por especialidade via ajax na marcação de consulta
+	 * Buscar medicos por especialidade via ajax na marcação de consulta
 	 * @param titulo
 	 * @return
 	 */

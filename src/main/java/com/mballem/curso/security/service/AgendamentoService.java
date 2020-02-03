@@ -2,16 +2,22 @@ package com.mballem.curso.security.service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
-
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.mballem.curso.security.datatables.Datatables;
+import com.mballem.curso.security.datatables.DatatablesColunas;
 import com.mballem.curso.security.domain.Agendamento;
 import com.mballem.curso.security.domain.Horario;
 import com.mballem.curso.security.repository.AgendamentoRepository;
+import com.mballem.curso.security.repository.projection.HistoricoPaciente;
 
 /**
  * 
@@ -23,17 +29,56 @@ public class AgendamentoService {
 	@Autowired
 	private AgendamentoRepository agendamentoRepository;
 
+	@Autowired
+	private Datatables dataTables;
+
 	@Transactional
 	public List<Horario> buscarHorariosNaoAgendadosPorMedicosIdEData(Long id, LocalDate data) {
-		// TODO Auto-generated method stub
 		return agendamentoRepository.findByHorarioNaoAgendadoMedicoIdEData(id, data);
 	}
 
 	@Transactional
 	public void salvarConsultaAgendada(Agendamento agendamento) {
-		// TODO Auto-generated method stub
 		agendamentoRepository.save(agendamento);
 
+	}
+
+	@Transactional
+	public Map<String, Object> buscarHistoricoDoPacientePorEmail(String email, HttpServletRequest request) {
+
+		dataTables.setRequest(request);
+		dataTables.setColunas(DatatablesColunas.AGENDAMENTOS);
+		Page<HistoricoPaciente> page = agendamentoRepository.buscarHistoricoDoPacientePorEmail(email,
+				dataTables.getPageable());
+
+		return dataTables.getResponse(page);
+
+	}
+
+	@Transactional
+	public Map<String, Object> buscarHistoricoDoMedicoPorEmail(String email, HttpServletRequest request) {
+
+		dataTables.setRequest(request);
+		dataTables.setColunas(DatatablesColunas.AGENDAMENTOS);
+		Page<HistoricoPaciente> page = agendamentoRepository.buscarHistoricoDoMedicoPorEmail(email,
+				dataTables.getPageable());
+
+		return dataTables.getResponse(page);
+	}
+
+	@Transactional
+	public Agendamento buscarConsultaAgendadaPorId(Long id) {
+
+		return agendamentoRepository.findById(id).get();
+	}
+
+	@Transactional
+	public void editar(Agendamento agendamento, String username) {
+		Agendamento ag = buscarConsultaAgendadaPorId(agendamento.getId());
+		ag.setDataConsulta(agendamento.getDataConsulta());
+		ag.setEspecialidade(agendamento.getEspecialidade());
+		ag.setHorario(agendamento.getHorario());
+		ag.setMedico(agendamento.getMedico());
 	}
 
 }

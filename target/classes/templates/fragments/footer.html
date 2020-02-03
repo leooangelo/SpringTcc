@@ -1,11 +1,29 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.w3.org/1999/xhtml">
-<head><meta charset="UTF-8"></head>
+<head>
+<meta charset="UTF-8">
+
+</head>
 <body>
-	<footer class="layout-footer" th:fragment="rodape">
-		<div class="container">
-			<span class="footer-copy">&copy; 2020 Leonardo Angelo. Todos os direitos reservados.</span>
-		</div>
-	</footer> 
+	<footer class="layout-footer stylish-color-dark pt-4"
+		th:fragment="rodape">
+		<section>
+
+			<div class="rede" id="facebook">
+			<a href="https://www.facebook.com/">
+				<img class="icone" th:src="@{/image/facebook.png}"/>
+				</a>
+			</div>
+
+			<div class="rede" id="instagram">
+			<a href="https://www.instagram.com/">
+				<img class="icone" th:src="@{/image/instagram.png}" />
+				</a>
+			</div>
+
+
+		</section>
+	</footer>
+	<!-- Footer -->
 </body>
 </html>

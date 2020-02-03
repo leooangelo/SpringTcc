@@ -5,23 +5,37 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
-
+/**
+ * 
+ * @author leonardoangelo
+ *
+ */
 @Controller
 public class HomeController {
 
-	// abrir pagina home
+	/**
+	 *  Abre a pagina home
+	 * @return
+	 */
 	@GetMapping({"/", "/home"})
 	public String home() {
 		return "home";
 	}	
 	
-	// abrir pagina login
+	/**
+	 *  Abre a pagina login
+	 * @return
+	 */
 		@GetMapping({"/login"})
 		public String login() {
 			return "login";
 		}	
 		
-		// login invalido
+		/**
+		 * Metodo para lançar alertas de erro no login.
+		 * @param model
+		 * @return
+		 */
 		@GetMapping({"/login-error"})
 		public String loginError(ModelMap model) {
 			model.addAttribute("alerta", "erro");

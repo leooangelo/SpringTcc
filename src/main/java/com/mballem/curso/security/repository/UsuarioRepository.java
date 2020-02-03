@@ -9,7 +9,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.mballem.curso.security.domain.Usuario;
-
+/**
+ * 
+ * @author leonardoangelo
+ *
+ */
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 	
 	@Query("select u from Usuario u where u.email like :email")

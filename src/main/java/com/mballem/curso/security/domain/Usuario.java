@@ -57,7 +57,10 @@ public class Usuario extends AbstractEntity {
 		super.setId(id);
 	}
 
-	// adiciona perfis a lista
+	/**
+	 * Metodo que adiciona perfis a lista.
+	 * @param tipo
+	 */
 	public void addPerfil(PerfilTipo tipo) {
 		if (this.perfis == null) {
 			this.perfis = new ArrayList<>();

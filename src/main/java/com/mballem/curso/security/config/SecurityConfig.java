@@ -24,6 +24,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	
 	@Autowired
 	private UsuarioService usuarioService;
+	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		
@@ -44,14 +45,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		/**
 		 * Permissão de acesso a paginas de MEDICO
 		 */
-		.antMatchers("/medicos/especialidade/titulo/*").hasAuthority(PACIENTE)
+		.antMatchers("/medicos/especialidade/titulo/*").hasAnyAuthority(PACIENTE,MEDICO,ADMIN)
 		.antMatchers("/medicos/dados", "/medicos/salvar", "/medicos/editar").hasAnyAuthority(MEDICO,ADMIN)
-		.antMatchers("/medicos/**").hasAuthority(MEDICO)
+		.antMatchers("/medicos/**").hasAnyAuthority(MEDICO, ADMIN)
 		
 		/**
 		 * Permissão de acesso a paginas de PACIENTES.
 		 */
-		.antMatchers("/pacientes/dados", "/pacientes/salvar", "/pacientes/editar").hasAnyAuthority(PACIENTE,ADMIN)
+		.antMatchers("/pacientes/dados", "/pacientes/salvar", "/pacientes/editar", "/u/pacientes/dados").hasAnyAuthority(PACIENTE,ADMIN)
 		.antMatchers("/pacientes/**").hasAnyAuthority(PACIENTE)
 		
 		

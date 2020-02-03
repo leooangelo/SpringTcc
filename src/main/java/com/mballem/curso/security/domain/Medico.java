@@ -46,7 +46,9 @@ public class Medico extends AbstractEntity {
 	@Column(name = "data_inscricao", nullable = false)
 	private LocalDate dtInscricao;
 	
-	// evita recursividade quando o json de resposta for criado para a datatables.
+	/**
+	 *  evita recursividade quando o json de resposta for criado para a datatables.
+	 */
 	@JsonIgnore
 	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinTable(
@@ -56,7 +58,9 @@ public class Medico extends AbstractEntity {
     )
 	private Set<Especialidade> especialidades;
 	
-	// evita recursividade quando o json de resposta for criado para a datatables.
+	/**
+	 *  evita recursividade quando o json de resposta for criado para a datatables.
+	 */
 	@JsonIgnore
 	@OneToMany(mappedBy = "medico")
 	private List<Agendamento> agendamentos;
@@ -72,7 +76,5 @@ public class Medico extends AbstractEntity {
 	public Medico(Usuario usuario) {
 		this.usuario = usuario;
 	}
-
-
 
 }

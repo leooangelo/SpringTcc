@@ -51,7 +51,11 @@ public class UsuarioService implements UserDetailsService {
 				usuario.getEmail(), usuario.getSenha(),
 				AuthorityUtils.createAuthorityList(getAtuthorities(usuario.getPerfis())));
 	}
-
+	/**
+	 * Metodo que lista todos os tipos de perfil da aplicação e retorna as autoridades que cada tipo de perfil tem.
+	 * @param perfis
+	 * @return
+	 */
 	private String[] getAtuthorities(List<Perfil> perfis) {
 		String[] authorities = new String[perfis.size()];
 		for (int i = 0; i < perfis.size(); i++) {
@@ -79,44 +83,43 @@ public class UsuarioService implements UserDetailsService {
 	 */
 	@Transactional
 	public void salvarsuario(Usuario usuario) {
+		
 		String crypt = new BCryptPasswordEncoder().encode(usuario.getSenha());
 		usuario.setSenha(crypt);
 		usuarioRepository.save(usuario);
 
 	}
 	/**
+	 * Metodo para fazer buscar por Id.
 	 * @param id
 	 * @return
 	 */
 	@Transactional
 	public Usuario buscarPorId(Long id) {
-		// TODO Auto-generated method stub
 		return usuarioRepository.findById(id).get();
 	}
 	/**
-	 * 
+	 *  Metodo para buscar por Id e o tipo de perfil.
 	 * @param usuarioId
 	 * @param perfisId
 	 * @return
 	 */
 	@Transactional
 	public Usuario buscarPorIdEPerfis(Long usuarioId, Long[] perfisId) {
-		// TODO Auto-generated method stub
 		return usuarioRepository.findByIdEPerfis(usuarioId, perfisId)
 				.orElseThrow(() -> new UsernameNotFoundException("Usuario inexistente !"));
 	}
 	/**
-	 * 
+	 * Metodo que verifica se a senha digitada na sistema é a mesma senha que já esta cadastada no banco de dados.
 	 * @param senhaDigitada
 	 * @param senhaCadastradaNoBanco
 	 * @return
 	 */
 	public static boolean isSenhaCorreta(String senhaDigitada, String senhaCadastradaNoBanco) {
-		// TODO Auto-generated method stub
 		return new BCryptPasswordEncoder().matches(senhaDigitada, senhaCadastradaNoBanco);
 	}
 	/**
-	 * 
+	 * Metodo para criptografar a senha do usuário que foi alterada e salvar no banco de dados.
 	 * @param usuario
 	 * @param senha
 	 */

@@ -23,11 +23,13 @@ import com.mballem.curso.security.repository.EspecialidadeRepository;
 
 @Service
 public class EspecialidadeService {
+	
 	/**
 	 * Instância de outras classe.
 	 */
 	@Autowired
 	private EspecialidadeRepository especialidadeRepository;
+	
 	@Autowired Datatables dataTables;
 	public Object buscarEspecialidade;
 	

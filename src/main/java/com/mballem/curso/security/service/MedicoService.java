@@ -21,7 +21,6 @@ public class MedicoService {
 
 	@Transactional
 	public Medico buscarPorUsuarioId(Long id) {
-
 		return medicoRepository.findByUsuarioId(id).orElse(new Medico());
 	}
 
@@ -40,8 +39,7 @@ public class MedicoService {
 		medic.setNome(medico.getNome());
 
 		if (!medico.getEspecialidades().isEmpty())
-			medic.getEspecialidades().addAll(medico.getEspecialidades());
-
+				medic.getEspecialidades().addAll(medico.getEspecialidades());
 	}
 	/**
 	 * Metodo para buscar um usuario medico pelo email cadastrado.
@@ -50,7 +48,6 @@ public class MedicoService {
 	 */
 	@Transactional
 	public Medico buscarPorEmail(String email) {
-		// TODO Auto-generated method stub
 		return medicoRepository.findByUsuarioEmail(email).orElse(new Medico());
 	}
 	
@@ -73,7 +70,6 @@ public class MedicoService {
 	 */
 	@Transactional
 	public List<Medico> buscarMedicosPorEspecialidade(String titulo) {
-		// TODO Auto-generated method stub
 		return medicoRepository.findByMedicosPorEspecialidade(titulo);
 	}
 }

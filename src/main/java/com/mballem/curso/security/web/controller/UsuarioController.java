@@ -26,6 +26,11 @@ import com.mballem.curso.security.domain.Usuario;
 import com.mballem.curso.security.service.MedicoService;
 import com.mballem.curso.security.service.UsuarioService;
 
+/**
+ * 
+ * @author leonardoangelo
+ *
+ */
 @Controller
 @RequestMapping("u")
 public class UsuarioController {
@@ -35,26 +40,46 @@ public class UsuarioController {
 	@Autowired
 	private MedicoService medicoService;
 
-	// abre o cadastro de usuarios(medico,admin e paciente)
+	/**
+	 * Metodo que abre o cadastro de usuarios(medico,admin e paciente)
+	 * 
+	 * @param usuario
+	 * @return
+	 */
 	@GetMapping("/novo/cadastro/usuario")
 	public String cadastroPorAdminParaAdminMedicoPaciente(Usuario usuario) {
 		return "usuario/cadastro";
 	}
 
-	// abre a lista de usuários
+	/**
+	 * Metodo que abre a lista de usuários
+	 * 
+	 * @return
+	 */
 	@GetMapping("/lista")
 	public String listarUsuarios() {
 		return "usuario/lista";
 	}
 
-	// Listar usuarios na datatables
+	/**
+	 * Metodo para Listar todos os usuarios na tela.
+	 * 
+	 * @param request
+	 * @return
+	 */
 	@GetMapping("/datatables/server/usuarios")
 	public ResponseEntity<?> listarUsuariosDatatables(HttpServletRequest request) {
 
 		return ResponseEntity.ok(usuarioService.buscarTodos(request));
 	}
 
-	// salvar cadastro de user por admn
+	/**
+	 * Metodo para salvar o cadastro de um novo usuario feito pelo usuario admin.
+	 * 
+	 * @param usuario
+	 * @param attr
+	 * @return
+	 */
 	@PostMapping("/cadastro/salvar")
 	public String salvarUsuario(Usuario usuario, RedirectAttributes attr) {
 		List<Perfil> perfis = usuario.getPerfis();
@@ -77,14 +102,25 @@ public class UsuarioController {
 
 	}
 
-	// Metodo pre para editar credenciais do usuario
+	/**
+	 * Metodo para pre editar credenciais do usuario.
+	 * 
+	 * @param id
+	 * @return
+	 */
 	@GetMapping("/editar/credenciais/usuario/{id}")
 	public ModelAndView preEditarCredenciais(@PathVariable("id") Long id) {
 
 		return new ModelAndView("usuario/cadastro", "usuario", usuarioService.buscarPorId(id));
 	}
 
-	// metodo pre para editar cadastro de usuarios
+	/**
+	 * Metodo para pre editar dados pessoais de usuarios.
+	 * 
+	 * @param usuarioId
+	 * @param perfisId
+	 * @return
+	 */
 	@GetMapping("/editar/dados/usuario/{id}/perfis/{perfis}")
 	public ModelAndView preEditarCadastroDadosPessoais(@PathVariable("id") Long usuarioId,
 			@PathVariable("perfis") Long[] perfisId) {

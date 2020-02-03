@@ -8,7 +8,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.mballem.curso.security.domain.Paciente;
 import com.mballem.curso.security.domain.Usuario;
@@ -30,20 +29,48 @@ public class PacienteController {
 	@Autowired
 	private UsuarioService usuarioService;
 	
-	
-	/*
-	 * Este metodo faz abrir a pagina de dados pessoais do paciente.
+	/**
+	 * Este metodo faz abrir a pagina de dados pessoais do paciente, com a logica de id nulo ele verifica se o paciente
+	 * tem id nulo caso ele tiver o thymeleaf consegue subentender que estamos fazendo um insert no banco e caso o id não seja
+	 * nulo ele sub-entende que estamos fazendo um update.
+	 * @param paciente
+	 * @param model
+	 * @param user
+	 * @return
 	 */
-	@GetMapping({"/dados"})
+	/*@GetMapping({"/dados"})
 	public String cadastrarDadosPaciente(Paciente paciente, ModelMap model, @AuthenticationPrincipal User user) {
+		
+		if(paciente.hasNotId()) {
+			paciente = pacienteService.buscarPorUsuarioEmail(user.getUsername());
+			paciente.setUsuario(new Usuario(user.getUsername()));
+			model.addAttribute("paciente", paciente);	
+		}
+		
+		return	"paciente/dados";
+		
+		
+	}
+
+		*/
+	
+	@GetMapping("/dados")
+	public String cadastrarDadosDoPaciente(Paciente paciente, @AuthenticationPrincipal User user, ModelMap model ) {
 		paciente = pacienteService.buscarPorUsuarioEmail(user.getUsername());
 		
 		if(paciente.hasNotId()) {
 			paciente.setUsuario(new Usuario(user.getUsername()));
-			model.addAttribute("paciente", paciente);
 		}
-		return	"paciente/dados";
+		model.addAttribute("paciente",paciente);
+		return "paciente/cadastro";
 	}
+	/**
+	 * Metodo para salvar dados atualizados de um paciente.
+	 * @param paciente
+	 * @param model
+	 * @param user
+	 * @return
+	 */
 	@PostMapping({"/salvar"})
 	public String salvarDadosPaciente(Paciente paciente, ModelMap model, @AuthenticationPrincipal User user) {
 			
@@ -57,7 +84,13 @@ public class PacienteController {
 		}
 		return "paciente/cadastro";
 	}	
-	
+	/**
+	 * Metodo para editar os dados de um paciente.
+	 * @param paciente
+	 * @param model
+	 * @param user
+	 * @return
+	 */
 	@PostMapping({"/editar"})
 	public String editarDadosPaciente(Paciente paciente, ModelMap model, @AuthenticationPrincipal User user) {
 			
