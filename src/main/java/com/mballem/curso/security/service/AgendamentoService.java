@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.Email;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,6 +19,7 @@ import com.mballem.curso.security.domain.Agendamento;
 import com.mballem.curso.security.domain.Horario;
 import com.mballem.curso.security.repository.AgendamentoRepository;
 import com.mballem.curso.security.repository.projection.HistoricoPaciente;
+import com.mballem.curso.security.web.Exception.AcessoNegadoException;
 
 /**
  * 
@@ -73,12 +75,24 @@ public class AgendamentoService {
 	}
 
 	@Transactional
-	public void editar(Agendamento agendamento, String username) {
-		Agendamento ag = buscarConsultaAgendadaPorId(agendamento.getId());
+	public void editar(Agendamento agendamento, String email) {
+		Agendamento ag = buscarPorIdEUsuario(agendamento.getId(), email);
 		ag.setDataConsulta(agendamento.getDataConsulta());
 		ag.setEspecialidade(agendamento.getEspecialidade());
 		ag.setHorario(agendamento.getHorario());
 		ag.setMedico(agendamento.getMedico());
+	}
+	/**
+	 * Metodo que busca uma consulta agendada pelo id e o email do usuário, caso o email não tenha tenha uma consulta com aquele id
+	 * é lançado um acesso negado.
+	 * @param id
+	 * @param email
+	 * @return
+	 */
+	@Transactional
+	public Agendamento buscarPorIdEUsuario(Long id, String email) {
+		return agendamentoRepository.FindByIdEPacienteOuMedicoEmail(id,email)
+				.orElseThrow(() -> new AcessoNegadoException("Acesso Negado ao usuário: " + email));
 	}
 
 }

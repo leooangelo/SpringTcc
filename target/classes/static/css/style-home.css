@@ -1,83 +1,94 @@
 .jumbotron {
-  padding-top: 3rem;
-  padding-bottom: 3rem;
-  margin-bottom: 0;
-  background-color: #fff;
+	padding-top: 3rem;
+	padding-bottom: 3rem;
+	margin-bottom: 0;
+	background-color: transparent;
+}
+/*Texto da pagina home*/
+.texto-home {
+	position: absolute;
+	bottom: 250px;
+	margin-left: 90px;
 }
 
-@media (min-width: 768px) {
-  .jumbotron {
-    padding-top: 6rem;
-    padding-bottom: 3rem;
-    background: rgb(255,255,255);
-	background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(196,238,195,0.9528186274509804) 52%, rgba(178,255,175,0.989233193277311) 100%);
-  }
+/*Foto da pagina principal*/
+@media ( min-width : 768px) {
+	.jumbotron {
+		padding-top: 34rem;
+		padding-bottom: 3rem;
+	}
 }
 
 .jumbotron p:last-child {
-  margin-bottom: 0;
+	margin-bottom: 0;
 }
 
 .jumbotron-heading {
-  font-weight: 200;
+	font-weight: 200;
 }
 
 .jumbotron .container {
-  max-width: 80rem;
+	max-width: 80rem;
 }
 
 footer p {
-  margin-bottom: .25rem;
+	margin-bottom: .25rem;
 }
 
-.modal .modal-body input, .modal .modal-body textarea{
-    border: 1px solid #e6e6e6;
-    box-shadow: none;
+.modal .modal-body input, .modal .modal-body textarea {
+	border: 1px solid #e6e6e6;
+	box-shadow: none;
 }
 
 .modal-header h4.modal-title {
-    font-weight: 300;
-    font-family: 'Open Sans', sans-serif;
+	font-weight: 300;
+	font-family: 'Open Sans', sans-serif;
 }
 
 .modal-body label {
-    font-weight: 400;
-    font-family: 'Open Sans', sans-serif;
+	font-weight: 400;
+	font-family: 'Open Sans', sans-serif;
 }
 
 /* Icones sociais footer */
-.rede{
-		width: 35px;
-		height: 35px;
-		float: left;
-		margin-left: 20px;
-		transition: all 0.4s ease-out; 
-		border-radius: 50%;
-	}
-	.rede:hover{
-		cursor: pointer;
-		transform: translateY(-20px);
-		box-shadow: 4px 30px 16px 0px rgba(50,50,50,0.45);
-	}
-	.rede#facebook{
-		background-color: #2372a3;
-	}
-	
-	.rede#instagram{
-		background-image: linear-gradient(-225deg, #231557 0%, #44107A 29%, #FF1361 67%, #FFF800 100%);
-		
-	}
-	
-	.icone{
-		margin: -17px auto;
-		padding: 26px;
-		width: 70px;
-		margin-left: -17px;
-	}
+.rede {
+	width: 35px;
+	height: 35px;
+	float: left;
+	margin-left: 20px;
+	transition: all 0.4s ease-out;
+	border-radius: 50%;
+}
+
+/*Layout do footer */
+.layout-footer {
+	background-color: #fff;
+}
+
+.rede:hover {
+	cursor: pointer;
+	transform: translateY(-20px);
+	box-shadow: 4px 30px 16px 0px rgba(50, 50, 50, 0.45);
+}
+
+.rede#facebook {
+	background-color: #2372a3;
+}
+
+.rede#instagram {
+	background-image: linear-gradient(-225deg, #231557 0%, #44107A 29%, #FF1361 67%, #FFF800
+		100%);
+}
+
+.icone {
+	margin: -17px auto;
+	padding: 26px;
+	width: 70px;
+	margin-left: -17px;
+}
 
 /* Botão Whats web */
-
-	.whatswidget-widget-wrapper {
+.whatswidget-widget-wrapper {
 	font-family: "Helvetica Neue", "Apple Color Emoji", Helvetica, Arial,
 		sans-serif !important;
 	font-size: 16px !important;
@@ -216,20 +227,42 @@ footer p {
 	cursor: pointer !important
 }
 
-@keyframes nudge { 
-	20%,100%
-	{
+@
+keyframes nudge { 20%,100% {
 	transform: translate(0, 0)
 }
 
-0%{ 
-	transform:translate(0,5px);
-	transform:rotate(2deg)
+0%{
+transform
+:translate
+(0
+,
+5
+px
+);
+
+	
+transform
+:rotate(2deg)
+
+
 }
 10%{
-	transform:translate(0,-5px);
-	transform :rotate(-2deg)
-	}
+transform
+:translate
+(0
+,
+-5
+px
+);
+
+	
+transform
+ 
+:rotate(-2deg)
+
+	
+}
 }
 .whatswidget-link {
 	position: absolute !important;
@@ -239,31 +272,30 @@ footer p {
 }
 
 /* nav bar */
-.navbar{
+.navbar {
 	font-size: 130%;
-	color: green;
+	background: transparent;
 }
 
-#mudacor{
+#mudacor {
 	color: black;
 	opacity: 40%;
-	
-	/*background: -webkit-linear-gradient(#ffffff, #43bf36);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  */
 }
-a:link{
-	text-decoration: none;	
+
+a:link {
+	text-decoration: none;
 }
-a:hover{
-	color: green;
-	opacity: 50%;
-	
+
+a:hover {
+	opacity: 70%;
+}
+
+div.a {
+	text-align: center;
 }
 
 /* jQuery loading autocomplete */
 .ui-autocomplete-loading {
-  background: white url("/image/ui-anim_basic_16x16.gif") right center no-repeat;
+	background: white url("/image/ui-anim_basic_16x16.gif") right center
+		no-repeat;
 }
-

@@ -38,29 +38,13 @@ public class PacienteController {
 	 * @param user
 	 * @return
 	 */
-	/*@GetMapping({"/dados"})
-	public String cadastrarDadosPaciente(Paciente paciente, ModelMap model, @AuthenticationPrincipal User user) {
-		
-		if(paciente.hasNotId()) {
-			paciente = pacienteService.buscarPorUsuarioEmail(user.getUsername());
-			paciente.setUsuario(new Usuario(user.getUsername()));
-			model.addAttribute("paciente", paciente);	
-		}
-		
-		return	"paciente/dados";
-		
-		
-	}
-
-		*/
-	
 	@GetMapping("/dados")
 	public String cadastrarDadosDoPaciente(Paciente paciente, @AuthenticationPrincipal User user, ModelMap model ) {
 		paciente = pacienteService.buscarPorUsuarioEmail(user.getUsername());
 		
-		if(paciente.hasNotId()) {
+		if(paciente.hasNotId()) 
 			paciente.setUsuario(new Usuario(user.getUsername()));
-		}
+		
 		model.addAttribute("paciente",paciente);
 		return "paciente/cadastro";
 	}
@@ -79,9 +63,10 @@ public class PacienteController {
 			paciente.setUsuario(usu);
 			pacienteService.salvar(paciente);
 			model.addAttribute("sucesso", "Seus dados foram inseridos com sucesso.");
-		} else {
+		} else 
+			
 			model.addAttribute("falha", "Sua senha não confere, tente novamente.");
-		}
+		
 		return "paciente/cadastro";
 	}	
 	/**
@@ -98,9 +83,10 @@ public class PacienteController {
 		if (UsuarioService.isSenhaCorreta(paciente.getUsuario().getSenha(), usu.getSenha())) {
 			pacienteService.editar(paciente);
 			model.addAttribute("sucesso", "Seus dados foram editados com sucesso.");
-		} else {
+		} 
+		else 
 			model.addAttribute("falha", "Sua senha não confere, tente novamente.");
-		}
+		
 		return "paciente/cadastro";
 	}	
 	

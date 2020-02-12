@@ -14,7 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class ExceptionController {
 	/**
 	 * Metodo para lançar um excessão quando não encontra um usuário ou quando um
-	 * usuario tenta acessar páginas que não tem permissão.
+	 * usuario tenta acessar páginas que não existe.
 	 * 
 	 * @param ex
 	 * @return
@@ -24,6 +24,21 @@ public class ExceptionController {
 		ModelAndView model = new ModelAndView("error");
 
 		model.addObject("status", 404);
+		model.addObject("error", "Operação não pode ser realizada");
+		model.addObject("message", ex.getMessage());
+		return model;
+	}
+	/**
+	 * Metodo para lançar um excessão quando não encontra um usuário ou quando um
+	 * usuario tenta acessar páginas que não tem permissão.
+	 * @param ex
+	 * @return
+	 */
+	@ExceptionHandler(AcessoNegadoException.class)
+	public ModelAndView acessoNegadoException(AcessoNegadoException ex) {
+		ModelAndView model = new ModelAndView("error");
+
+		model.addObject("status", 403);
 		model.addObject("error", "Operação não pode ser realizada");
 		model.addObject("message", ex.getMessage());
 		return model;

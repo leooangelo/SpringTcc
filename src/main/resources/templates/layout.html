@@ -25,12 +25,16 @@
 <link th:href="@{/css/style-home.css(v=${version}) }" rel="stylesheet" />
 
 </head>
-<body>
+<body style="
+		 background-size:contain;
+		 background-repeat: no-repeat;
+		 background-image: url('../image/fundo2.png')">
+
 	<header th:replace="fragments/header :: cabecalho">
 		<div>header</div>
 	</header>
 
-	<div class="layout-main">	
+	<div class="layout-main" >	
 		<section layout:fragment="corpo">		
 			<div>conteudo principal das páginas</div>
 		</section>		
