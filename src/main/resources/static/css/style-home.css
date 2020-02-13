@@ -2,32 +2,16 @@
 	padding-top: 3rem;
 	padding-bottom: 3rem;
 	margin-bottom: 0;
-	background-color: transparent;
+	background-color: transparent;	
+	
 }
-/*Texto da pagina home*/
-.texto-home {
-	position: absolute;
-	bottom: 250px;
-	margin-left: 90px;	
-	color:#68ba44;
-	font-family: 'Anton', sans-serif;
-}
-
-/*Foto da pagina principal*/
-@media ( min-width : 768px) {
-	.jumbotron {
-		padding-top: 34rem;
-		padding-bottom: 3rem;
-		background-color: rgba(0,0,0,0.6);
-	}
-}
-
 .jumbotron p:last-child {
 	margin-bottom: 0;
 }
 
 .jumbotron-heading {
 	font-weight: 200;
+	text-align: center;
 }
 
 .jumbotron .container {
@@ -300,6 +284,5 @@ div.a {
 
 /* jQuery loading autocomplete */
 .ui-autocomplete-loading {
-	background: white url("/image/ui-anim_basic_16x16.gif") right center
-		no-repeat;
+	background: white url("/image/ui-anim_basic_16x16.gif") right center no-repeat;
 }

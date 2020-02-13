@@ -16,9 +16,9 @@ body {
   display: flex;
   -ms-flex-align: center;
   align-items: center;
-  padding-top: 40px;
   padding-bottom: 40px;
-  background-color: #f5f5f5;
+  background-image: linear-gradient(to top, #fff 35%, #97dcd9 100%);
+  
 }
 
 .form-signin {
@@ -26,6 +26,11 @@ body {
   max-width: 420px;
   padding: 15px;
   margin: auto;
+  border-radius: 20px;
+  border-bottom-right-radius: 120px;
+  border-top-left-radius: 120px;
+  background-image: linear-gradient(to top, #fff 35%, #97dcd9 100%);
+ 
 }
 
 .form-label-group {
