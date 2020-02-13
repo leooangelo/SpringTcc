@@ -13,10 +13,11 @@
 	font-family: 'Anton', sans-serif;
 }
 
+
 /*Foto da pagina principal*/
 @media ( min-width : 768px) {
 	.jumbotron {
-		padding-top: 34rem;
+		padding-top: 24rem;
 		padding-bottom: 3rem;
 		background-color: rgba(0,0,0,0.6);
 	}
@@ -282,16 +283,8 @@ transform
 }
 
 #mudacor {
-	color: black;
-	opacity: 25%;
-}
-
-a:link {
-	text-decoration: none;
-}
-
-a:hover {
-	opacity: 70%;
+	color: #DCDCDC;
+	
 }
 
 div.a {

@@ -6,6 +6,7 @@
 <body>
 	<header th:fragment="cabecalho">
 		<nav class="navbar navbar-expand-md navbar-dark fixed">
+		<a id="mudacor" th:href="@{/}" >Clínica Spring Security</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse"
 				data-target="#navbarCollapse" aria-controls="navbarCollapse"
 				aria-expanded="false" aria-label="Toggle navigation">
@@ -45,25 +46,27 @@
 						</div>
 					</li>					
 				</ul>
-
+						
 				<form class="form-inline mt-2 mt-md-0" sec:authorize="!isAuthenticated()">
 					<div class="form-check mb-2 mr-sm-2">
 						<a class="btn my-2 my-sm-0" role="button" id="login"
-							th:href="@{/login}" style="color:#DCDCDC"> Login <i class="fas fa-sign-in-alt"></i></a> 
+							th:href="@{/login}" style="color:#DCDCDC"><h5>Login <i class="fas fa-sign-in-alt"></i></h5></a> 
 					</div>
 
 					<div class="form-check mb-2 mr-sm-2">
 						<a class="btn my-2 my-sm-0" role="button"
-							th:href="@{/u/novo/cadastro}" style="color: #DCDCDC">Sign Out  <i class="fas fa-sign-out-alt"></i></a>
+							th:href="@{/u/novo/cadastro}" style="color:#DCDCDC"><h5>Sign Out  <i class="fas fa-sign-out-alt"></i></h5></a>
 					</div>
+					
 				</form>
+					
 
 				<form th:action="@{/logout}" sec:authorize="isAuthenticated()"
 					  method="post"  class="form-inline mt-2 mt-md-0">
 					<div class="btn-group mb-2 mr-sm-2">
 						<button type="button" class="btn btn-light">
 							<i class="fas fa-user"></i> <span class=""
-								sec:authentication="name">Bob</span>
+								sec:authentication="name"></span>
 						</button>
 						<button type="button"
 							class="btn btn-danger dropdown-toggle dropdown-toggle-split"
