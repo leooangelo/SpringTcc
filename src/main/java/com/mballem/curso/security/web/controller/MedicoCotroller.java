@@ -16,6 +16,7 @@ import com.mballem.curso.security.domain.Medico;
 import com.mballem.curso.security.domain.Usuario;
 import com.mballem.curso.security.service.MedicoService;
 import com.mballem.curso.security.service.UsuarioService;
+
 /**
  * 
  * @author leonardoangelo
@@ -24,40 +25,42 @@ import com.mballem.curso.security.service.UsuarioService;
 @Controller
 @RequestMapping("medicos")
 public class MedicoCotroller {
-	
+
 	@Autowired
 	private MedicoService medicoService;
-	
+
 	@Autowired
 	private UsuarioService usuarioService;
-	
+
 	/**
 	 * Abre a pagina de dados pessoais de médicos pelo perfil MEDICO
+	 * 
 	 * @param medico
 	 * @param model
 	 * @param user
 	 * @return
 	 */
-	@GetMapping({"/dados"})
+	@GetMapping({ "/dados" })
 	public String abrirPorMedico(Medico medico, ModelMap model, @AuthenticationPrincipal User user) {
-		if(medico.hasNotId()) {
+		if (medico.hasNotId()) {
 			medico = medicoService.buscarPorEmail(user.getUsername());
 			model.addAttribute("medico", medico);
 		}
 		return "medico/cadastro";
-	}	
-	
+	}
+
 	/**
 	 * Salvar novo médico
+	 * 
 	 * @param medico
 	 * @param attr
 	 * @param user
 	 * @return
 	 */
-	@PostMapping({"/salvar"})
-	public String salvar(Medico medico, RedirectAttributes attr,@AuthenticationPrincipal User user) {
-		
-		if(medico.hasNotId() && medico.getUsuario().hasNotId()) {
+	@PostMapping({ "/salvar" })
+	public String salvar(Medico medico, RedirectAttributes attr, @AuthenticationPrincipal User user) {
+
+		if (medico.hasNotId() && medico.getUsuario().hasNotId()) {
 			Usuario usuario = usuarioService.buscarPorEmail(user.getUsername());
 			medico.setUsuario(usuario);
 		}
@@ -67,22 +70,23 @@ public class MedicoCotroller {
 
 		return "redirect:/medicos/dados";
 	}
-	
+
 	/**
 	 * Editar dados do médico
+	 * 
 	 * @param medico
 	 * @param attr
 	 * @return
 	 */
-	@PostMapping({"/editar"})
+	@PostMapping({ "/editar" })
 	public String editar(Medico medico, RedirectAttributes attr) {
-			medicoService.editar(medico);
-			attr.addFlashAttribute("sucesso", "Operação realizado com sucesso.");
-			attr.addFlashAttribute("medico", medico);
-			
-			return "redirect:/medicos/dados";
-		}
-	
+		medicoService.editar(medico);
+		attr.addFlashAttribute("sucesso", "Operação realizado com sucesso.");
+		attr.addFlashAttribute("medico", medico);
+
+		return "redirect:/medicos/dados";
+	}
+
 	/**
 	 * Excluir Especialidade do medico.
 	 * @param idMed
@@ -92,18 +96,26 @@ public class MedicoCotroller {
 	 */
 		@GetMapping({"/id/{idMed}/excluir/especializacao/{idEsp}"})
 		public String excluirEspecialidadePorMedico(@PathVariable("idMed") Long idMed, @PathVariable("idEsp") Long idEsp, RedirectAttributes attr) {
+			
+			if(medicoService.existeConsultaEspecialidadeAngendada(idMed, idEsp)) {
+				attr.addFlashAttribute("falha", "Tem consultas agendadas nesta especialidade, exclusão foi negada.");
+
+			
+		} else{
 				medicoService.excluirEspecialidadePorMedico(idMed, idEsp);
 				attr.addFlashAttribute("sucesso", "Especialidade removida com sucesso.");
-				
-				return "redirect:/medicos/dados";
-			}
+				}
+			return "redirect:/medicos/dados";
+		}
+
 	/**
 	 * Buscar medicos por especialidade via ajax na marcação de consulta
+	 * 
 	 * @param titulo
 	 * @return
 	 */
-		@GetMapping("/especialidade/titulo/{titulo}")
-		public ResponseEntity<?> getMedicosPorEspecialidades(@PathVariable("titulo")String titulo){
-			return ResponseEntity.ok(medicoService.buscarMedicosPorEspecialidade(titulo));
-		}
+	@GetMapping("/especialidade/titulo/{titulo}")
+	public ResponseEntity<?> getMedicosPorEspecialidades(@PathVariable("titulo") String titulo) {
+		return ResponseEntity.ok(medicoService.buscarMedicosPorEspecialidade(titulo));
+	}
 }

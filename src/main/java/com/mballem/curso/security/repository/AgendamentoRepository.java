@@ -71,6 +71,6 @@ public interface AgendamentoRepository extends JpaRepository<Agendamento, Long>{
 			+ " (a.id = :id AND a.paciente.usuario.email like :email) "
 			+ " OR"
 			+ " (a.id = :id AND a.medico.usuario.email like :email)")
-	Optional <Agendamento> FindByIdEPacienteOuMedicoEmail(Long id, String email);
+	Optional <Agendamento> FindByIdAndPacienteOrMedicoEmail(Long id, String email);
 
 }

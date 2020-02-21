@@ -31,7 +31,6 @@ public class PacienteService {
 	@Transactional
 	public void salvar(Paciente paciente) {
 		pacienteRepository.save(paciente);
-		
 	}
 	
 	/**
@@ -44,6 +43,6 @@ public class PacienteService {
 		Paciente paci = pacienteRepository.findById(paciente.getId()).get();
 		paci.setNome(paciente.getNome());
 		paci.setDtNascimento(paciente.getDtNascimento());
-		
 	}
+	
 }

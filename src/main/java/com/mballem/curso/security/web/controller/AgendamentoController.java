@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -44,7 +45,7 @@ public class AgendamentoController {
 
 	@Autowired
 	private EspecialidadeService especialidadesService;
-
+	@PreAuthorize("hasAnyAuthority('PACIENTE','MEDICO')")
 	@GetMapping({ "/agendar" })
 	public String agendarConsulta(Agendamento agendamento) {
 
@@ -58,6 +59,7 @@ public class AgendamentoController {
 	 * @param data
 	 * @return
 	 */
+	@PreAuthorize("hasAnyAuthority('PACIENTE','MEDICO')")
 	@GetMapping("/horario/medico/{id}/data/{data}")
 	public ResponseEntity<?> getHorariosDeConsulta(@PathVariable("id") Long id,
 			@PathVariable("data") @DateTimeFormat(iso = ISO.DATE) LocalDate data) {
@@ -73,6 +75,8 @@ public class AgendamentoController {
 	 * @param user
 	 * @return
 	 */
+	@PreAuthorize("hasAnyAuthority('PACIENTE')")
+
 	@PostMapping({ "/salvar" })
 	public String salvar(Agendamento agendamento, RedirectAttributes attr, @AuthenticationPrincipal User user) {
 		Paciente paciente = pacienteService.buscarPorUsuarioEmail(user.getUsername());
@@ -91,6 +95,8 @@ public class AgendamentoController {
 	 * Metodo para abrir uma pagina com o histórico de consultas agendadas do
 	 * paciente
 	 */
+	@PreAuthorize("hasAnyAuthority('PACIENTE','MEDICO')")
+
 	@GetMapping({ "/historico/paciente", "/historico/consultas" })
 	public String historicoDeConsultasAgendadas() {
 
@@ -101,6 +107,7 @@ public class AgendamentoController {
 	 * Metodo para localizar o historico de consultas agendadas do usuário que
 	 * estiver logado na aplicação.
 	 */
+	@PreAuthorize("hasAnyAuthority('PACIENTE','MEDICO')")
 	@GetMapping("/datatables/server/historico")
 	public ResponseEntity<?> historicoDeAgendamentosPorPaciente(HttpServletRequest request,
 			@AuthenticationPrincipal User user) {
@@ -118,6 +125,7 @@ public class AgendamentoController {
 	 * Metodo que localiza uma consulta agendada pelo seu id e envia ela para a
 	 * pagina de cadastro.
 	 */
+	@PreAuthorize("hasAnyAuthority('PACIENTE','MEDICO')")
 	@GetMapping("/editar/consulta/{id}")
 	public String preEditarConsultaAgendadaDoPaciente(@PathVariable("id") Long id, ModelMap model,
 			@AuthenticationPrincipal User user) {
@@ -127,12 +135,13 @@ public class AgendamentoController {
 		return "agendamento/cadastro";
 	}
 	/**
-	 * Metodo para editar uma consulta agendada pelo independente do perfil.
+	 * Metodo para editar uma consulta agendada independente do perfil.
 	 * @param agendamento
 	 * @param attr
 	 * @param user
 	 * @return
 	 */
+	@PreAuthorize("hasAnyAuthority('PACIENTE','MEDICO')")
 	@PostMapping("editar")
 	public String editarConsultaAgendadaDoPaciente(Agendamento agendamento, RedirectAttributes attr,
 			@AuthenticationPrincipal User user) {
@@ -146,4 +155,19 @@ public class AgendamentoController {
 		attr.addFlashAttribute("sucesso", "Sua consulta foi alterada com sucesso. !");
 		return "redirect:/agendamentos/agendar";
 	}
+	
+	/**
+	 * Metodo para excluir uma consulta do paciente ja adendada pelo usuario do paciente.
+	 * 	 * @param id
+	 * @param attr
+	 * @return
+	 */
+	@PreAuthorize("hasAnyAuthority('PACIENTE','ADMIN')")
+	@GetMapping("excluir/consulta/{id}")
+	public String excluirConsulta(@PathVariable("id") Long id, RedirectAttributes attr ) {
+		agendamentoService.remover(id);
+		attr.addFlashAttribute("sucesso", "Consulta excluída com sucesso.");
+		return "redirect:/agendamentos/historico/paciente";
+	}
+	
 }

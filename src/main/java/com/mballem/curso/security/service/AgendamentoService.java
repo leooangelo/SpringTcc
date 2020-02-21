@@ -3,10 +3,8 @@ package com.mballem.curso.security.service;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.constraints.Email;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -91,8 +89,15 @@ public class AgendamentoService {
 	 */
 	@Transactional
 	public Agendamento buscarPorIdEUsuario(Long id, String email) {
-		return agendamentoRepository.FindByIdEPacienteOuMedicoEmail(id,email)
+		return agendamentoRepository.FindByIdAndPacienteOrMedicoEmail(id,email)
 				.orElseThrow(() -> new AcessoNegadoException("Acesso Negado ao usuário: " + email));
 	}
-
+	/**
+	 * Metodo para remover uma consulta no banco de dados.
+	 * @param id
+	 */
+	@Transactional
+	public void remover(Long id) {
+		agendamentoRepository.deleteById(id);
+	}
 }

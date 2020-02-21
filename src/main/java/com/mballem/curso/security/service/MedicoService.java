@@ -64,12 +64,23 @@ public class MedicoService {
 	}
 	
 	/**
-	 * Metodo para buscar medico pela especialidade selecionada na hora de marcar a consulta.
+	 * Metodo para buscar todos os medicos pela especialidade selecionada na hora de marcar a consulta.
 	 * @param titulo
 	 * @return
 	 */
 	@Transactional
 	public List<Medico> buscarMedicosPorEspecialidade(String titulo) {
 		return medicoRepository.findByMedicosPorEspecialidade(titulo);
+	}
+	/**
+	 * Metodo quue retorna uma consulta agendada em uma especialidade verificando se o objeto long é nulo se o retorno for
+	 * false segnifica que o objeto é nulo sendo assim podendo excluir uma especialidade ja cadastrada no banco de dados.
+	 * @param idMed
+	 * @param idEsp
+	 * @return
+	 */
+	@Transactional
+	public boolean existeConsultaEspecialidadeAngendada(Long idMed, Long idEsp) {
+		return medicoRepository.hasEspecialidadeAgendada(idMed,idEsp).isPresent();
 	}
 }
