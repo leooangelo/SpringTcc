@@ -3,6 +3,7 @@ package com.mballem.curso.security.web.controller;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -86,6 +89,8 @@ public class UsuarioController {
 		if (perfis.size() > 2
 				|| perfis.containsAll(
 						Arrays.asList(new Perfil(PerfilTipo.ADMIN.getCod()), new Perfil(PerfilTipo.PACIENTE.getCod())))
+				|| perfis.containsAll(
+						Arrays.asList(new Perfil(PerfilTipo.ADMIN.getCod()), new Perfil(PerfilTipo.MEDICO.getCod())))
 				|| perfis.containsAll(Arrays.asList(new Perfil(PerfilTipo.MEDICO.getCod()),
 						new Perfil(PerfilTipo.PACIENTE.getCod())))) {
 			attr.addFlashAttribute("falha", "Paciente não pode ser admin e/ou médico.");
@@ -188,4 +193,116 @@ public class UsuarioController {
 
 	}
 
+	/**
+	 * Metodo que abre a pagina de cadastro de novo usuario
+	 * 
+	 * @param usuario
+	 * @return
+	 */
+	@GetMapping("/novo/cadastro")
+	public String novoCadastro(Usuario usuario) {
+		
+		
+		return "cadastrar-se";
+	}
+
+	/**
+	 * Metodo que confirma um novo usuario cadastrado
+	 * 
+	 * @return
+	 */
+	@GetMapping("/cadastro/realizado")
+	public String cadastroRealizado() {
+
+		return "fragments/mensagem";
+
+	}
+	
+	/**
+	 * Metodo que recebe o form de cadastro, usando BindingResult que sever para lançar a mensagem de erro quando
+	 * tentam cadastrar um usuario ja cadastrado no sistema.
+	 * @throws MessagingException 
+	 */
+	@PostMapping("/cadastro/paciente/salvar")
+	public String salvaCadastroPaciente(Usuario usuario, BindingResult result) throws MessagingException {
+		try {
+		usuarioService.salvarCadastroPaciente(usuario);
+		}catch(DataIntegrityViolationException ex) {
+			result.reject("email","Ops... Este e-mail já existe na base de dados.");
+			return"cadastrar-se";
+		}
+		return "redirect:/u/cadastro/realizado";
+	}
+	/**
+	 * Metodo que recebe a resposta do usuario sobre a confirmação do cadastro do mesmo na plataforma.
+	 * @param codigo 
+	 * @param attr
+	 * @return
+	 */
+	@GetMapping("/confirmacao/cadastro")
+	public String respostaConfirmacaoCadastroPaciente(@RequestParam("codigo") String codigo, RedirectAttributes attr ) {
+		
+		usuarioService.ativarCadastroPaciente(codigo);
+		attr.addFlashAttribute("alerta", "sucesso");
+		attr.addFlashAttribute("titulo", "Cadastro realizado com sucesso");
+		attr.addFlashAttribute("texto", "Parabéns, seu cadastro está ativo");
+		attr.addFlashAttribute("subtexto", "Siga com seu login e senha");
+		
+		return "redirect:/login";
+		
+	}
+	/**
+	 * Metodo para abrir a pagina de recuperação de senha.
+	 * @return
+	 */
+	@GetMapping("/p/redefinir/senha")
+	private String pedidoParaRedefinirSenha() {
+		
+		return "usuario/pedido-recuperar-senha";
+	}
+	
+	/**
+	 * Metodo que abre o form de pedido de recuperação de senha.
+	 * @throws MessagingException 
+	 */
+	@GetMapping("/p/recuperar/senha")
+	public	String redefinirSenha(String email, ModelMap model) throws MessagingException {
+		
+	usuarioService.pedidoRedefinicaoDeSenha(email);
+	model.addAttribute("sucesso","Em instantes você irá receber um email para prosseguir com  a redefinição de senha");
+	model.addAttribute("usuario", new Usuario(email));
+	return "usuario/recuperar-senha";		
+		
+	}
+	
+	/**
+	 * Metodo que salva a nova senha cadastrada no momento que a recuperação de senha é finalizado.
+	 * 
+	 */
+	@PostMapping("/p/nova/senha")
+	public String confirmacaoDeRedefinicaoSenha(Usuario usuario, ModelMap model) {
+		Usuario u = usuarioService.buscarPorEmail(usuario.getEmail());
+		if(!usuario.getCodigoVerificador().equals(u.getCodigoVerificador())) {
+			model.addAttribute("falha","Código verificador não confere");
+			return "usuario/recuperar-senha";
+		}
+		u.setCodigoVerificador(null);
+		usuarioService.alterarSenha(u, usuario.getSenha());
+		model.addAttribute("alerta", "sucesso");
+		model.addAttribute("titulo", "Senha foi redefinida com sucesso");
+		model.addAttribute("texto", "Voce ja pode fazer login no sistema");
+		return "login";
+		
+	}
+	
+	@GetMapping("/lista-consultas")
+	public String listarConsultas() {
+		return "usuario/lista-consultas";
+	}
+	
+	@GetMapping("/agendamentos/datatables/server/historico")
+	public ResponseEntity<?> listarConsultas(HttpServletRequest request) {
+
+		return ResponseEntity.ok(usuarioService.buscarConsultas(request));
+	}
 }

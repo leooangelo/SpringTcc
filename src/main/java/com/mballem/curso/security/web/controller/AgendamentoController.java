@@ -164,10 +164,11 @@ public class AgendamentoController {
 	 */
 	@PreAuthorize("hasAnyAuthority('PACIENTE','ADMIN')")
 	@GetMapping("excluir/consulta/{id}")
-	public String excluirConsulta(@PathVariable("id") Long id, RedirectAttributes attr ) {
+	public String excluirConsulta(@PathVariable("id") Long id, RedirectAttributes attr) {
 		agendamentoService.remover(id);
 		attr.addFlashAttribute("sucesso", "Consulta excluída com sucesso.");
 		return "redirect:/agendamentos/historico/paciente";
+		
 	}
-	
+
 }

@@ -35,8 +35,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		 */
 		http.authorizeRequests()
 		.antMatchers("/webjars/**", "/css/**", "/image/**", "/js/**").permitAll()
-		//editado
 		.antMatchers("/", "/home").permitAll()
+		.antMatchers("/u/novo/cadastro","/u/cadastro/realizado","/u/cadastro/paciente/salvar").permitAll()
+		.antMatchers("/u/confirmacao/cadastro").permitAll()
+		.antMatchers("/u/p/**").permitAll()
+		
 		
 		/**
 		 * Permissão de acesso para usuário ADMIN e MEDICO.
@@ -77,7 +80,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 			.logoutSuccessUrl("/")
 		.and()
 			.exceptionHandling()
-			.accessDeniedPage("/acesso-negado");
+			.accessDeniedPage("/acesso-negado")
+		.and()
+			.rememberMe();
 			
 	}
 	@Override

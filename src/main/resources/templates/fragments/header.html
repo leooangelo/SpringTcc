@@ -22,6 +22,7 @@
 							<div class="dropdown-divider"></div>
 							<a class="dropdown-item" id="cadastroUser" th:href="@{/u/novo/cadastro/usuario}">Cadastro de Usuários</a>
 							<a class="dropdown-item" th:href="@{/u/lista}">Lista de Usuários</a>
+							<a class="dropdown-item" th:href="@{/u/lista-consultas}">Lista de Consultas</a>
 						</div>
 					</li>
 					<li class="nav-item dropdown" sec:authorize="hasAnyAuthority('MEDICO','ADMIN')"><a
@@ -50,12 +51,12 @@
 				<form class="form-inline mt-2 mt-md-0" sec:authorize="!isAuthenticated()">
 					<div class="form-check mb-2 mr-sm-2">
 						<a class="btn my-2 my-sm-0" role="button" id="login"
-							th:href="@{/login}" style="color:#DCDCDC"> Login <i class="fas fa-sign-in-alt"></i></a> 
+							th:href="@{/login}" style="color:#DCDCDC"> Entrar <i class="fas fa-sign-in-alt"></i></a> 
 					</div>
 
 					<div class="form-check mb-2 mr-sm-2">
 						<a class="btn my-2 my-sm-0" role="button"
-							th:href="@{/u/novo/cadastro}" style="color: #DCDCDC">Sign Out  <i class="fas fa-sign-out-alt"></i></a>
+							th:href="@{/u/novo/cadastro}" style="color: #DCDCDC">Cadastrar-se  <i class="fas fa-sign-out-alt"></i></a>
 					</div>
 				</form>
 
