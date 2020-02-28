@@ -58,7 +58,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		 * Permissão de acesso a paginas de PACIENTES.
 		 */
 		.antMatchers("/pacientes/dados", "/pacientes/salvar", "/pacientes/editar", "/u/pacientes/dados").hasAnyAuthority(PACIENTE,ADMIN)
-		.antMatchers("/pacientes/**").hasAnyAuthority(PACIENTE)
+		.antMatchers("/pacientes/**").hasAnyAuthority(PACIENTE,ADMIN)
 		
 		
 		/**

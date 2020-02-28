@@ -201,7 +201,7 @@ public class UsuarioService implements UserDetailsService {
 	}
 
 	/**
-	 * Este metodo ativa o cadastro do paciente pelo codigo que é recebi via email
+	 * Este metodo ativa o cadastro do paciente pelo codigo que é recebido via email
 	 * de confirmação de cadastro. O código que é recebido ele é gerado pelo próprio
 	 * email do usuario transformado para a base 64.
 	 * 

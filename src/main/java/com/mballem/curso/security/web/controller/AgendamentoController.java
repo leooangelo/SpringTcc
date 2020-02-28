@@ -2,6 +2,7 @@ package com.mballem.curso.security.web.controller;
 
 import java.time.LocalDate;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,7 @@ import com.mballem.curso.security.domain.Especialidade;
 import com.mballem.curso.security.domain.Paciente;
 import com.mballem.curso.security.domain.PerfilTipo;
 import com.mballem.curso.security.service.AgendamentoService;
+import com.mballem.curso.security.service.EmailService;
 import com.mballem.curso.security.service.EspecialidadeService;
 import com.mballem.curso.security.service.PacienteService;
 
@@ -45,6 +47,10 @@ public class AgendamentoController {
 
 	@Autowired
 	private EspecialidadeService especialidadesService;
+	
+	@Autowired
+	private EmailService emailService;
+	
 	@PreAuthorize("hasAnyAuthority('PACIENTE','MEDICO')")
 	@GetMapping({ "/agendar" })
 	public String agendarConsulta(Agendamento agendamento) {
@@ -74,11 +80,12 @@ public class AgendamentoController {
 	 * @param attr
 	 * @param user
 	 * @return
+	 * @throws MessagingException 
 	 */
 	@PreAuthorize("hasAnyAuthority('PACIENTE')")
 
 	@PostMapping({ "/salvar" })
-	public String salvar(Agendamento agendamento, RedirectAttributes attr, @AuthenticationPrincipal User user) {
+	public String salvar(Agendamento agendamento, RedirectAttributes attr, @AuthenticationPrincipal User user) throws MessagingException {
 		Paciente paciente = pacienteService.buscarPorUsuarioEmail(user.getUsername());
 		String titulo = agendamento.getEspecialidade().getTitulo();
 		Especialidade especialidade = especialidadesService.buscarPorTitulos(new String[] { titulo }).stream()
@@ -87,6 +94,11 @@ public class AgendamentoController {
 		agendamento.setPaciente(paciente);
 		agendamentoService.salvarConsultaAgendada(agendamento);
 		attr.addFlashAttribute("sucesso", "Sua consulta foi agendada com sucesso");
+		emailService.enviarConfirmacaoConsulta(user.getUsername(),
+												agendamento.getEspecialidade(), agendamento.getMedico(),
+												agendamento.getDataConsulta(), agendamento.getHorario());
+		
+		
 
 		return "redirect:/agendamentos/agendar";
 	}
@@ -170,5 +182,7 @@ public class AgendamentoController {
 		return "redirect:/agendamentos/historico/paciente";
 		
 	}
-
+	
+	
+	
 }

@@ -295,14 +295,4 @@ public class UsuarioController {
 		
 	}
 	
-	@GetMapping("/lista-consultas")
-	public String listarConsultas() {
-		return "usuario/lista-consultas";
-	}
-	
-	@GetMapping("/agendamentos/datatables/server/historico")
-	public ResponseEntity<?> listarConsultas(HttpServletRequest request) {
-
-		return ResponseEntity.ok(usuarioService.buscarConsultas(request));
-	}
 }

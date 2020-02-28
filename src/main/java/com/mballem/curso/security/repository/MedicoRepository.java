@@ -32,4 +32,7 @@ public interface MedicoRepository extends JpaRepository<Medico, Long>{
 			+ "where "
 			+ "a.especialidade.id = :idEsp and a.medico.id =:idMed ")
 	Optional<Long> hasEspecialidadeAgendada(Long idMed, Long idEsp);
+	
+	@Query("select m.nome from Medico m where m.id = :id")
+	String buscaNomeMedico(Long id);
 }

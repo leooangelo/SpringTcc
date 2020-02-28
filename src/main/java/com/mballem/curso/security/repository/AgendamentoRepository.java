@@ -1,6 +1,7 @@
 package com.mballem.curso.security.repository;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,6 +52,7 @@ public interface AgendamentoRepository extends JpaRepository<Agendamento, Long>{
 		+ "where a.paciente.usuario.email like :email")
 	Page<HistoricoPaciente> buscarHistoricoDoPacientePorEmail(String email, Pageable pageable);
 	
+	
 	/**
 	 * 
 	 * @param email
@@ -73,8 +75,13 @@ public interface AgendamentoRepository extends JpaRepository<Agendamento, Long>{
 			+ " (a.id = :id AND a.medico.usuario.email like :email)")
 	Optional <Agendamento> FindByIdAndPacienteOrMedicoEmail(Long id, String email);
 	
+	/**
+	 * Query que traz a hora de uma consulta pelo id
+	 * @param id
+	 * @return
+	 */
+	@Query("select horaMinuto from Horario where id = :id")
+	LocalTime buscaHoraConsulta(Long id);
 	
-	//@Query("select perfil_id from usuarios_tem_perfis where usuario_id = :id")
-	//Long findUserById(Long id);
 }
 
