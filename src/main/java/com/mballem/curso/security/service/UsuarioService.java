@@ -239,5 +239,12 @@ public class UsuarioService implements UserDetailsService {
 				: usuarioRepository.findByEmailOrPerfil(datatables.getSearch(), datatables.getPageable());
 		return datatables.getResponse(page);
 	}
+	
+	@Transactional
+	public void remove(Long id) {
+		usuarioRepository.deleteById(id);
+		
+	}
+
 
 }

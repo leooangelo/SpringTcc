@@ -66,11 +66,6 @@ public class AgendamentoService {
 		return dataTables.getResponse(page);
 	}
 
-	@Transactional
-	public Agendamento buscarConsultaAgendadaPorId(Long id) {
-
-		return agendamentoRepository.findById(id).get();
-	}
 
 	@Transactional
 	public void editar(Agendamento agendamento, String email) {

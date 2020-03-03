@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -52,6 +53,19 @@ public class UsuarioController {
 	@GetMapping("/novo/cadastro/usuario")
 	public String cadastroPorAdminParaAdminMedicoPaciente(Usuario usuario) {
 		return "usuario/cadastro";
+	}
+	/**
+	 * Metodo para excluir um usuário cadastrado no banco.
+	 * @param id
+	 * @param attr
+	 * @return
+	 */
+	@GetMapping("/excluir/{id}")
+	public String excluir(@PathVariable("id") Long id, RedirectAttributes attr) {
+		usuarioService.remove(id);
+		attr.addFlashAttribute("sucesso", "Operação realizada com sucesso !");
+		return "redirect:/u/lista";
+		
 	}
 
 	/**
@@ -141,7 +155,8 @@ public class UsuarioController {
 			return medico.hasNotId() ? new ModelAndView("medico/cadastro", "medico", new Medico(new Usuario(usuarioId)))
 					: new ModelAndView("medico/cadastro", "medico", medico);
 
-		} else if (us.getPerfis().contains(new Perfil(PerfilTipo.PACIENTE.getCod()))) {
+		} else if (us.getPerfis().contains(new Perfil(PerfilTipo.PACIENTE.getCod()))
+				|| us.getPerfis().contains(new Perfil(PerfilTipo.ADMIN.getCod()))) {
 			ModelAndView model = new ModelAndView("error");
 
 			model.addObject("status", 403);

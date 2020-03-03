@@ -57,6 +57,8 @@ public class Usuario extends AbstractEntity {
 	public Usuario(Long id) {
 		super.setId(id);
 	}
+		
+	
 
 	/**
 	 * Metodo que adiciona perfis a lista.
@@ -72,5 +74,6 @@ public class Usuario extends AbstractEntity {
 	public Usuario(String email) {
 		this.email = email;
 	}
+
 
 }

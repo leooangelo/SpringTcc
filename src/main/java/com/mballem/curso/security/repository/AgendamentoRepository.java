@@ -2,6 +2,7 @@ package com.mballem.curso.security.repository;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -82,6 +83,14 @@ public interface AgendamentoRepository extends JpaRepository<Agendamento, Long>{
 	 */
 	@Query("select horaMinuto from Horario where id = :id")
 	LocalTime buscaHoraConsulta(Long id);
+	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	@Query("select dataConsulta from Agendamento where id = :id")
+	Date dataLocal(Long id);
 	
 }
 

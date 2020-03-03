@@ -39,7 +39,7 @@ public class Paciente extends AbstractEntity {
 	@Column(name = "data_nascimento", nullable = false)
 	@DateTimeFormat(iso = ISO.DATE)
 	private LocalDate dtNascimento;
-// alteração casacade pode remover ele todo
+
 	@JsonIgnore
 	@OneToMany(mappedBy = "paciente")
 	private List<Agendamento> agendamentos;

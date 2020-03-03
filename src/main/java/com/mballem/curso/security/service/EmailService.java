@@ -49,7 +49,7 @@ public class EmailService {
 		helper.setTo(destino);
 		helper.setText(html, true);
 		helper.setSubject("Confirmção de Cadastro");
-		helper.setFrom("nao-responder@clinica.com.br");
+		helper.setFrom("no-replay@clinica.com.br");
 
 		helper.addInline("logo", new ClassPathResource("/static/image/spring-security.png"));
 
@@ -71,7 +71,7 @@ public class EmailService {
 		helper.setTo(destino);
 		helper.setText(html, true);
 		helper.setSubject("Redefinição de Senha");
-		helper.setFrom("nao-replay@clinica.com.br");
+		helper.setFrom("no-replay@clinica.com.br");
 
 		helper.addInline("logo", new ClassPathResource("/static/image/spring-security.png"));
 
@@ -87,7 +87,7 @@ public class EmailService {
 	 * @throws MessagingException
 	 */
 	public void enviarConfirmacaoConsulta(String username, Especialidade especialidade, Medico medico,
-			LocalDate dataConsulta, Horario horario) throws MessagingException {
+		LocalDate dataConsulta, Horario horario) throws MessagingException {
 		MimeMessage message = mailSender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
 				"UTF-8");
@@ -104,13 +104,40 @@ public class EmailService {
 		helper.setTo(username);
 		helper.setText(html, true);
 		helper.setSubject("Consulta Agendada");
-		helper.setFrom("nao-replay@clinica.com.br");
+		helper.setFrom("no-replay@clinica.com.br");
 
 		helper.addInline("logo", new ClassPathResource("/static/image/spring-security.png"));
 
 		mailSender.send(message);
 
 	}
+	
+	public void enviarAlteraçãoConsultaAgendada(String username, Especialidade especialidade, Medico medico,
+			LocalDate dataConsulta, Horario horario) throws MessagingException {
+			MimeMessage message = mailSender.createMimeMessage();
+			MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
+					"UTF-8");
+
+			Context context = new Context();
+			context.setVariable("titulo", "Bem vindo a Clíniica Spring Security");
+			context.setVariable("texto", "Sua consulta agendada foi remarcada para : ");
+			context.setVariable("especialidade", especialidade.getTitulo());
+			context.setVariable("medico", buscaNomeMedico(medico.getId()));
+			context.setVariable("dataConsulta", dataConsulta);
+			context.setVariable("horario", horaConsulta(horario.getId()));
+			context.setVariable("texto2", "Caso tenha alguma duvida, favor entrar em contato.");
+
+			String html = template.process("email/alteracao_agendamento", context);
+			helper.setTo(username);
+			helper.setText(html, true);
+			helper.setSubject("Alteração de Data ou Hora Consulta Agendada");
+			helper.setFrom("no-replay@clinica.com.br");
+
+			helper.addInline("logo", new ClassPathResource("/static/image/spring-security.png"));
+
+			mailSender.send(message);
+	}
+	
 	/**
 	 * Metodo que recebe o nome do medico pelo id que vem da consulta agendada.
 	 * @param id
@@ -130,5 +157,7 @@ public class EmailService {
 		LocalTime horaConsulta = agendamentoRepository.buscaHoraConsulta(id);
 		return horaConsulta;
 	}
+	
+	
 
 }

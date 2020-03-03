@@ -1,5 +1,6 @@
 package com.mballem.curso.security.web.controller;
 
+import java.text.ParseException;
 import java.time.LocalDate;
 
 import javax.mail.MessagingException;
@@ -29,6 +30,7 @@ import com.mballem.curso.security.service.AgendamentoService;
 import com.mballem.curso.security.service.EmailService;
 import com.mballem.curso.security.service.EspecialidadeService;
 import com.mballem.curso.security.service.PacienteService;
+import com.mballem.curso.security.utils.DataUtils;
 
 /**
  * 
@@ -47,10 +49,12 @@ public class AgendamentoController {
 
 	@Autowired
 	private EspecialidadeService especialidadesService;
-	
+
 	@Autowired
 	private EmailService emailService;
-	
+
+	private DataUtils dataUtils = new DataUtils();
+
 	@PreAuthorize("hasAnyAuthority('PACIENTE','MEDICO')")
 	@GetMapping({ "/agendar" })
 	public String agendarConsulta(Agendamento agendamento) {
@@ -74,18 +78,20 @@ public class AgendamentoController {
 	}
 
 	/**
-	 * Metodo para salvar um agendamento de consulta na clinica.
+	 * Metodo para salvar um agendamento de consulta na clinica e envia um email
+	 * para o email do usuario informado a consulta agendada.
 	 * 
 	 * @param agendamento
 	 * @param attr
 	 * @param user
 	 * @return
-	 * @throws MessagingException 
+	 * @throws MessagingException
 	 */
 	@PreAuthorize("hasAnyAuthority('PACIENTE')")
 
 	@PostMapping({ "/salvar" })
-	public String salvar(Agendamento agendamento, RedirectAttributes attr, @AuthenticationPrincipal User user) throws MessagingException {
+	public String salvar(Agendamento agendamento, RedirectAttributes attr, @AuthenticationPrincipal User user)
+			throws MessagingException {
 		Paciente paciente = pacienteService.buscarPorUsuarioEmail(user.getUsername());
 		String titulo = agendamento.getEspecialidade().getTitulo();
 		Especialidade especialidade = especialidadesService.buscarPorTitulos(new String[] { titulo }).stream()
@@ -94,11 +100,8 @@ public class AgendamentoController {
 		agendamento.setPaciente(paciente);
 		agendamentoService.salvarConsultaAgendada(agendamento);
 		attr.addFlashAttribute("sucesso", "Sua consulta foi agendada com sucesso");
-		emailService.enviarConfirmacaoConsulta(user.getUsername(),
-												agendamento.getEspecialidade(), agendamento.getMedico(),
-												agendamento.getDataConsulta(), agendamento.getHorario());
-		
-		
+		emailService.enviarConfirmacaoConsulta(user.getUsername(), agendamento.getEspecialidade(),
+				agendamento.getMedico(), agendamento.getDataConsulta(), agendamento.getHorario());
 
 		return "redirect:/agendamentos/agendar";
 	}
@@ -129,7 +132,7 @@ public class AgendamentoController {
 
 		if (user.getAuthorities().contains(new SimpleGrantedAuthority(PerfilTipo.MEDICO.getDesc())))
 			return ResponseEntity.ok(agendamentoService.buscarHistoricoDoMedicoPorEmail(user.getUsername(), request));
-		else 
+		else
 			return ResponseEntity.notFound().build();
 	}
 
@@ -141,36 +144,53 @@ public class AgendamentoController {
 	@GetMapping("/editar/consulta/{id}")
 	public String preEditarConsultaAgendadaDoPaciente(@PathVariable("id") Long id, ModelMap model,
 			@AuthenticationPrincipal User user) {
-		Agendamento agendamento = agendamentoService.buscarPorIdEUsuario(id,user.getUsername());
+		Agendamento agendamento = agendamentoService.buscarPorIdEUsuario(id, user.getUsername());
 
 		model.addAttribute("agendamento", agendamento);
 		return "agendamento/cadastro";
 	}
+
 	/**
-	 * Metodo para editar uma consulta agendada independente do perfil.
+	 * Metodo para editar uma consulta agendada independente do perfil que envia
+	 * um email confirmando que a consulta foi altera e com uma regra de negócio
+	 * que a consulta só pode ser alterada 2 dias antes..
+	 * 
 	 * @param agendamento
 	 * @param attr
 	 * @param user
 	 * @return
+	 * @throws MessagingException
+	 * @throws ParseException
 	 */
 	@PreAuthorize("hasAnyAuthority('PACIENTE','MEDICO')")
 	@PostMapping("editar")
 	public String editarConsultaAgendadaDoPaciente(Agendamento agendamento, RedirectAttributes attr,
-			@AuthenticationPrincipal User user) {
+			@AuthenticationPrincipal User user) throws MessagingException, ParseException {
 
-		String titulo = agendamento.getEspecialidade().getTitulo();
-		Especialidade especialidade = especialidadesService.buscarPorTitulos(new String[] { titulo }).stream()
-				.findFirst().get();
-		agendamento.setEspecialidade(especialidade);
+		Long dataConsulta = dataUtils.dataConsulta(agendamento.getDataConsulta());
+		Long dataSistema = System.currentTimeMillis();
+		if (dataSistema <= dataConsulta) {
+			String titulo = agendamento.getEspecialidade().getTitulo();
+			Especialidade especialidade = especialidadesService.buscarPorTitulos(new String[] { titulo }).stream()
+					.findFirst().get();
+			agendamento.setEspecialidade(especialidade);
 
-		agendamentoService.editar(agendamento, user.getUsername());
-		attr.addFlashAttribute("sucesso", "Sua consulta foi alterada com sucesso. !");
+			agendamentoService.editar(agendamento, user.getUsername());
+			attr.addFlashAttribute("sucesso", "Sua consulta foi alterada com sucesso. !");
+			emailService.enviarAlteraçãoConsultaAgendada(user.getUsername(),
+					agendamento.getEspecialidade(), agendamento.getMedico(),
+					agendamento.getDataConsulta(), agendamento.getHorario());
+			return "redirect:/agendamentos/agendar";
+		}
+
+		attr.addFlashAttribute("falha", "A data e hora da consulta só pode ser alterada 2 dias antes. !");
 		return "redirect:/agendamentos/agendar";
 	}
-	
+
 	/**
-	 * Metodo para excluir uma consulta do paciente ja adendada pelo usuario do paciente.
-	 * 	 * @param id
+	 * Metodo para excluir uma consulta do paciente ja adendada pelo usuario do
+	 * paciente. * @param id
+	 * 
 	 * @param attr
 	 * @return
 	 */
@@ -180,9 +200,7 @@ public class AgendamentoController {
 		agendamentoService.remover(id);
 		attr.addFlashAttribute("sucesso", "Consulta excluída com sucesso.");
 		return "redirect:/agendamentos/historico/paciente";
-		
+
 	}
-	
-	
-	
+
 }
