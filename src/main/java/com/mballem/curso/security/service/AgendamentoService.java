@@ -36,13 +36,24 @@ public class AgendamentoService {
 	public List<Horario> buscarHorariosNaoAgendadosPorMedicosIdEData(Long id, LocalDate data) {
 		return agendamentoRepository.findByHorarioNaoAgendadoMedicoIdEData(id, data);
 	}
-
+	
+	/**
+	 * Salva a consulta agendada no banco de dados.
+	 * @param agendamento
+	 */
 	@Transactional
 	public void salvarConsultaAgendada(Agendamento agendamento) {
 		agendamentoRepository.save(agendamento);
 
 	}
-
+	
+	/**
+	 *  Metodo que  acessa a tabela de agendamentos e retorna para a PAGE todas as consultas agendadas que um médico
+	 *  tem para atender.
+	 * @param email
+	 * @param request
+	 * @return
+	 */
 	@Transactional
 	public Map<String, Object> buscarHistoricoDoPacientePorEmail(String email, HttpServletRequest request) {
 
@@ -54,6 +65,14 @@ public class AgendamentoService {
 		return dataTables.getResponse(page);
 
 	}
+	
+	/**
+	  Metodo que  acessa a tabela de agendamentos e retorna para a PAGE todas as consultas do paciente que estão marcadas
+	 * na clinica .
+	 * @param email
+	 * @param request
+	 * @return
+	 */
 
 	@Transactional
 	public Map<String, Object> buscarHistoricoDoMedicoPorEmail(String email, HttpServletRequest request) {
@@ -65,8 +84,28 @@ public class AgendamentoService {
 
 		return dataTables.getResponse(page);
 	}
+	
+	/**
+	 * Metodo que  acessa a tabela de agendamentos e retorna para a PAGE todas as consultas que estão marcadas
+	 * na clinica.
+	 * @param request
+	 * @return
+	 */
+	@Transactional
+	public Map<String, Object> buscarHistoricoDeConsultas(HttpServletRequest request) {
 
+		dataTables.setRequest(request);
+		dataTables.setColunas(DatatablesColunas.AGENDAMENTOS);
+		Page<HistoricoPaciente> page = agendamentoRepository.buscarHistoricoConsultas(dataTables.getPageable());
 
+		return dataTables.getResponse(page);
+	}
+	
+	/**
+	 * Metodo que joga os valores que foram alterados na aplicação para o banco de dados.
+	 * @param agendamento
+	 * @param email
+	 */
 	@Transactional
 	public void editar(Agendamento agendamento, String email) {
 		Agendamento ag = buscarPorIdEUsuario(agendamento.getId(), email);
@@ -75,6 +114,7 @@ public class AgendamentoService {
 		ag.setHorario(agendamento.getHorario());
 		ag.setMedico(agendamento.getMedico());
 	}
+	
 	/**
 	 * Metodo que busca uma consulta agendada pelo id e o email do usuário, caso o email não tenha tenha uma consulta com aquele id
 	 * é lançado um acesso negado.
@@ -87,6 +127,7 @@ public class AgendamentoService {
 		return agendamentoRepository.FindByIdAndPacienteOrMedicoEmail(id,email)
 				.orElseThrow(() -> new AcessoNegadoException("Acesso Negado ao usuário: " + email));
 	}
+	
 	/**
 	 * Metodo para remover uma consulta no banco de dados.
 	 * @param id
@@ -95,6 +136,20 @@ public class AgendamentoService {
 	public void remover(Long id) {
 		agendamentoRepository.deleteById(id);
 	}
-	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 
+	 */
+	/*
+	public Long pegaIdUsuario(Long id) {
+		return agendamentoRepository.pegaIdUsuario(id);
+	}
 
+	public String pegaEmailPaciente(Long idUsuario) {
+		// TODO Auto-generated method stub
+		return agendamentoRepository.pegaEmailPaciente(idUsuario);
+	}
+*/
 }

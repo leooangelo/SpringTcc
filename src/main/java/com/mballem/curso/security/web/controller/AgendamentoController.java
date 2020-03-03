@@ -55,7 +55,7 @@ public class AgendamentoController {
 
 	private DataUtils dataUtils = new DataUtils();
 
-	@PreAuthorize("hasAnyAuthority('PACIENTE','MEDICO')")
+	@PreAuthorize("hasAnyAuthority('PACIENTE','MEDICO','ADMIN')")
 	@GetMapping({ "/agendar" })
 	public String agendarConsulta(Agendamento agendamento) {
 
@@ -69,7 +69,7 @@ public class AgendamentoController {
 	 * @param data
 	 * @return
 	 */
-	@PreAuthorize("hasAnyAuthority('PACIENTE','MEDICO')")
+	@PreAuthorize("hasAnyAuthority('PACIENTE','MEDICO','ADMIN')")
 	@GetMapping("/horario/medico/{id}/data/{data}")
 	public ResponseEntity<?> getHorariosDeConsulta(@PathVariable("id") Long id,
 			@PathVariable("data") @DateTimeFormat(iso = ISO.DATE) LocalDate data) {
@@ -87,7 +87,7 @@ public class AgendamentoController {
 	 * @return
 	 * @throws MessagingException
 	 */
-	@PreAuthorize("hasAnyAuthority('PACIENTE')")
+	@PreAuthorize("hasAnyAuthority('PACIENTE','ADMIN')")
 
 	@PostMapping({ "/salvar" })
 	public String salvar(Agendamento agendamento, RedirectAttributes attr, @AuthenticationPrincipal User user)
@@ -110,7 +110,7 @@ public class AgendamentoController {
 	 * Metodo para abrir uma pagina com o histórico de consultas agendadas do
 	 * paciente
 	 */
-	@PreAuthorize("hasAnyAuthority('PACIENTE','MEDICO')")
+	@PreAuthorize("hasAnyAuthority('PACIENTE','MEDICO','ADMIN')")
 
 	@GetMapping({ "/historico/paciente", "/historico/consultas" })
 	public String historicoDeConsultasAgendadas() {
@@ -122,7 +122,7 @@ public class AgendamentoController {
 	 * Metodo para localizar o historico de consultas agendadas do usuário que
 	 * estiver logado na aplicação.
 	 */
-	@PreAuthorize("hasAnyAuthority('PACIENTE','MEDICO')")
+	@PreAuthorize("hasAnyAuthority('PACIENTE','MEDICO','ADMIN')")
 	@GetMapping("/datatables/server/historico")
 	public ResponseEntity<?> historicoDeAgendamentosPorPaciente(HttpServletRequest request,
 			@AuthenticationPrincipal User user) {
@@ -130,8 +130,11 @@ public class AgendamentoController {
 		if (user.getAuthorities().contains(new SimpleGrantedAuthority(PerfilTipo.PACIENTE.getDesc())))
 			return ResponseEntity.ok(agendamentoService.buscarHistoricoDoPacientePorEmail(user.getUsername(), request));
 
-		if (user.getAuthorities().contains(new SimpleGrantedAuthority(PerfilTipo.MEDICO.getDesc())))
+		else if (user.getAuthorities().contains(new SimpleGrantedAuthority(PerfilTipo.MEDICO.getDesc())))
 			return ResponseEntity.ok(agendamentoService.buscarHistoricoDoMedicoPorEmail(user.getUsername(), request));
+
+		if (user.getAuthorities().contains(new SimpleGrantedAuthority(PerfilTipo.ADMIN.getDesc())))
+			return ResponseEntity.ok(agendamentoService.buscarHistoricoDeConsultas(request));
 		else
 			return ResponseEntity.notFound().build();
 	}
@@ -140,7 +143,7 @@ public class AgendamentoController {
 	 * Metodo que localiza uma consulta agendada pelo seu id e envia ela para a
 	 * pagina de cadastro.
 	 */
-	@PreAuthorize("hasAnyAuthority('PACIENTE','MEDICO')")
+	@PreAuthorize("hasAnyAuthority('PACIENTE','ADMIN')")
 	@GetMapping("/editar/consulta/{id}")
 	public String preEditarConsultaAgendadaDoPaciente(@PathVariable("id") Long id, ModelMap model,
 			@AuthenticationPrincipal User user) {
@@ -162,7 +165,7 @@ public class AgendamentoController {
 	 * @throws MessagingException
 	 * @throws ParseException
 	 */
-	@PreAuthorize("hasAnyAuthority('PACIENTE','MEDICO')")
+	@PreAuthorize("hasAnyAuthority('PACIENTE','ADMIN')")
 	@PostMapping("editar")
 	public String editarConsultaAgendadaDoPaciente(Agendamento agendamento, RedirectAttributes attr,
 			@AuthenticationPrincipal User user) throws MessagingException, ParseException {
@@ -193,14 +196,31 @@ public class AgendamentoController {
 	 * 
 	 * @param attr
 	 * @return
+	 * @throws MessagingException 
 	 */
 	@PreAuthorize("hasAnyAuthority('PACIENTE','ADMIN')")
 	@GetMapping("excluir/consulta/{id}")
-	public String excluirConsulta(@PathVariable("id") Long id, RedirectAttributes attr) {
-		agendamentoService.remover(id);
+	public String excluirConsulta(@PathVariable("id") Agendamento agendamento, RedirectAttributes attr) throws MessagingException {
+		agendamentoService.remover(agendamento.getId());
 		attr.addFlashAttribute("sucesso", "Consulta excluída com sucesso.");
+		//Long idUsuario = agendamentoService.pegaIdUsuario(agendamento.getPaciente().getId());
+		Long idUsuario = agendamento.getId();
+		String email= emailService.buscarEmailPaciente(idUsuario);
+		emailService.enviarAlteraçãoConsultaAgendada(email,
+						agendamento.getEspecialidade(), agendamento.getMedico(),
+						agendamento.getDataConsulta(), agendamento.getHorario());
+		
+		/*
+		emailService.enviarConsultaDesmarcada(emailUsuarioPaciente,
+				agendamento.getEspecialidade(), agendamento.getMedico(),
+				agendamento.getDataConsulta(), agendamento.getHorario());
+				
+				*/
+		
 		return "redirect:/agendamentos/historico/paciente";
 
 	}
+	
+	
 
 }

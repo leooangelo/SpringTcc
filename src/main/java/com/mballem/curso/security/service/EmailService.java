@@ -17,8 +17,12 @@ import org.thymeleaf.spring5.SpringTemplateEngine;
 import com.mballem.curso.security.domain.Especialidade;
 import com.mballem.curso.security.domain.Horario;
 import com.mballem.curso.security.domain.Medico;
+import com.mballem.curso.security.domain.Paciente;
+import com.mballem.curso.security.domain.Usuario;
 import com.mballem.curso.security.repository.AgendamentoRepository;
 import com.mballem.curso.security.repository.MedicoRepository;
+import com.mballem.curso.security.repository.PacienteRepository;
+import com.mballem.curso.security.repository.UsuarioRepository;
 
 @Service
 public class EmailService {
@@ -34,6 +38,13 @@ public class EmailService {
 
 	@Autowired
 	private AgendamentoRepository agendamentoRepository;
+	
+	@Autowired
+	private PacienteRepository pacienteRepository;
+	
+	@Autowired
+	private UsuarioRepository usuarioRepository;
+
 
 	public void enviarPedidoDeConfirmacaoCadastro(String destino, String codigo) throws MessagingException {
 		MimeMessage message = mailSender.createMimeMessage();
@@ -77,8 +88,10 @@ public class EmailService {
 
 		mailSender.send(message);
 	}
+
 	/**
 	 * Metodo que cria a estrutura do email e o envia a menssagem feita.
+	 * 
 	 * @param username
 	 * @param especialidade
 	 * @param medico
@@ -87,7 +100,7 @@ public class EmailService {
 	 * @throws MessagingException
 	 */
 	public void enviarConfirmacaoConsulta(String username, Especialidade especialidade, Medico medico,
-		LocalDate dataConsulta, Horario horario) throws MessagingException {
+			LocalDate dataConsulta, Horario horario) throws MessagingException {
 		MimeMessage message = mailSender.createMimeMessage();
 		MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
 				"UTF-8");
@@ -111,35 +124,63 @@ public class EmailService {
 		mailSender.send(message);
 
 	}
-	
+
 	public void enviarAlteraçãoConsultaAgendada(String username, Especialidade especialidade, Medico medico,
 			LocalDate dataConsulta, Horario horario) throws MessagingException {
-			MimeMessage message = mailSender.createMimeMessage();
-			MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
-					"UTF-8");
+		MimeMessage message = mailSender.createMimeMessage();
+		MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
+				"UTF-8");
 
-			Context context = new Context();
-			context.setVariable("titulo", "Bem vindo a Clíniica Spring Security");
-			context.setVariable("texto", "Sua consulta agendada foi remarcada para : ");
-			context.setVariable("especialidade", especialidade.getTitulo());
-			context.setVariable("medico", buscaNomeMedico(medico.getId()));
-			context.setVariable("dataConsulta", dataConsulta);
-			context.setVariable("horario", horaConsulta(horario.getId()));
-			context.setVariable("texto2", "Caso tenha alguma duvida, favor entrar em contato.");
+		Context context = new Context();
+		context.setVariable("titulo", "Bem vindo a Clíniica Spring Security");
+		context.setVariable("texto", "Sua consulta agendada foi remarcada para : ");
+		context.setVariable("especialidade", especialidade.getTitulo());
+		context.setVariable("medico", buscaNomeMedico(medico.getId()));
+		context.setVariable("dataConsulta", dataConsulta);
+		context.setVariable("horario", horaConsulta(horario.getId()));
+		context.setVariable("texto2", "Caso tenha alguma duvida, favor entrar em contato.");
 
-			String html = template.process("email/alteracao_agendamento", context);
-			helper.setTo(username);
-			helper.setText(html, true);
-			helper.setSubject("Alteração de Data ou Hora Consulta Agendada");
-			helper.setFrom("no-replay@clinica.com.br");
+		String html = template.process("email/alteracao_agendamento", context);
+		helper.setTo(username);
+		helper.setText(html, true);
+		helper.setSubject("Alteração de Data ou Hora Consulta Agendada");
+		helper.setFrom("no-replay@clinica.com.br");
 
-			helper.addInline("logo", new ClassPathResource("/static/image/spring-security.png"));
+		helper.addInline("logo", new ClassPathResource("/static/image/spring-security.png"));
 
-			mailSender.send(message);
+		mailSender.send(message);
 	}
-	
+
+	public void enviarConsultaDesmarcada(String username, Especialidade especialidade, Medico medico,
+			LocalDate dataConsulta, Horario horario) throws MessagingException {
+		MimeMessage message = mailSender.createMimeMessage();
+		MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
+				"UTF-8");
+
+		Context context = new Context();
+		context.setVariable("titulo", "Bem vindo a Clíniica Spring Security");
+		context.setVariable("texto", "A sua consulta  ");
+		context.setVariable("especialidade", especialidade.getTitulo());
+		context.setVariable("medico", buscaNomeMedico(medico.getId()));
+		context.setVariable("dataConsulta", dataConsulta);
+		context.setVariable("horario", horaConsulta(horario.getId()));
+		context.setVariable("texto2",
+				"Foi desmarcada, favor entrar em contato para remarcar caso" + "não tenha sido você.");
+
+		String html = template.process("email/desmarcar_agendamento", context);
+		helper.setTo(username);
+		helper.setText(html, true);
+		helper.setSubject("Consulta Desmarcada");
+		helper.setFrom("no-replay@clinica.com.br");
+
+		helper.addInline("logo", new ClassPathResource("/static/image/spring-security.png"));
+
+		mailSender.send(message);
+	}
+
 	/**
 	 * Metodo que recebe o nome do medico pelo id que vem da consulta agendada.
+	 * 
 	 * @param id
 	 * @return
 	 */
@@ -147,9 +188,10 @@ public class EmailService {
 		String nomeMedico = medicoRepository.buscaNomeMedico(id);
 		return nomeMedico;
 	}
-	
+
 	/**
 	 * Metodo que traz a hora da consulta pelo id que vem da consulta agendada.
+	 * 
 	 * @param id
 	 * @return
 	 */
@@ -157,7 +199,13 @@ public class EmailService {
 		LocalTime horaConsulta = agendamentoRepository.buscaHoraConsulta(id);
 		return horaConsulta;
 	}
-	
-	
+
+	public String buscarEmailPaciente(Long id) {
+		Paciente paciente = agendamentoRepository.buscaIdPaciente(id);
+		Usuario usuario = pacienteRepository.findUserById(paciente.getId());
+		String emailPaciente = usuarioRepository.buscaEmailUsuario(usuario.getId());
+
+		return emailPaciente;
+	}
 
 }

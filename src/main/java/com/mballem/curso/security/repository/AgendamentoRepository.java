@@ -13,6 +13,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.mballem.curso.security.domain.Agendamento;
 import com.mballem.curso.security.domain.Horario;
+import com.mballem.curso.security.domain.Paciente;
 import com.mballem.curso.security.repository.projection.HistoricoPaciente;
 /**
  * 
@@ -69,6 +70,16 @@ public interface AgendamentoRepository extends JpaRepository<Agendamento, Long>{
 		+ "where a.medico.usuario.email like :email")
 	Page<HistoricoPaciente> buscarHistoricoDoMedicoPorEmail(String email, Pageable pageable);
 	
+	
+	@Query("select a.id as id,"
+			+ "a.paciente as paciente,"
+			+ "CONCAT(a.dataConsulta, ' ', a.horario.horaMinuto) as dataConsulta,"
+			+ "a.medico as medico,"
+			+ "a.especialidade as especialidade "
+		+ "from Agendamento a ")
+	Page<HistoricoPaciente> buscarHistoricoConsultas(Pageable pageable);
+	
+	
 	@Query("select a from Agendamento a "
 			+ "where "
 			+ " (a.id = :id AND a.paciente.usuario.email like :email) "
@@ -91,6 +102,18 @@ public interface AgendamentoRepository extends JpaRepository<Agendamento, Long>{
 	 */
 	@Query("select dataConsulta from Agendamento where id = :id")
 	Date dataLocal(Long id);
+	/*
+	
+	@Query("select id_paciente from Agendamento a JOIN Paciente b on a.paciente = :id")
+	Long pegaIdUsuario(Long id);
+	
+	@Query("select a.email from Usuario a JOIN Paciente b on b.usuario = :idUsuario")
+	String pegaEmailPaciente(Long idUsuario);
+	*/
+	
+	@Query("select a.paciente from Agendamento a where a.id = :id")
+	Paciente buscaIdPaciente(Long id);
+	
 	
 }
 
