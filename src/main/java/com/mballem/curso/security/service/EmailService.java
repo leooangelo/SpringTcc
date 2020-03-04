@@ -17,12 +17,8 @@ import org.thymeleaf.spring5.SpringTemplateEngine;
 import com.mballem.curso.security.domain.Especialidade;
 import com.mballem.curso.security.domain.Horario;
 import com.mballem.curso.security.domain.Medico;
-import com.mballem.curso.security.domain.Paciente;
-import com.mballem.curso.security.domain.Usuario;
 import com.mballem.curso.security.repository.AgendamentoRepository;
 import com.mballem.curso.security.repository.MedicoRepository;
-import com.mballem.curso.security.repository.PacienteRepository;
-import com.mballem.curso.security.repository.UsuarioRepository;
 
 @Service
 public class EmailService {
@@ -39,11 +35,6 @@ public class EmailService {
 	@Autowired
 	private AgendamentoRepository agendamentoRepository;
 	
-	@Autowired
-	private PacienteRepository pacienteRepository;
-	
-	@Autowired
-	private UsuarioRepository usuarioRepository;
 
 
 	public void enviarPedidoDeConfirmacaoCadastro(String destino, String codigo) throws MessagingException {
@@ -159,13 +150,12 @@ public class EmailService {
 
 		Context context = new Context();
 		context.setVariable("titulo", "Bem vindo a Clíniica Spring Security");
-		context.setVariable("texto", "A sua consulta  ");
+		context.setVariable("texto", "A sua consulta foi cancelada. ");
 		context.setVariable("especialidade", especialidade.getTitulo());
 		context.setVariable("medico", buscaNomeMedico(medico.getId()));
 		context.setVariable("dataConsulta", dataConsulta);
 		context.setVariable("horario", horaConsulta(horario.getId()));
-		context.setVariable("texto2",
-				"Foi desmarcada, favor entrar em contato para remarcar caso" + "não tenha sido você.");
+		context.setVariable("texto2", "Caso tenha alguma duvida, favor entrar em contato.");
 
 		String html = template.process("email/desmarcar_agendamento", context);
 		helper.setTo(username);
@@ -201,11 +191,11 @@ public class EmailService {
 	}
 
 	public String buscarEmailPaciente(Long id) {
-		Paciente paciente = agendamentoRepository.buscaIdPaciente(id);
-		Usuario usuario = pacienteRepository.findUserById(paciente.getId());
-		String emailPaciente = usuarioRepository.buscaEmailUsuario(usuario.getId());
+		String emailPaciente = agendamentoRepository.emailPaciente(id);
+
 
 		return emailPaciente;
 	}
+	
 
 }

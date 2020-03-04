@@ -99,7 +99,8 @@ public class AgendamentoController {
 		agendamento.setEspecialidade(especialidade);
 		agendamento.setPaciente(paciente);
 		agendamentoService.salvarConsultaAgendada(agendamento);
-		attr.addFlashAttribute("sucesso", "Sua consulta foi agendada com sucesso");
+		attr.addFlashAttribute("sucesso", "Sua consulta foi agendada com sucesso, verifique seu"
+				+ "email com os dados da consulta agendada.");
 		emailService.enviarConfirmacaoConsulta(user.getUsername(), agendamento.getEspecialidade(),
 				agendamento.getMedico(), agendamento.getDataConsulta(), agendamento.getHorario());
 
@@ -201,21 +202,15 @@ public class AgendamentoController {
 	@PreAuthorize("hasAnyAuthority('PACIENTE','ADMIN')")
 	@GetMapping("excluir/consulta/{id}")
 	public String excluirConsulta(@PathVariable("id") Agendamento agendamento, RedirectAttributes attr) throws MessagingException {
-		agendamentoService.remover(agendamento.getId());
-		attr.addFlashAttribute("sucesso", "Consulta excluída com sucesso.");
-		//Long idUsuario = agendamentoService.pegaIdUsuario(agendamento.getPaciente().getId());
 		Long idUsuario = agendamento.getId();
-		String email= emailService.buscarEmailPaciente(idUsuario);
-		emailService.enviarAlteraçãoConsultaAgendada(email,
-						agendamento.getEspecialidade(), agendamento.getMedico(),
-						agendamento.getDataConsulta(), agendamento.getHorario());
-		
-		/*
+		String emailUsuarioPaciente= emailService.buscarEmailPaciente(idUsuario);
 		emailService.enviarConsultaDesmarcada(emailUsuarioPaciente,
 				agendamento.getEspecialidade(), agendamento.getMedico(),
 				agendamento.getDataConsulta(), agendamento.getHorario());
-				
-				*/
+		agendamentoService.remover(agendamento.getId());
+		attr.addFlashAttribute("sucesso", "Consulta excluída com sucesso.");
+		
+		
 		
 		return "redirect:/agendamentos/historico/paciente";
 

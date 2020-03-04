@@ -82,7 +82,7 @@ $('#data').on('blur', function () {
 $(document).ready(function() {
     moment.locale('pt-BR');
     var table = $('#table-paciente-historico').DataTable({
-        searching : false,
+        searching : true,
         lengthMenu : [ 5, 10 ],
         processing : true,
         serverSide : true,
@@ -99,7 +99,8 @@ $(document).ready(function() {
                 function( dataConsulta ) {
                     return moment(dataConsulta).format('LLL');
                 }
-            },
+            
+			},
             {data : 'medico.nome'},
             {data : 'especialidade.titulo'},
             {orderable : false,	data : 'id', "render" : function(id) {

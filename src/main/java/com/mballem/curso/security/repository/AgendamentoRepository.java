@@ -13,7 +13,6 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.mballem.curso.security.domain.Agendamento;
 import com.mballem.curso.security.domain.Horario;
-import com.mballem.curso.security.domain.Paciente;
 import com.mballem.curso.security.repository.projection.HistoricoPaciente;
 /**
  * 
@@ -102,18 +101,12 @@ public interface AgendamentoRepository extends JpaRepository<Agendamento, Long>{
 	 */
 	@Query("select dataConsulta from Agendamento where id = :id")
 	Date dataLocal(Long id);
-	/*
+
 	
-	@Query("select id_paciente from Agendamento a JOIN Paciente b on a.paciente = :id")
-	Long pegaIdUsuario(Long id);
+	@Query("select u.email from Agendamento a , Paciente p , Usuario u where a.paciente=p.id and  p.usuario=u.id and a.id = :id")
+	String emailPaciente(Long id);
 	
-	@Query("select a.email from Usuario a JOIN Paciente b on b.usuario = :idUsuario")
-	String pegaEmailPaciente(Long idUsuario);
-	*/
-	
-	@Query("select a.paciente from Agendamento a where a.id = :id")
-	Paciente buscaIdPaciente(Long id);
-	
-	
+
+
 }
 

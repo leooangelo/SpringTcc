@@ -136,20 +136,5 @@ public class AgendamentoService {
 	public void remover(Long id) {
 		agendamentoRepository.deleteById(id);
 	}
-	/**
-	 * 
-	 * @param id
-	 * @return
-	 
-	 */
-	/*
-	public Long pegaIdUsuario(Long id) {
-		return agendamentoRepository.pegaIdUsuario(id);
-	}
-
-	public String pegaEmailPaciente(Long idUsuario) {
-		// TODO Auto-generated method stub
-		return agendamentoRepository.pegaEmailPaciente(idUsuario);
-	}
-*/
+	
 }
