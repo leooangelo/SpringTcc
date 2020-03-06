@@ -86,24 +86,37 @@ public class AgendamentoController {
 	 * @param user
 	 * @return
 	 * @throws MessagingException
+	 * @throws ParseException 
 	 */
 	@PreAuthorize("hasAnyAuthority('PACIENTE','ADMIN')")
 
 	@PostMapping({ "/salvar" })
 	public String salvar(Agendamento agendamento, RedirectAttributes attr, @AuthenticationPrincipal User user)
-			throws MessagingException {
+			throws MessagingException, ParseException {
+		
+		
+		
 		Paciente paciente = pacienteService.buscarPorUsuarioEmail(user.getUsername());
 		String titulo = agendamento.getEspecialidade().getTitulo();
 		Especialidade especialidade = especialidadesService.buscarPorTitulos(new String[] { titulo }).stream()
 				.findFirst().get();
 		agendamento.setEspecialidade(especialidade);
 		agendamento.setPaciente(paciente);
+		
+		Long dataConsulta = dataUtils.dataMarcarConsulta(agendamento.getDataConsulta());
+		Long dataSistema = System.currentTimeMillis();
+		if(dataConsulta >=dataSistema) {
 		agendamentoService.salvarConsultaAgendada(agendamento);
 		attr.addFlashAttribute("sucesso", "Sua consulta foi agendada com sucesso, verifique seu"
 				+ "email com os dados da consulta agendada.");
+		
 		emailService.enviarConfirmacaoConsulta(user.getUsername(), agendamento.getEspecialidade(),
 				agendamento.getMedico(), agendamento.getDataConsulta(), agendamento.getHorario());
 
+		return "redirect:/agendamentos/agendar";
+		}
+		attr.addFlashAttribute("falha", "Uma consulta não pode ser agendada para qualquer outra data anterior a de hoje");
+		
 		return "redirect:/agendamentos/agendar";
 	}
 
@@ -111,13 +124,21 @@ public class AgendamentoController {
 	 * Metodo para abrir uma pagina com o histórico de consultas agendadas do
 	 * paciente
 	 */
-	@PreAuthorize("hasAnyAuthority('PACIENTE','MEDICO','ADMIN')")
-
-	@GetMapping({ "/historico/paciente", "/historico/consultas" })
+	@PreAuthorize("hasAnyAuthority('PACIENTE','ADMIN')")
+	@GetMapping("/historico/paciente")
 	public String historicoDeConsultasAgendadas() {
 
 		return "agendamento/historico-paciente";
 	}
+	
+	@PreAuthorize("hasAnyAuthority('MEDICO','ADMIN')")
+	@GetMapping("/historico/consultas")
+	public String historicoDeConsultasAgendadasMedico() {
+
+		return "agendamento/historico-consultas";
+	}
+	
+	
 
 	/**
 	 * Metodo para localizar o historico de consultas agendadas do usuário que

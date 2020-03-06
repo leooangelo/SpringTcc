@@ -12,5 +12,11 @@ public class DataUtils {
 		Long dataFinal = data - 1728000000L;
 		return dataFinal;
 	}
+	public Long dataMarcarConsulta(LocalDate dataConsulta) throws ParseException { 
+		dataConsulta.toString();
+		Long data = dataConsulta.atStartOfDay(ZoneOffset.UTC).toInstant().toEpochMilli();
+		Long dataFinal = data -	864000000L;				
+		return dataFinal;
+	}
 	
 }
