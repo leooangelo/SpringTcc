@@ -6,10 +6,14 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.mballem.curso.security.service.EmailService;
+import com.mballem.curso.security.service.S3Service;
 
 @SpringBootApplication
 public class DemoSecurityApplication implements CommandLineRunner{
-
+	
+	@Autowired
+	private S3Service s3Service;
+	
 	public static void main(String[] args) {
 		//System.out.println(new BCryptPasswordEncoder().encode("123456"));
 		
@@ -20,16 +24,8 @@ public class DemoSecurityApplication implements CommandLineRunner{
 	
 	@Override
 	public void run(String... args) throws Exception {
+		s3Service.uploadFile("C:\\Users\\leonardoangelo\\Desktop\\Spring-Médico-Tcc"
+				+ "\\demo-security\\src\\main\\resources\\static\\image\\spring-security.png");
 		
-		emailService.enviarPedidoDeConfirmacaoCadastro("clinicaspring@gmail.com", "2332teste");
-		
-		/*	
-		SimpleMailMessage simple = new SimpleMailMessage();
-		simple.setTo("clinicaspring@gmail.com");
-		simple.setText("Teste 1");
-		simple.setSubject("teste1");
-		sender.send(simple);
-		
-		*/
 	}	
 }
