@@ -15,5 +15,7 @@ public interface PacienteRepository extends JpaRepository<Paciente, Long> {
 	
 	@Query("select p from Paciente p where p.usuario.email like :email")
 	Optional<Paciente> findByUsuarioEmail(String email);
-
+	
+	@Query("select count(p) from Paciente p")
+	Long quantidadePaciente();
 }

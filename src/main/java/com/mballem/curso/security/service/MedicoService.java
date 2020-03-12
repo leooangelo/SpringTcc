@@ -83,4 +83,9 @@ public class MedicoService {
 	public boolean existeConsultaEspecialidadeAngendada(Long idMed, Long idEsp) {
 		return medicoRepository.hasEspecialidadeAgendada(idMed,idEsp).isPresent();
 	}
+	
+	@Transactional
+	public Long buscarQuantidadeMedicos() {
+		return medicoRepository.quantidadeMedico();
+	}
 }

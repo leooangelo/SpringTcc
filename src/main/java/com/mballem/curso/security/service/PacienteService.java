@@ -45,4 +45,9 @@ public class PacienteService {
 		paci.setDtNascimento(paciente.getDtNascimento());
 	}
 	
+	@Transactional
+	public Long buscarQuantidadePaciente() {
+		return pacienteRepository.quantidadePaciente();
+	}
+	
 }

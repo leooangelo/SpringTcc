@@ -45,6 +45,7 @@ public class UsuarioService implements UserDetailsService {
 	@Autowired
 	private EmailService emailService;
 
+	
 	@Transactional
 	public Usuario buscarPorEmail(String email) {
 		return usuarioRepository.findByEmail(email);
@@ -101,7 +102,7 @@ public class UsuarioService implements UserDetailsService {
 	 * @param usuario
 	 */
 	@Transactional
-	public void salvarsuario(Usuario usuario) {
+	public void salvarUsuario(Usuario usuario) {
 
 		String crypt = new BCryptPasswordEncoder().encode(usuario.getSenha());
 		usuario.setSenha(crypt);

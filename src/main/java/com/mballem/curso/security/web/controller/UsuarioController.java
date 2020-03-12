@@ -1,5 +1,6 @@
 package com.mballem.curso.security.web.controller;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -27,7 +28,9 @@ import com.mballem.curso.security.domain.Perfil;
 import com.mballem.curso.security.domain.PerfilTipo;
 import com.mballem.curso.security.domain.Usuario;
 import com.mballem.curso.security.service.MedicoService;
+import com.mballem.curso.security.service.PacienteService;
 import com.mballem.curso.security.service.UsuarioService;
+import com.mballem.curso.security.web.conversor.QuantidadeVO;
 
 /**
  * 
@@ -40,8 +43,12 @@ public class UsuarioController {
 
 	@Autowired
 	private UsuarioService usuarioService;
+	
 	@Autowired
 	private MedicoService medicoService;
+	
+	@Autowired
+	private PacienteService pacienteService;
 
 	/**
 	 * Metodo que abre o cadastro de usuarios(medico,admin e paciente)
@@ -110,7 +117,7 @@ public class UsuarioController {
 			attr.addFlashAttribute("usuario", usuario);
 		} else {
 			try {
-				usuarioService.salvarsuario(usuario);
+				usuarioService.salvarUsuario(usuario);
 				attr.addFlashAttribute("sucesso", "Operação realizada com sucesso !");
 			} catch (DataIntegrityViolationException ex) {
 				attr.addFlashAttribute("falha", "Este e-mail já esta cadastrado no sistema");
@@ -308,6 +315,22 @@ public class UsuarioController {
 		model.addAttribute("texto", "Voce ja pode fazer login no sistema");
 		return "login";
 		
+	}
+	
+	@GetMapping("/quantidade")
+	public ModelAndView quantidade() {
+		ModelAndView modelAndView = new ModelAndView("usuario/quantidade");
+		List<QuantidadeVO> qtd = new ArrayList<>();
+		Long medicoQtd = medicoService.buscarQuantidadeMedicos();
+		Long pacienteQtd = pacienteService.buscarQuantidadePaciente();
+
+		QuantidadeVO qtdVo = new QuantidadeVO(medicoQtd, "Médicos");
+		qtd.add(qtdVo);
+		
+		qtdVo = new QuantidadeVO(pacienteQtd, "Pacientes");
+		qtd.add(qtdVo);
+		modelAndView.addObject("grafico",qtd);
+		return modelAndView;
 	}
 	
 }
