@@ -109,4 +109,8 @@ public class EspecialidadeService {
 		Page<Especialidade> page = especialidadeRepository.findByIdMedico(id, dataTables.getPageable());
 		return dataTables.getResponse(page);
 	}
+	@Transactional
+	public Long buscarQuantidadeEspecialidade() {
+		return especialidadeRepository.findByQuantidade();
+	}
 }

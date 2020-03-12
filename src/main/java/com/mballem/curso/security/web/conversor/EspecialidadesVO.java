@@ -21,6 +21,7 @@ public class EspecialidadesVO implements Converter<String[], Set<Especialidade>>
 
 	@Autowired
 	private EspecialidadeService especialidadeService;
+	
 
 	@Override
 	public Set<Especialidade> convert(String[] titulos) {
@@ -31,5 +32,6 @@ public class EspecialidadesVO implements Converter<String[], Set<Especialidade>>
 
 		return especialidades;
 	}
-
+	
+	
 }

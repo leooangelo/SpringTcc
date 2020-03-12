@@ -15,8 +15,6 @@ xmlns:layout="http://www.w3.org/1999/xhtml">
 <link href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" crossorigin="anonymous" rel="stylesheet" />
 <!-- Custom styles for this template -->
 <link th:href="@{/css/style-home.css(v=${version}) }" rel="stylesheet" />
-
-
 <link rel="icon" th:href="@{/image/favicon.ico}" />
 </head>
 <body>	
@@ -42,7 +40,7 @@ window.onload = function() {
     		text: "Quantidade de Usuarios"
     	},
     	ajax:{
-    		url:'/quantidade/'+ grafico,
+    		url:'/quantidade-usuario/'+ grafico,
     		data:'data'
     	},
     	data: [{        
