@@ -33,10 +33,11 @@ public class GraficosController {
 		List<QuantidadeVO> qtd = new ArrayList<>();
 		Long medicoQtd = medicoService.buscarQuantidadeMedicos();
 		Long pacienteQtd = pacienteService.buscarQuantidadePaciente();
-
+		
+		
 		QuantidadeVO qtdVo = new QuantidadeVO(medicoQtd, "Médicos");
 		qtd.add(qtdVo);
-
+				
 		qtdVo = new QuantidadeVO(pacienteQtd, "Pacientes");
 		qtd.add(qtdVo);
 		modelAndView.addObject("grafico", qtd);
@@ -46,7 +47,7 @@ public class GraficosController {
 
 	@GetMapping("/quantidade-especialidade")
 	public ModelAndView quantidadeEspecialidade() {
-		ModelAndView modelAndView = new ModelAndView("graficos/quantidade-especialidade");
+		ModelAndView modelAndView = new ModelAndView("graficos/quantidade-usuario");;
 		List<QuantidadeVO> qtd = new ArrayList<>();
 		Long especialidadeQtd = especialidadeService.buscarQuantidadeEspecialidade();
 

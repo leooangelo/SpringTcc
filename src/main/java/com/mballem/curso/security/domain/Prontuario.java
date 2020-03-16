@@ -1,28 +1,36 @@
 package com.mballem.curso.security.domain;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "prontuario")
+@Table(name = "prontuarios")
 @Getter
 @Setter
 @NoArgsConstructor
-public class Prontuario extends AbstractEntity{
+@AllArgsConstructor
+public class Prontuario extends AbstractEntity {
 	
 	@Column(name = "descricao", columnDefinition = "TEXT")
 	private String descricao;
 	
-	@OneToOne(cascade = CascadeType.REMOVE)
-	@JoinColumn(name = "id_paciente")
+	@ManyToOne
+	@JoinColumn(name="id_medico")
+	private Medico medico;
+	
+	@OneToOne
+	@JoinColumn(name="id_paciente")
 	private Paciente paciente;
+	
+	
 }

@@ -53,9 +53,9 @@ $(document).ready(function() {
                     + id +'" role="button" data-toggle="modal" data-target="#confirm-modal"><i class="fas fa-times-circle"></i></a>';
                 }
             },
-         //TESTE
+            {data: 'prontuario.descricao'},
             {orderable : false,	data : 'id', "render" : function(id) {
-                return '<a class="btn btn-info btn-sm btn-block" href="/agendamentos/prontuario/consulta_prontuario/'
+                return '<a class="btn btn-info btn-sm btn-block" href="/prontuario/editar/prontuario/'
                 + id +'" role="button"><i class="fas fa-print"></i></a>';
             	}
             
