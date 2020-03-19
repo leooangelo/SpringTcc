@@ -31,6 +31,21 @@ public class HomeController {
 			return "login";
 		}	
 		
+		@GetMapping("/exames")
+		public String exames() {
+			return "exames";
+		}	
+		
+		@GetMapping("/consultas-lista")
+		public String consultasLista() {
+			return "consultas-lista";
+		}	
+		
+		@GetMapping("/check-ups")
+		public String checkups() {
+			return "check-ups";
+		}
+		
 		/**
 		 * Metodo para lançar alertas de erro no login.
 		 * @param model
