@@ -39,6 +39,12 @@ public class Paciente extends AbstractEntity {
 	@Column(name = "data_nascimento", nullable = false)
 	@DateTimeFormat(iso = ISO.DATE)
 	private LocalDate dtNascimento;
+	
+	@Column(name = "cpf", nullable = false)
+	private String cpf;
+	
+	@Column(name = "telefone", nullable = false)
+	private String telefone;
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "paciente")
