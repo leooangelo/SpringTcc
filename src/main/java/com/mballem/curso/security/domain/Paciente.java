@@ -48,7 +48,12 @@ public class Paciente extends AbstractEntity {
 	
 	@Column(name = "celular", nullable = false)
 	private String celular;
-
+	
+	@Column(name = "cep", nullable = false)
+	private String cep;
+	
+	@Column(name = "rua", nullable = false)
+	private String rua;
 	@JsonIgnore
 	@OneToMany(mappedBy = "paciente")
 	private List<Agendamento> agendamentos;

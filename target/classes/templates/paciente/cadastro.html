@@ -52,7 +52,7 @@
 									</div>
 								</div>
 								
-								<div class="mb-3">
+								<div class="mb-3" style=" width: 40%; height: 40%;">
 									<label for="telefone">Telefone</label>
 									<div class="input-group">
 										<input type="text" class="form-control" onkeypress="$(this).mask('(00)0000-0000');"
@@ -63,7 +63,7 @@
 									</div>
 								</div>
 								
-								<div class="mb-3">
+								<div class="mb-3" style=" width: 40%; height: 40%; margin-left: 50%; margin-top: -86px;" >
 									<label for="celular">Celular</label>
 									<div class="input-group">
 										<input type="text" class="form-control" onkeypress="$(this).mask('(00)00000-0000');"
@@ -71,6 +71,27 @@
 											aria-describedby="validationTooltipUsernamePrepend"
 											th:field="*{celular}" required />
 										<div class="invalid-feedback">Celular é requerido.</div>
+									</div>
+								</div>
+								
+								
+								<div class="mb-3" style=" width: 40%; height: 40%;">
+									<label for="cep">CEP</label>
+									<div class="input-group">
+										<input type="text" class="form-control"onkeypress="$(this).mask('00.000-000');" id="cep"
+											maxlength="9" aria-describedby="validationTooltipUsernamePrepend"
+											th:field="*{cep}" required />
+										<div class="invalid-feedback">CEP é requerido.</div>
+									</div>
+								</div>
+								
+								<div class="mb-3" style=" width: 40%; height: 40%; margin-left: 50%; margin-top: -109px;" >
+									<label for="rua">Rua</label>
+									<div class="input-group">
+										<input type="text" class="form-control"id="rua"
+											aria-describedby="validationTooltipUsernamePrepend"
+											th:field="*{rua}" required />
+										<div class="invalid-feedback">Rua é requerido.</div>
 									</div>
 								</div>
 								
@@ -129,6 +150,9 @@
 	</section>
 	<script th:src="~{}" th:fragment="js"></script>
 	<script th:inline="javascript" th:fragment="inlinescript"></script>
+	
+	
+	
 	
 </body>
 </html>
