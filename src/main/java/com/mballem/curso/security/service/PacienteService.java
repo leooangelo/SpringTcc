@@ -43,6 +43,9 @@ public class PacienteService {
 		Paciente paci = pacienteRepository.findById(paciente.getId()).get();
 		paci.setNome(paciente.getNome());
 		paci.setDtNascimento(paciente.getDtNascimento());
+		paci.setCpf(paciente.getCpf());
+		paci.setTelefone(paciente.getTelefone());
+		paci.setCelular(paciente.getCelular());
 	}
 	
 	@Transactional
