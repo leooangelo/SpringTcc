@@ -1,12 +1,15 @@
 package com.mballem.curso.security.service;
 
-import javax.transaction.Transactional;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.mballem.curso.security.domain.Paciente;
 import com.mballem.curso.security.repository.PacienteRepository;
+
+
 /**
  * 
  * @author leonardoangelo
@@ -39,7 +42,6 @@ public class PacienteService {
 	 */
 	@Transactional
 	public void editar(Paciente paciente) {
-		
 		Paciente paci = pacienteRepository.findById(paciente.getId()).get();
 		paci.setNome(paciente.getNome());
 		paci.setDtNascimento(paciente.getDtNascimento());
@@ -49,6 +51,8 @@ public class PacienteService {
 		paci.setCep(paciente.getCep());
 		paci.setRua(paciente.getRua());
 		paci.setNumero(paciente.getNumero());
+	
+		
 	}
 	
 	@Transactional

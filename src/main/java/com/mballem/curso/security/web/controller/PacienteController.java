@@ -78,9 +78,9 @@ public class PacienteController {
 	 */
 	@PostMapping({"/editar"})
 	public String editarDadosPaciente(Paciente paciente, ModelMap model, @AuthenticationPrincipal User user) {
-			
+		
 		Usuario usu = usuarioService.buscarPorEmail(user.getUsername());
-		if (UsuarioService.isSenhaCorreta(paciente.getUsuario().getSenha(), usu.getSenha())) {
+		if (UsuarioService.isSenhaCorreta(paciente.getUsuario().getSenha(), usu.getSenha()) ) {
 			pacienteService.editar(paciente);
 			model.addAttribute("sucesso", "Seus dados foram editados com sucesso.");
 		} 
@@ -88,6 +88,6 @@ public class PacienteController {
 			model.addAttribute("falha", "Sua senha não confere, tente novamente.");
 		
 		return "paciente/cadastro";
-	}	
+	}
 
 }
