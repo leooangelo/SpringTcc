@@ -41,7 +41,7 @@ public class Paciente extends AbstractEntity {
 	@DateTimeFormat(iso = ISO.DATE)
 	private LocalDate dtNascimento;
 	
-	@CPF
+
 	@Column(name = "cpf", nullable = false)
 	private String cpf;
 	
