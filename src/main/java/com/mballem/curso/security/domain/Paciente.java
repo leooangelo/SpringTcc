@@ -11,6 +11,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
@@ -40,6 +41,7 @@ public class Paciente extends AbstractEntity {
 	@DateTimeFormat(iso = ISO.DATE)
 	private LocalDate dtNascimento;
 	
+	@CPF
 	@Column(name = "cpf", nullable = false)
 	private String cpf;
 	
@@ -54,6 +56,10 @@ public class Paciente extends AbstractEntity {
 	
 	@Column(name = "rua", nullable = false)
 	private String rua;
+	
+	@Column(name = "numero", nullable = false)
+	private String numero;
+	
 	@JsonIgnore
 	@OneToMany(mappedBy = "paciente")
 	private List<Agendamento> agendamentos;

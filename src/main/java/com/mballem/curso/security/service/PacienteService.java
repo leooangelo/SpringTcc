@@ -48,6 +48,7 @@ public class PacienteService {
 		paci.setCelular(paciente.getCelular());
 		paci.setCep(paciente.getCep());
 		paci.setRua(paciente.getRua());
+		paci.setNumero(paciente.getNumero());
 	}
 	
 	@Transactional
