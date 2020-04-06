@@ -57,7 +57,7 @@ public class PacienteController {
 	 */
 	@PostMapping({"/salvar"})
 	public String salvarDadosPaciente(Paciente paciente, ModelMap model, @AuthenticationPrincipal User user) {
-			
+		
 		Usuario usu = usuarioService.buscarPorEmail(user.getUsername());
 		if (UsuarioService.isSenhaCorreta(paciente.getUsuario().getSenha(), usu.getSenha())) {
 			paciente.setUsuario(usu);

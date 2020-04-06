@@ -13,6 +13,10 @@ import com.mballem.curso.security.domain.Paciente;
  */
 public interface PacienteRepository extends JpaRepository<Paciente, Long> {
 	
+	
+	@Query("select p from Paciente p where p.usuario.id = :id")
+	Optional<Paciente> findByUsuarioId(Long id);
+	
 	@Query("select p from Paciente p where p.usuario.email like :email")
 	Optional<Paciente> findByUsuarioEmail(String email);
 	

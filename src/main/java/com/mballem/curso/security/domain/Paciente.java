@@ -11,7 +11,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
@@ -67,6 +66,10 @@ public class Paciente extends AbstractEntity {
 	@OneToOne(cascade = CascadeType.REMOVE)
 	@JoinColumn(name = "id_usuario")
 	private Usuario usuario;
-
+	
+	
+	public Paciente(Usuario usuario) {
+		this.usuario = usuario;
+	}
 
 }

@@ -30,6 +30,11 @@ public class PacienteService {
 	public Paciente buscarPorUsuarioEmail(String email) {
 		return pacienteRepository.findByUsuarioEmail(email).orElse(new Paciente());
 	}
+	
+	@Transactional
+	public Paciente buscarPorUsuarioId(Long id) {
+		return pacienteRepository.findByUsuarioId(id).orElse(new Paciente());
+	}
 
 	@Transactional
 	public void salvar(Paciente paciente) {

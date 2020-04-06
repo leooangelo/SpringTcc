@@ -23,10 +23,12 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mballem.curso.security.domain.Medico;
+import com.mballem.curso.security.domain.Paciente;
 import com.mballem.curso.security.domain.Perfil;
 import com.mballem.curso.security.domain.PerfilTipo;
 import com.mballem.curso.security.domain.Usuario;
 import com.mballem.curso.security.service.MedicoService;
+import com.mballem.curso.security.service.PacienteService;
 import com.mballem.curso.security.service.UsuarioService;
 
 /**
@@ -43,6 +45,9 @@ public class UsuarioController {
 	
 	@Autowired
 	private MedicoService medicoService;
+	
+	@Autowired
+	private PacienteService pacienteService;
 
 
 	/**
@@ -55,6 +60,7 @@ public class UsuarioController {
 	public String cadastroPorAdminParaAdminMedicoPaciente(Usuario usuario) {
 		return "usuario/cadastro";
 	}
+	
 	/**
 	 * Metodo para excluir um usuário cadastrado no banco.
 	 * @param id
@@ -156,16 +162,14 @@ public class UsuarioController {
 			return medico.hasNotId() ? new ModelAndView("medico/cadastro", "medico", new Medico(new Usuario(usuarioId)))
 					: new ModelAndView("medico/cadastro", "medico", medico);
 
-		} else if (us.getPerfis().contains(new Perfil(PerfilTipo.PACIENTE.getCod()))
-				|| us.getPerfis().contains(new Perfil(PerfilTipo.ADMIN.getCod()))) {
-			ModelAndView model = new ModelAndView("error");
+		} else if (us.getPerfis().contains(new Perfil(PerfilTipo.PACIENTE.getCod()))) {
 
-			model.addObject("status", 403);
-			model.addObject("error", "Área Restrita");
-			model.addObject("message", "Os dados de pacientes são restritos ");
-			return model;
-		}
+			Paciente paciente = pacienteService.buscarPorUsuarioId(usuarioId);
+			return paciente.hasNotId() ? new ModelAndView("paciente/cadastro", "paciente", new Paciente(new Usuario(usuarioId)))
+					: new ModelAndView("paciente/cadastro", "paciente", paciente);
 
+		}		
+		
 		return new ModelAndView("redirect:/u/lista");
 	}
 
