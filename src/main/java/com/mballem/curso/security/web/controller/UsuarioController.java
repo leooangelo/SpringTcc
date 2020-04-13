@@ -84,6 +84,13 @@ public class UsuarioController {
 	public String listarUsuarios() {
 		return "usuario/lista";
 	}
+	
+	//teste lista de especialidade e descrição ainda a fazer.
+	
+	@GetMapping("/lista-especialidades")
+	public String listarEspecialidadesEDesc(){
+		return "epecialidade/lista-especialidades";
+	}
 
 	/**
 	 * Metodo para Listar todos os usuarios na tela.
@@ -134,12 +141,14 @@ public class UsuarioController {
 	 * @param id
 	 * @return
 	 */
-	@GetMapping("/editar/credenciais/usuario/{id}")
-	public ModelAndView preEditarCredenciais(@PathVariable("id") Long id) {
-
-		return new ModelAndView("usuario/cadastro", "usuario", usuarioService.buscarPorId(id));
+	
+	
+	@GetMapping("/editar/prontuario/paciente/{id}")
+	public ModelAndView preEditarProntuarioMédico(@PathVariable("id")Long usuarioId) {
+		
+		return new ModelAndView("usuario/prontuario", "usuario", usuarioService.buscarPorId(usuarioId));
 	}
-
+	
 	/**
 	 * Metodo para pre editar dados pessoais de usuarios.
 	 * 

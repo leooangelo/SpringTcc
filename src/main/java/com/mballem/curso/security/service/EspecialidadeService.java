@@ -48,7 +48,7 @@ public class EspecialidadeService {
 	 * 
 	 */
 	@Transactional
-	public	Map<String, Object> buscarEspecialidades(HttpServletRequest request) {
+	public Map<String, Object> buscarEspecialidades(HttpServletRequest request) {
 		dataTables.setRequest(request);
 		dataTables.setColunas(DatatablesColunas.ESPECIALIDADES);
 		Page<?> page = dataTables.getSearch().isEmpty()

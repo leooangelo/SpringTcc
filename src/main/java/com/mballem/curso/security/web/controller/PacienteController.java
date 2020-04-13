@@ -1,10 +1,13 @@
 package com.mballem.curso.security.web.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -55,17 +58,17 @@ public class PacienteController {
 	 * @param user
 	 * @return
 	 */
-	@PostMapping({"/salvar"})
-	public String salvarDadosPaciente(Paciente paciente, ModelMap model, @AuthenticationPrincipal User user) {
+	@PostMapping({"**/salvar"})
+	public String salvarDadosPaciente(@Valid Paciente paciente,BindingResult bindingResult, ModelMap model, @AuthenticationPrincipal User user) {
 		
 		Usuario usu = usuarioService.buscarPorEmail(user.getUsername());
-		if (UsuarioService.isSenhaCorreta(paciente.getUsuario().getSenha(), usu.getSenha())) {
+		if (UsuarioService.isSenhaCorreta(paciente.getUsuario().getSenha(), usu.getSenha()) && !bindingResult.hasErrors()) {
 			paciente.setUsuario(usu);
 			pacienteService.salvar(paciente);
 			model.addAttribute("sucesso", "Seus dados foram inseridos com sucesso.");
 		} else 
 			
-			model.addAttribute("falha", "Sua senha não confere, tente novamente.");
+			model.addAttribute("falha", "Dados inválidos, verifique os campos que digitou e tente novamente.");
 		
 		return "paciente/cadastro";
 	}	
@@ -77,15 +80,15 @@ public class PacienteController {
 	 * @return
 	 */
 	@PostMapping({"/editar"})
-	public String editarDadosPaciente(Paciente paciente, ModelMap model, @AuthenticationPrincipal User user) {
+	public String editarDadosPaciente(@Valid Paciente paciente,BindingResult bindingResult, ModelMap model, @AuthenticationPrincipal User user) {
 		
 		Usuario usu = usuarioService.buscarPorEmail(user.getUsername());
-		if (UsuarioService.isSenhaCorreta(paciente.getUsuario().getSenha(), usu.getSenha()) ) {
+		if (UsuarioService.isSenhaCorreta(paciente.getUsuario().getSenha(), usu.getSenha()) && !bindingResult.hasErrors() ) {
 			pacienteService.editar(paciente);
 			model.addAttribute("sucesso", "Seus dados foram editados com sucesso.");
 		} 
 		else 
-			model.addAttribute("falha", "Sua senha não confere, tente novamente.");
+			model.addAttribute("falha", "Dados inválidos, verifique os campos que digitou e tente novamente.");
 		
 		return "paciente/cadastro";
 	}

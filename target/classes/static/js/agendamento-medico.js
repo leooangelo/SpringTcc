@@ -1,8 +1,3 @@
-/**
- *  @author leonardoangelo
- *  
- *  Busca as especialidades com auto-complete na pagina de agendamentos
- */
 $("#especialidade").autocomplete({
     source: function (request, response) {
         $.ajax({
@@ -53,15 +48,15 @@ $(document).ready(function() {
                     + id +'" role="button" data-toggle="modal" data-target="#confirm-modal"><i class="fas fa-times-circle"></i></a>';
                 }
             },
-            {data: 'prontuario.descricao'},
-            {orderable : false,	data : 'id', "render" : function(id) {
-                return '<a class="btn btn-info btn-sm btn-block" href="/prontuario/editar/prontuario/'
-                + id +'" role="button"><i class="fas fa-print"></i></a>';
-            	}
-            
-            }
+        	{	data : 'id',	
+				render : function(id) {
+					return ''.concat('<a class="btn btn-success btn-sm btn-block"', ' ')
+							 .concat('href="').concat('/prontuario/editar/paciente/').concat(id, '"', ' ') 
+							 .concat('role="button" title="Editar" data-toggle="tooltip" data-placement="right">', ' ')
+							 .concat('<i class="fas fa-edit"></i></a>');
+				},
+				orderable : false
+			}
         ]
     });
 });
-
-

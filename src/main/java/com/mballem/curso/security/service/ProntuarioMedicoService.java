@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mballem.curso.security.domain.Prontuario;
+import com.mballem.curso.security.domain.Usuario;
 import com.mballem.curso.security.repository.ProntuarioMedicoRepository;
 
 @Service
@@ -19,4 +20,11 @@ public class ProntuarioMedicoService {
 	public void salvar(Prontuario prontuario) {
 		prontuarioMedicoRepository.save(prontuario);
 	}
+
+
+	public Object buscarPorId(Long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

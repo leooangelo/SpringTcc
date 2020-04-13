@@ -28,6 +28,7 @@ public class ExceptionController {
 		model.addObject("message", ex.getMessage());
 		return model;
 	}
+	
 	/**
 	 * Metodo para lançar um excessão quando não encontra um usuário ou quando um
 	 * usuario tenta acessar páginas que não tem permissão.
