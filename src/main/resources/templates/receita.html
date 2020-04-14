@@ -2,10 +2,16 @@
 <html xmlns:layout="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.w3.org/1999/xhtml" layout:decorate="~{layout}">
 	<link href="https://fonts.googleapis.com/css?family=Anton&display=swap" rel="stylesheet">
-
-
 <head>
 <meta charset="UTF-8" />
+<style type="text/css">
+.gerarReceita{
+	text-align:center;
+}
+</style>
+<script type="text/javascript" src="/jquery/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="/jspdf/jspdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js" ></script>
 </head>
 <body>
 
@@ -18,8 +24,8 @@
 					
 					<div class="container">
 					<h1 class="jumbotron-heading">Clínica Spring Security</h1>
-					<p class="lead" style="color:#6bbd47; text-align:center;">Check-UP é um conjunto de consultas e exames que visa
-					a prevenção e diagnóstico precoce de doenças. Escolha o check-up ideal para você.</p>
+					<p class="lead" style="color:#6bbd47; text-align:center;">Prescrição rápida e inteligente que promove
+					adesão do seu paciente ao tratamento.</p>
 				</div>
 			
 			<section class="jumbotron text-center "></section>
@@ -28,168 +34,14 @@
 			<div class="album py-5 bg-light fixed">
 			<div class="container">
 			
-				<div class="tipos">
-				<h2>Tipos de Check-UP</h2>
+				<div class="gerarReceita">
+					<h2>Gerar receita para o paciente</h2>
 					
-					<ul>
-						<li><i class="fas fa-calendar-check"></i> Check-UP Básico
-							
-							<ul>
-								<li>Consulta Clínica Médica	</li>
-								<li>Hemograma	</li>
-								<li>Glicemia Jejum	</li>
-								<li>HDL - Colesterol	</li>
-								<li>VLDL - Colesterol 	</li>
-								<li>LDL - Colesterol	</li>
-								<li>Colesterol Total	</li>
-								<li>Triglicérides	</li>
-								<li>Uréia</li>
-								<li>Creatina</li>
-								<li>Sódio</li>
-								<li>Potássio</li>
-								<li>Hemoglobina Glicada</li>
-								<li>TSH - Hormônio Tireoestimulante</li>
-								<li>T4 - Tiroxina Livre</li>
-								<li>Aspartato Aminotransferase TGO</li>
-								<li>Alanina Aminotransferase TGP</li>
-								<li>ECG - Eletrocardiograma</li>
-							</ul>
-
-						</li>
-						<li><i class="fas fa-running"></i> Check-UP Esportista
-							<ul>
-								<li>Consulta Clínica Médica	</li>
-								<li>Hemograma	</li>
-								<li>Glicemia Jejum	</li>
-								<li>HDL - Colesterol	</li>
-								<li>VLDL - Colesterol 	</li>
-								<li>LDL - Colesterol	</li>
-								<li>Colesterol Total	</li>
-								<li>Triglicérides	</li>
-								<li>Uréia</li>
-								<li>Creatina</li>
-								<li>Sódio</li>
-								<li>Potássio</li>
-								<li>Hemoglobina Glicada</li>
-								<li>TSH - Hormônio Tireoestimulante</li>
-								<li>T4 - Tiroxina Livre</li>
-								<li>Aspartato Aminotransferase TGO</li>
-								<li>Alanina Aminotransferase TGP</li>
-								<li>ECG - Eletrocardiograma</li>
-							</ul>
-						</li>
-						<li><i class="fas fa-male"></i> Check-UP Homem > 50 anos
-							<ul>
-								<li>Consulta Clínica Médica	</li>
-								<li>Hemograma	</li>
-								<li>Glicemia Jejum	</li>
-								<li>HDL - Colesterol	</li>
-								<li>VLDL - Colesterol 	</li>
-								<li>LDL - Colesterol	</li>
-								<li>Colesterol Total	</li>
-								<li>Triglicérides	</li>
-								<li>Uréia</li>
-								<li>Creatina</li>
-								<li>Sódio</li>
-								<li>Potássio</li>
-								<li>Hemoglobina Glicada</li>
-								<li>TSH - Hormônio Tireoestimulante</li>
-								<li>T4 - Tiroxina Livre</li>
-								<li>Aspartato Aminotransferase TGO</li>
-								<li>Alanina Aminotransferase TGP</li>
-								<li>ECG - Eletrocardiograma</li>
-							</ul>
-						</li>
-						<li><i class="fas fa-female"></i> Check-UP Mulher
-							<ul>
-								<li>Consulta Clínica Médica	</li>
-								<li>Hemograma	</li>
-								<li>Glicemia Jejum	</li>
-								<li>HDL - Colesterol	</li>
-								<li>VLDL - Colesterol 	</li>
-								<li>LDL - Colesterol	</li>
-								<li>Colesterol Total	</li>
-								<li>Triglicérides	</li>
-								<li>Uréia</li>
-								<li>Creatina</li>
-								<li>Sódio</li>
-								<li>Potássio</li>
-								<li>Hemoglobina Glicada</li>
-								<li>TSH - Hormônio Tireoestimulante</li>
-								<li>T4 - Tiroxina Livre</li>
-								<li>Aspartato Aminotransferase TGO</li>
-								<li>Alanina Aminotransferase TGP</li>
-								<li>ECG - Eletrocardiograma</li>
-							</ul>
-						</li>
-						<li><i class="fas fa-female"></i> Check-UP Mulher > 50 anos
-							<ul>
-								<li>Consulta Clínica Médica	</li>
-								<li>Hemograma	</li>
-								<li>Glicemia Jejum	</li>
-								<li>HDL - Colesterol	</li>
-								<li>VLDL - Colesterol 	</li>
-								<li>LDL - Colesterol	</li>
-								<li>Colesterol Total	</li>
-								<li>Triglicérides	</li>
-								<li>Uréia</li>
-								<li>Creatina</li>
-								<li>Sódio</li>
-								<li>Potássio</li>
-								<li>Hemoglobina Glicada</li>
-								<li>TSH - Hormônio Tireoestimulante</li>
-								<li>T4 - Tiroxina Livre</li>
-								<li>Aspartato Aminotransferase TGO</li>
-								<li>Alanina Aminotransferase TGP</li>
-								<li>ECG - Eletrocardiograma</li>
-							</ul>
-						</li>
-						<li><i class="fas fa-female"></i> Check-UP Mulher > 65 anos
-							<ul>
-								<li>Consulta Clínica Médica	</li>
-								<li>Hemograma	</li>
-								<li>Glicemia Jejum	</li>
-								<li>HDL - Colesterol	</li>
-								<li>VLDL - Colesterol 	</li>
-								<li>LDL - Colesterol	</li>
-								<li>Colesterol Total	</li>
-								<li>Triglicérides	</li>
-								<li>Uréia</li>
-								<li>Creatina</li>
-								<li>Sódio</li>
-								<li>Potássio</li>
-								<li>Hemoglobina Glicada</li>
-								<li>TSH - Hormônio Tireoestimulante</li>
-								<li>T4 - Tiroxina Livre</li>
-								<li>Aspartato Aminotransferase TGO</li>
-								<li>Alanina Aminotransferase TGP</li>
-								<li>ECG - Eletrocardiograma</li>
-							</ul>
-						</li>
-						<li><i class="fas fa-calendar-check"></i> Check-UP Preventivo
-							<ul>
-								<li>Consulta Clínica Médica	</li>
-								<li>Hemograma	</li>
-								<li>Glicemia Jejum	</li>
-								<li>HDL - Colesterol	</li>
-								<li>VLDL - Colesterol 	</li>
-								<li>LDL - Colesterol	</li>
-								<li>Colesterol Total	</li>
-								<li>Triglicérides	</li>
-								<li>Uréia</li>
-								<li>Creatina</li>
-								<li>Sódio</li>
-								<li>Potássio</li>
-								<li>Hemoglobina Glicada</li>
-								<li>TSH - Hormônio Tireoestimulante</li>
-								<li>T4 - Tiroxina Livre</li>
-								<li>Aspartato Aminotransferase TGO</li>
-								<li>Alanina Aminotransferase TGP</li>
-								<li>ECG - Eletrocardiograma</li>
-							</ul>
-						</li>
-					</ul>	
-			</div>
+					<label for="receita">Entre com seus comentários na caixa a seguir (máx. 300 caracteres)</label><br>
+					<textarea  rows="8" cols="50" name="receita" id="receita" maxlength="500"></textarea><br>
+					<input type="submit" value="Gerar receita" id="bt">
+				</div>
+			
 			</div>
 				
 						
@@ -248,7 +100,18 @@
 		</main>
 	</section>
 	<script th:src="~{}" th:fragment="js"></script>
-	<script th:inline="javascript" th:fragment="inlinescript"></script>
+	<script th:inline="javascript" th:fragment="inlinescript">
+	
+	$(document).ready(function(){
+		$('#bt').click(function(){
+			var dados = $('#receita').val();
+			var doc = new jsPDF();
+			doc.text(20,20,dados);
+			doc.save('receita.pdf');		
+		})
+	});
+	
+	</script>
 </body>
 </html>
 

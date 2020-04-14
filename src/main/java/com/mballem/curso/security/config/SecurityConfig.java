@@ -34,7 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		 * Permissão de acesso para todos os usuários.
 		 */
 		http.authorizeRequests()
-		.antMatchers("/webjars/**", "/css/**", "/image/**", "/js/**").permitAll()
+		.antMatchers("/webjars/**", "/css/**", "/image/**", "/js/**","/jspdf/**","/jquery/**").permitAll()
 		.antMatchers("/", "/home", "/check-ups", "/exames", "/consultas-lista").permitAll()
 		.antMatchers("/u/novo/cadastro","/u/cadastro/realizado","/u/cadastro/paciente/salvar").permitAll()
 		.antMatchers("/u/confirmacao/cadastro").permitAll()
