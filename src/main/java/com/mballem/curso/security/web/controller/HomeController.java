@@ -46,6 +46,11 @@ public class HomeController {
 			return "check-ups";
 		}
 		
+		@GetMapping("/receita")
+		public String receita() {
+			return "receita";
+		}
+		
 		/**
 		 * Metodo para lançar alertas de erro no login.
 		 * @param model

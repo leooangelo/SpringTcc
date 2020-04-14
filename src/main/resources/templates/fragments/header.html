@@ -35,8 +35,18 @@
 							<a class="dropdown-item" th:href="@{/u/editar/senha}">Editar Senha</a>
 							<div class="dropdown-divider"></div>
 							<a class="dropdown-item" th:href="@{/agendamentos/historico/consultas}">Consultas Agendadas</a>
+							
 						</div>
 					</li>
+					
+					<li class="nav-item dropdown" sec:authorize="hasAnyAuthority('MEDICO')"><a
+						class="btn  dropdown-toggle" href="#" id="dropdown02"
+						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:#DCDCDC">Serviços Médicos</a>
+						<div class="dropdown-menu" aria-labelledby="dropdown02">
+							<a class="dropdown-item" th:href="@{/receita}">Gerar Receita</a>	
+						</div>
+					</li>
+					
 					<li class="nav-item dropdown" sec:authorize="hasAnyAuthority('PACIENTE')"><a
 						class="btn  dropdown-toggle" href="#" id="dropdown03"
 						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:#DCDCDC">Pacientes</a>
