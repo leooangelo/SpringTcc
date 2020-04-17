@@ -134,14 +134,8 @@ public class UsuarioController {
 		return "redirect:/u/novo/cadastro/usuario";
 
 	}
-
-	/**
-	 * Metodo para pre editar credenciais do usuario.
-	 * 
-	 * @param id
-	 * @return
-	 */
 	
+	//teste
 	
 	@GetMapping("/editar/prontuario/paciente/{id}")
 	public ModelAndView preEditarProntuarioMédico(@PathVariable("id")Long usuarioId) {

@@ -72,6 +72,7 @@ public class EspecialidadeController {
 		model.addAttribute("especialidade", especialidadeService.buscarPorId(id));
 		return "especialidade/especialidade";
 	}
+
 	
 	/**
 	 * Metodo para excluir uma especialidade.
@@ -107,4 +108,6 @@ public class EspecialidadeController {
 	public ResponseEntity<?> getEspecialidadesPorMedico(@PathVariable("id") Long id, HttpServletRequest request){
 		return ResponseEntity.ok(especialidadeService.buscarEspecialidadesPorMedico(id,request));
 	}
+	
+	
 }
