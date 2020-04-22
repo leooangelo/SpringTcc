@@ -32,5 +32,7 @@ public interface EspecialidadeRepository extends JpaRepository<Especialidade, Lo
 	
 	@Query("select count(e) from Especialidade e")
 	Long findByQuantidade();
+	
+
 
 }

@@ -68,7 +68,11 @@ public class Medico extends AbstractEntity {
 	@OneToOne(cascade = CascadeType.REMOVE)
 	@JoinColumn(name = "id_usuario")
 	private Usuario usuario;
-	
+	/**
+	@JsonIgnore
+	@ManyToMany(mappedBy = "id_prontuario")
+	private Prontuario prontuarios;
+	*/
 	public Medico(Long id) {
 		super.setId(id);
 	}

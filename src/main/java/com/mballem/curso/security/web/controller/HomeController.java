@@ -52,6 +52,11 @@ public class HomeController {
 			return "receita";
 		}
 		
+		@GetMapping("/atestado-medico")
+		public String atestadoMedico()	{
+			return"atestado-medico";
+		}
+		
 		/**
 		 * Metodo para lançar alertas de erro no login.
 		 * @param model

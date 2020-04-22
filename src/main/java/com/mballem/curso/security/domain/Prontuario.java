@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -20,17 +21,17 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Prontuario extends AbstractEntity {
-	
 	@Column(name = "descricao", columnDefinition = "TEXT")
 	private String descricao;
+/**	
 	
 	@ManyToOne
 	@JoinColumn(name="id_medico")
 	private Medico medico;
 	
-	@OneToOne
+	@OneToMany
 	@JoinColumn(name="id_paciente")
 	private Paciente paciente;
 	
-	
+	*/
 }
