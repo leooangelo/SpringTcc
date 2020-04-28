@@ -137,6 +137,12 @@
     <artifactId>caelum-stella-core</artifactId> 
     <version>2.1.2</version> 
 	</dependency>
+	
+	<dependency>
+		<groupId>io.jsonwebtoken</groupId>
+		<artifactId>jjwt</artifactId>
+		<version>0.7.0</version>
+	</dependency>
 
 
 	</dependencies>
