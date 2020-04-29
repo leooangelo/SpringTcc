@@ -34,6 +34,7 @@ public class Usuario extends AbstractEntity {
 	@Column(name = "email", unique = true, nullable = false)
 	private String email;
 
+	@JsonIgnore
 	@Column(name = "senha", nullable = false)
 	private String senha;
 

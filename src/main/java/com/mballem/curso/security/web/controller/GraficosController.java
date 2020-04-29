@@ -44,10 +44,16 @@ public class GraficosController {
 
 		return modelAndView;
 	}
+	
+	@GetMapping("/dashboard")
+	public ModelAndView dash() {
+		ModelAndView modelAndView = new ModelAndView("graficos/dashboard");	
+		return modelAndView;
+	}
 
 	@GetMapping("/quantidade-especialidade")
 	public ModelAndView quantidadeEspecialidade() {
-		ModelAndView modelAndView = new ModelAndView("graficos/quantidade-usuario");;
+		ModelAndView modelAndView = new ModelAndView("graficos/quantidade-usuario");
 		List<QuantidadeVO> qtd = new ArrayList<>();
 		Long especialidadeQtd = especialidadeService.buscarQuantidadeEspecialidade();
 
