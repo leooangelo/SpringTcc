@@ -1,5 +1,4 @@
 package com.mballem.curso.security.repository;
-
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;

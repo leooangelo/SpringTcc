@@ -246,6 +246,10 @@ public class UsuarioService implements UserDetailsService {
 		usuarioRepository.deleteById(id);
 		
 	}
-
+	
+	@Transactional
+	public Long buscarQuantidadeAdmin() {
+		return usuarioRepository.quantidadeAdmin();
+	}
 
 }

@@ -136,5 +136,6 @@ public class AgendamentoService {
 	public void remover(Long id) {
 		agendamentoRepository.deleteById(id);
 	}
+
 	
 }

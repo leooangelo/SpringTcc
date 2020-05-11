@@ -1,7 +1,6 @@
 package com.mballem.curso.security.service;
 
 
-
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,5 +64,6 @@ public class PacienteService {
 	public Long buscarQuantidadePaciente() {
 		return pacienteRepository.quantidadePaciente();
 	}
+
 	
 }

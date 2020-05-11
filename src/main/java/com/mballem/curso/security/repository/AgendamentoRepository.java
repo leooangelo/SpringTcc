@@ -5,7 +5,6 @@ import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -105,7 +104,7 @@ public interface AgendamentoRepository extends JpaRepository<Agendamento, Long>{
 	
 	@Query("select u.email from Agendamento a , Paciente p , Usuario u where a.paciente=p.id and  p.usuario=u.id and a.id = :id")
 	String emailPaciente(Long id);
-	
+
 
 
 }
