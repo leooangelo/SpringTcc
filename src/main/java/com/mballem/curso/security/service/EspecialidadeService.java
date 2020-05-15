@@ -114,7 +114,4 @@ public class EspecialidadeService {
 		return especialidadeRepository.findByQuantidade();
 	}
 	
-	public List<Especialidade> listar(){
-		return especialidadeRepository.findAll();
-	}
 }
