@@ -1,5 +1,6 @@
 package com.mballem.curso.security.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -36,5 +37,8 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 	
 	@Query("select count(p.desc) from Usuario u inner join u.perfis p where p.desc = 'ADMIN' ")
 	Long quantidadeAdmin();
+	
+	@Query("select u from Usuario u inner join u.perfis")
+	List<Usuario> listarJasper();
 	
 } 

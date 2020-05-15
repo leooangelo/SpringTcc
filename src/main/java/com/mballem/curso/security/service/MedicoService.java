@@ -1,13 +1,28 @@
 package com.mballem.curso.security.service;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ResourceUtils;
 
 import com.mballem.curso.security.domain.Medico;
 import com.mballem.curso.security.repository.MedicoRepository;
+
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 /**
  * 
  * @author leonardoangelo
@@ -88,4 +103,47 @@ public class MedicoService {
 	public Long buscarQuantidadeMedicos() {
 		return medicoRepository.quantidadeMedico();
 	}
+	
+	public String exportReport() throws FileNotFoundException, JRException {
+		
+		try {
+			String caminho = "C:\\Users\\ferre\\OneDrive\\Documentos\\TesteJasper";
+			
+			List<Medico> list = medicoRepository.listarMedicos();
+			
+			File file = ResourceUtils.getFile("classpath:relatorio-medicos.jrxml");
+			JasperReport jasper = JasperCompileManager.compileReport(file.getAbsolutePath());
+			JRBeanCollectionDataSource data = new JRBeanCollectionDataSource(list);
+			Map<String,Object> map = new HashMap<>();
+			map.put("createdBy","Spring Clínica Security");
+			JasperPrint print = JasperFillManager.fillReport(jasper,map,data);
+			JasperExportManager.exportReportToPdfFile(print, caminho + "\\relatorios.pdf");
+			System.out.println("deu bom");
+			return "Documento gerado no caminho : "+caminho;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return e.getMessage();
+
+		}
+	}
+	
+	 @Autowired
+	 private ResourceLoader resourceLoader;
+	
+	public JasperPrint exportPdfFile() throws JRException, IOException {
+		  List<Medico> list = medicoRepository.listarMedicos();
+
+		  String path = resourceLoader.getResource("classpath:relatorio-medicos.jrxml").getURI().getPath();
+
+		  JasperReport jasperReport = JasperCompileManager.compileReport(path);
+		  JRBeanCollectionDataSource data = new JRBeanCollectionDataSource(list);
+
+		  Map<String, Object> parameters = new HashMap<String, Object>();
+		  parameters.put("createdBy","Spring Clínica Security");
+		  JasperPrint print = JasperFillManager.fillReport(jasperReport, parameters,data);
+
+		  return print;
+	}
+
+
 }

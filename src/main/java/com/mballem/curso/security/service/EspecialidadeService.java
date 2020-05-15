@@ -113,4 +113,8 @@ public class EspecialidadeService {
 	public Long buscarQuantidadeEspecialidade() {
 		return especialidadeRepository.findByQuantidade();
 	}
+	
+	public List<Especialidade> listar(){
+		return especialidadeRepository.findAll();
+	}
 }

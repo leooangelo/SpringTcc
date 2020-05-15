@@ -1,4 +1,9 @@
 package com.mballem.curso.security.web.controller;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.sql.SQLException;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +21,10 @@ import com.mballem.curso.security.domain.Medico;
 import com.mballem.curso.security.domain.Usuario;
 import com.mballem.curso.security.service.MedicoService;
 import com.mballem.curso.security.service.UsuarioService;
+
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperPrint;
 
 /**
  * 
@@ -118,4 +127,17 @@ public class MedicoCotroller {
 	public ResponseEntity<?> getMedicosPorEspecialidades(@PathVariable("titulo") String titulo) {
 		return ResponseEntity.ok(medicoService.buscarMedicosPorEspecialidade(titulo));
 	}
+	
+	@GetMapping(value = "/documento")
+	public void export(HttpServletResponse response) throws IOException, JRException, SQLException {
+		JasperPrint jasperPrint = null;
+		
+		response.setContentType("application/x-download");
+		response.setHeader("Content-Disposition", String.format("attachment; filename=\"medicos.pdf\""));
+
+		OutputStream out = response.getOutputStream();
+		jasperPrint = medicoService.exportPdfFile();
+		JasperExportManager.exportReportToPdfStream(jasperPrint, out);
+	}
+	
 }

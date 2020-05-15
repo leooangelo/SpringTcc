@@ -1,5 +1,4 @@
 package com.mballem.curso.security.web.controller;
-
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
@@ -17,10 +16,13 @@ public class HomeController {
 	 *  Abre a pagina home
 	 * @return
 	 */
+	
+	
 	@GetMapping({"/", "/home"})
 	public String home() {
 		return "home";
 	}	
+	
 	
 	/**
 	 *  Abre a pagina login

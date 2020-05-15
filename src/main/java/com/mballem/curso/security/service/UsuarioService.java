@@ -1,5 +1,4 @@
 package com.mballem.curso.security.service;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -44,7 +43,7 @@ public class UsuarioService implements UserDetailsService {
 
 	@Autowired
 	private EmailService emailService;
-
+	
 	
 	@Transactional
 	public Usuario buscarPorEmail(String email) {
@@ -107,6 +106,8 @@ public class UsuarioService implements UserDetailsService {
 		String crypt = new BCryptPasswordEncoder().encode(usuario.getSenha());
 		usuario.setSenha(crypt);
 		usuarioRepository.save(usuario);
+		
+		
 
 	}
 
@@ -251,5 +252,6 @@ public class UsuarioService implements UserDetailsService {
 	public Long buscarQuantidadeAdmin() {
 		return usuarioRepository.quantidadeAdmin();
 	}
+
 
 }

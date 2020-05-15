@@ -38,4 +38,7 @@ public interface MedicoRepository extends JpaRepository<Medico, Long>{
 	
 	@Query("select count(m) from Medico m")
 	Long quantidadeMedico();
+	
+	@Query("select m from Medico m inner join m.usuario")
+	List<Medico> listarMedicos();
 }

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -80,13 +81,20 @@ public class GraficosController {
 
 
 	@GetMapping("/quantidade-especialidade")
-	public ModelAndView quantidadeEspecialidade() {
-		ModelAndView modelAndView = new ModelAndView("graficos/quantidade-usuario");
+	public ModelAndView quantidadeEspecialidade(Model model) {
+		ModelAndView modelAndView = new ModelAndView("graficos/quantidade-especialidade");
+		
 		List<QuantidadeVO> qtd = new ArrayList<>();
-		Long especialidadeQtd = especialidadeService.buscarQuantidadeEspecialidade();
-
-		QuantidadeVO qtdVO = new QuantidadeVO(especialidadeQtd, "Especialidades");
-		qtd.add(qtdVO);
+		
+		Long espeQtd = especialidadeService.buscarQuantidadeEspecialidade();
+		Long medicoQtd = medicoService.buscarQuantidadeMedicos();
+		
+		QuantidadeVO qtdVo = new QuantidadeVO(espeQtd, "Especialidades");
+		qtd.add(qtdVo);
+		
+		qtdVo = new QuantidadeVO(medicoQtd, "Médicos");
+		qtd.add(qtdVo);
+						
 		modelAndView.addObject("grafico", qtd);
 		
 		return modelAndView;

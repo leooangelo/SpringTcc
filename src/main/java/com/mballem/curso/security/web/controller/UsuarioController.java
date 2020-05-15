@@ -31,6 +31,7 @@ import com.mballem.curso.security.service.MedicoService;
 import com.mballem.curso.security.service.PacienteService;
 import com.mballem.curso.security.service.UsuarioService;
 
+
 /**
  * 
  * @author leonardoangelo
@@ -324,6 +325,7 @@ public class UsuarioController {
 		return "login";
 		
 	}
+	
 	
 	
 }
