@@ -1,10 +1,14 @@
 package com.mballem.curso.security.web.controller;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -30,6 +34,10 @@ import com.mballem.curso.security.domain.Usuario;
 import com.mballem.curso.security.service.MedicoService;
 import com.mballem.curso.security.service.PacienteService;
 import com.mballem.curso.security.service.UsuarioService;
+
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperPrint;
 
 
 /**
@@ -324,6 +332,16 @@ public class UsuarioController {
 		model.addAttribute("texto", "Voce ja pode fazer login no sistema");
 		return "login";
 		
+	}@GetMapping(value = "/lista/documento")
+	public void export(HttpServletResponse response) throws IOException, JRException, SQLException {
+		JasperPrint jasperPrint = null;
+		
+		response.setContentType("application/x-download");
+		response.setHeader("Content-Disposition", String.format("attachment; filename=\"medicos.pdf\""));
+
+		OutputStream out = response.getOutputStream();
+		jasperPrint = medicoService.exportPdfFile();
+		JasperExportManager.exportReportToPdfStream(jasperPrint, out);
 	}
 	
 	
