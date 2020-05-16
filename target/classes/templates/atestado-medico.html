@@ -69,21 +69,42 @@
 								</div>
 								
 								<div class="mb-3" style="margin-top: -86px;">
-									<label for="dataPaciente" style="margin-left: 60%;">Data de Nascimento</label>
+									<label for="rg" style="margin-left: 60%;">RG</label>
 									<div class="input-group" style="width: 20%; margin-left: 60%;">
-										<input type="date" class="form-control" id="dataPaciente"
-											placeholder="Data de nascimento" required />
+										<input type="text" class="form-control" maxlength="9" id="rg"
+											placeholder="00.000.000-00" required />
 									</div>
 								</div>
 								
 								
-							
-							<div class="mb-3" style="margin-left: 10%;">
-								<label for="receita">Descrição</label><br>	
-									<textarea rows="10" cols="10" name="receita" wrap="on" id="receita"
-										maxlength="500" style="width: 55%;" spellcheck="false"></textarea><br></br>
-							<br> <input type="submit" class="btn btn-primary" id="bt" value="Gerar Receita">				
-						</div>
+								<div class="mb-3" style="margin-left: 10%">
+									<label for="dataConsulta">Data</label>
+									<div class="input-group" style="width: 50%">
+										<input type="date" class="form-control"id="dataConsulta"
+											placeholder="Data" required />
+										<div class="invalid-feedback">Data</div>
+									</div>
+								</div>
+								
+								<div class="mb-3" style="margin-top: -86px;">
+									<label for="cid" style="margin-left: 60%;">CID</label>
+									<div class="input-group" style="width: 20%;  margin-left: 60%;">
+										<input type="text" class="form-control" maxlength="11" id="cid"required />
+									</div>
+								</div>
+								
+								<div class="mb-3" style="margin-left: 10%;">
+									<label for="convalescença">Convalescença</label>
+									<div class="input-group" style="width: 50%">
+										<input type="text" class="form-control" id="convalescença"
+											placeholder="insira seu nome completo"  maxlength="50" required />
+										<div class="invalid-feedback">Nome é requerido.</div>
+									</div>
+								</div>		
+								
+								<div class="mb-3" style="margin-left: 10%;">
+									<br> <input type="submit" class="btn btn-primary" id="bt" value="Gerar Atestado">
+								</div>
 					</div>
 											
 		</main>
@@ -101,14 +122,18 @@
 				
 				var nomeMedico = $('#nomeMedico').val();
 				var nomePaciente = $('#nomePaciente').val();
+				var rg = $('#rg').val();
 				var dataPaciente = $('#dataPaciente').val();
 				var crm = $('#crm').val();
 				var date = new Date();
 				var dateString = "Data: " + date;
-				var receita = $('#receita').val();
+				var atestado = $('#atestado').val();
+				var dataConsulta =$('#dataConsulta').val();
+				var convalescença = $('#convalescença').val();
+				var cid = $('#cid').val();
 				doc.setFont("Arial")
 				
-				doc.setFontSize(15);
+				doc.setFontSize(18);
 				doc.setTextColor(50,205,50);
 				doc.text(10,10,'Clínica');
 				doc.text(15,15,'Spring Security');
@@ -116,7 +141,7 @@
 				doc.setFontSize(12);
 				doc.setTextColor(0,0,0);
 				doc.setFontType("bold")
-				doc.text(80,10,'RECEITUÁRIO MÉDICO');
+				doc.text(80,35,'ATESTADO MÉDICO ');
 				
 				doc.setFontType("normal")
 				doc.text(10,20,'_________________________________________________________________________________________');
@@ -124,51 +149,71 @@
 				doc.setTextColor(0,0,0);
 				doc.setFontType("normal")
 				
-				doc.setFontSize(12)
-				doc.setFontType("bold")
-				doc.text(10, 30,'Dr (a).');
-				doc.setFontType("normal")
-				doc.setFontSize(11);
-				doc.text(23, 30, nomeMedico);
-				
-				doc.setFontType("bold")
-				doc.text(10, 40,'CRM:')
-				doc.setFontType("normal")
-				doc.setFontSize(11);
-				doc.text(22, 40, crm);	
-				
-				doc.setFontSize(9);
-				doc.text(100, 35, dateString);
-				
 				doc.setFontSize(12);
 				doc.text(10,45,'_________________________________________________________________________________________');
 				
 				doc.setFontType("bold")
-				doc.text(10, 55,'Paciente:');
-				doc.setFontSize(11);
+				doc.text(10, 55,'Atesto para os devidos fins, que o(a) Sr(a)');
+				
 				doc.setFontType("normal")
-				doc.text(28, 55, nomePaciente);
+				doc.text(85, 55,'______________________________________________________');
+						
+				doc.setFontSize(13);
+				doc.setFontType("normal")
+				doc.text(86, 55, nomePaciente);
 				
 				doc.setFontSize(12);
 				doc.setFontType("bold")
-				doc.text(10, 65, 'Data de Nascimento: ');
-				doc.setFontSize(11);
+				doc.text(10, 65, 'Portador do RG:');
+				
 				doc.setFontType("normal")
-				doc.text(49, 65, dataPaciente);
+				doc.text(40, 65,'____________');
+				
+				doc.setFontSize(13);
+				doc.text(43, 65, rg);
 				
 				doc.setFontSize(12);
-				doc.text(10,70,'_________________________________________________________________________________________');
+				doc.setFontType("bold")
+				doc.text(68,65,'esteve sob meus cuidados profissionais no período do dia');
+		
+				doc.setFontType("normal")
+				doc.setFontSize(13);
+				doc.text(173, 65, dataConsulta);
+				
+				doc.setFontSize(12);
+				doc.setFontType("bold")
+				doc.text(10, 75, ' Necessitando o(a) mesmo(a) de:');
+				
+				doc.setFontType("normal")
+				doc.setFontSize(13);
+				doc.text(69,75,convalescença);
+				
+				doc.setFontType("normal")
+				doc.setFontSize(12);
+				doc.text(69,75,'_________________________________________________________');
 				
 				doc.setFontType("bold")
-				doc.text(90, 80, 'DESCRIÇÃO')
-				doc.setFontType("normal")	
-				doc.text(10, 85, receita);
+				doc.setFontSize(12);
+				doc.text(10,85, 'de convalescença.');
+				
+				doc.text(10,95,'CDI:');
+				
+				doc.setFontType("normal")
+				doc.setFontSize(13);
+				doc.text(20,95,cid);
+				
+				doc.setFontSize(12);
+				doc.text(20,95,'____________.')
+				
+				
+				
 	            
-				doc.save('receita.pdf');
+				doc.save('atestado.pdf');
 				
 			})
 		});
 	</script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.0/jquery.mask.js"></script>
 </body>
 </html>
 

@@ -1,4 +1,4 @@
-package com.mballem.curso.security.domain;
+	package com.mballem.curso.security.domain;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +30,8 @@ import lombok.Setter;
 @Table(name = "usuarios", indexes = {@Index(name = "idx_usuario_email", columnList = "email")})
 @NoArgsConstructor
 public class Usuario extends AbstractEntity {	
-	//get set lombok
+	
+	
 	@Column(name = "email", unique = true, nullable = false)
 	private String email;
 

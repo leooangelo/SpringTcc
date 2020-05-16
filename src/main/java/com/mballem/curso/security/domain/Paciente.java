@@ -68,7 +68,6 @@ public class Paciente extends AbstractEntity {
 	@OneToOne(cascade = CascadeType.REMOVE)
 	@JoinColumn(name = "id_usuario")
 	private Usuario usuario;
-	//teste
 	
 	/**
 	@JsonIgnore
