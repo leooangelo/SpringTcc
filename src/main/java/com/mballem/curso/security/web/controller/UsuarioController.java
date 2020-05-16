@@ -332,7 +332,9 @@ public class UsuarioController {
 		model.addAttribute("texto", "Voce ja pode fazer login no sistema");
 		return "login";
 		
-	}@GetMapping(value = "/lista/documento")
+	}
+	
+	@GetMapping(value = "/lista/documento")
 	public void export(HttpServletResponse response) throws IOException, JRException, SQLException {
 		JasperPrint jasperPrint = null;
 		
