@@ -92,7 +92,7 @@
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="18" splitType="Stretch">
+		<band height="40" splitType="Stretch">
 			<frame>
 				<reportElement style="Row" mode="Opaque" x="0" y="0" width="555" height="18" uuid="b50221b5-8254-440b-8c6f-1f0b138c9259"/>
 				<textField>
@@ -123,7 +123,7 @@
 					<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement style="Detail" positionType="Float" x="414" y="0" width="138" height="18" uuid="61c2c163-cef2-4eab-b643-c9da9a752c2b">
+					<reportElement style="Detail" positionType="Float" x="414" y="0" width="138" height="40" uuid="61c2c163-cef2-4eab-b643-c9da9a752c2b">
 						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="0ed69e57-b835-4420-97a5-9cbe1e474420"/>
 					</reportElement>
 					<textElement>
