@@ -145,6 +145,11 @@
 			<version>2.9.2</version>
 		</dependency>
 
+		<dependency>
+			<groupId> com.mercadopago </groupId>
+			<artifactId> dx-java </artifactId>
+			<version> 1.0.33 </version>
+		</dependency>
 
 	</dependencies>
 

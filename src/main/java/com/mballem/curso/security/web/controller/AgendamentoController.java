@@ -31,6 +31,7 @@ import com.mballem.curso.security.service.EmailService;
 import com.mballem.curso.security.service.EspecialidadeService;
 import com.mballem.curso.security.service.PacienteService;
 import com.mballem.curso.security.utils.DataUtils;
+import com.mercadopago.exceptions.MPException;
 
 /**
  * 
@@ -87,12 +88,12 @@ public class AgendamentoController {
 	 * @return
 	 * @throws MessagingException
 	 * @throws ParseException 
+	 * @throws MPException 
 	 */
 	@PreAuthorize("hasAnyAuthority('PACIENTE','ADMIN')")
-
 	@PostMapping({ "/salvar" })
 	public String salvar(Agendamento agendamento, RedirectAttributes attr, @AuthenticationPrincipal User user)
-			throws MessagingException, ParseException {
+			throws MessagingException, ParseException, MPException {
 		
 		
 		
@@ -102,10 +103,11 @@ public class AgendamentoController {
 				.findFirst().get();
 		agendamento.setEspecialidade(especialidade);
 		agendamento.setPaciente(paciente);
-		
 		Long dataConsulta = dataUtils.dataMarcarConsulta(agendamento.getDataConsulta());
 		Long dataSistema = System.currentTimeMillis();
+		
 		if(dataConsulta >=dataSistema) {
+			
 		agendamentoService.salvarConsultaAgendada(agendamento);
 		attr.addFlashAttribute("sucesso", "Sua consulta foi agendada com sucesso, verifique seu"
 				+ "email com os dados da consulta agendada.");
