@@ -34,8 +34,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		 * Permissão de acesso para todos os usuários.
 		 */
 		http.authorizeRequests()
+<<<<<<< HEAD
 		.antMatchers("/webjars/**", "/css/**", "/image/**", "/js/**","/jspdf/**","/jquery/**","/assets/**","/assets/**/**").permitAll()
 		.antMatchers("/", "/home", "/check-ups", "/exames", "/consultas-lista").permitAll()
+=======
+		.antMatchers("/webjars/**", "/css/**", "/image/**", "/js/**", "/pdf/**").permitAll()
+		.antMatchers("/", "/home", "/check-ups", "/exames").permitAll()
+>>>>>>> 8fe740561f7222d98abbb5d241d103f051a66c08
 		.antMatchers("/u/novo/cadastro","/u/cadastro/realizado","/u/cadastro/paciente/salvar").permitAll()
 		.antMatchers("/u/confirmacao/cadastro").permitAll()
 		.antMatchers("/pagamento", "/pay").permitAll()
@@ -56,7 +61,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		 */
 		.antMatchers("/medicos/especialidade/titulo/*").hasAnyAuthority(PACIENTE,MEDICO,ADMIN)
 		.antMatchers("/medicos/dados", "/medicos/salvar", "/medicos/editar").hasAnyAuthority(MEDICO,ADMIN)
-		.antMatchers("/medicos/**","/receita").hasAnyAuthority(MEDICO, ADMIN)
+		.antMatchers("/medicos/**","/receita", "/atestado-medico").hasAnyAuthority(MEDICO, ADMIN)
 		
 		/**
 		 * Permissão de acesso a paginas de PACIENTES.

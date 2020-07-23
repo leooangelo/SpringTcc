@@ -15,8 +15,16 @@ public class DataUtils {
 	public Long dataMarcarConsulta(LocalDate dataConsulta) throws ParseException { 
 		dataConsulta.toString();
 		Long data = dataConsulta.atStartOfDay(ZoneOffset.UTC).toInstant().toEpochMilli();
-		Long dataFinal = data -	864000000L;				
+		Long dataFinal = data ;		
 		return dataFinal;
 	}
+	
+//	public Long dataNascimento(LocalDate dataNascimento) {
+//		dataNascimento.toString();
+//		Long data = dataNascimento.atStartOfDay(ZoneOffset.UTC).toInstant().toEpochMilli();
+//		Long dataFinal = data - 23652000000L;
+//		return dataFinal;
+//
+//	}
 	
 }

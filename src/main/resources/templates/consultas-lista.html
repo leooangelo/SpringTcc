@@ -30,11 +30,12 @@
 						
 						<h2>Lista de Especialidades</h2>
 						
-						<table id="table-especialidades" class="table table-sm table-striped table-bordered nowrap" style="width:100%">
+						<table id="table-especialidade" class="table table-sm table-striped table-bordered nowrap" style="width:100%">
 						  <thead class="thead-dark">
 						    <tr>
-						      <th scope="col">#</th>
+						       <th scope="col">#</th>
 						      <th scope="col">Especialidade</th>
+						     
 						    </tr>
 						  </thead>
 						</table>
@@ -45,7 +46,7 @@
 		
 		</main>
 	</section>
-	<script th:src="@{/js/especialidade.js?(v=${version})}" th:fragment="js"></script>
+	<script th:src="@{/js/especialidade-lista.js?(v=${version})}" th:fragment="js"></script>
 	<script th:inline="javascript" th:fragment="inlinescript"></script>
 </body>
 </html>

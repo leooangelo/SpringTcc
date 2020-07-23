@@ -64,10 +64,16 @@ public class Paciente extends AbstractEntity {
 	@OneToMany(mappedBy = "paciente")
 	private List<Agendamento> agendamentos;
 	
+	
 	@OneToOne(cascade = CascadeType.REMOVE)
 	@JoinColumn(name = "id_usuario")
 	private Usuario usuario;
 	
+	/**
+	@JsonIgnore
+	@OneToMany(mappedBy = "id_prontuario")
+	private Prontuario prontuarios;
+	*/
 	
 	public Paciente(Usuario usuario) {
 		this.usuario = usuario;

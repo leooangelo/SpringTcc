@@ -131,6 +131,8 @@ public class AgendamentoController {
 		return "agendamento/historico-paciente";
 	}
 	
+	
+	
 	@PreAuthorize("hasAnyAuthority('MEDICO','ADMIN')")
 	@GetMapping("/historico/consultas")
 	public String historicoDeConsultasAgendadasMedico() {

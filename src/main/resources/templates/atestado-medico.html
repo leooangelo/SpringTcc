@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.w3.org/1999/xhtml" layout:decorate="~{layout}">
+<link href="https://fonts.googleapis.com/css?family=Anton&display=swap"
+	rel="stylesheet">
+
+
+<head>
+<meta charset="UTF-8" />
+
+<script type="text/javascript" src="/jspdf/jspdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.debug.js" ></script>
+</head>
+
+<body>
+
+	<section class="layout-content" layout:fragment="corpo">
+		<main role="main">
+
+
+			<img class="d-block mx-auto mb-4"
+				th:src="@{/image/spring-security.png}" width="72" height="72">
+
+			<div class="container">
+				<h1 class="jumbotron-heading">Clínica Spring Security</h1>
+				<p class="lead" style="color: #6bbd47; text-align: center;">Prescrição
+					rápida e inteligente que promove adesão do seu paciente ao
+					tratamento.</p>
+			</div>
+
+			<section class="jumbotron text-center "></section>
+
+
+			<div class="album py-5 bg-light fixed">
+				<div class="container">
+
+					<div class="gerarReceita" style="text-align: center;">
+						<h2>Gerar Atestado Médico</h2>
+
+					</div>
+				</div>
+				
+					<div class="mb-3" style="margin-left: 10%;">
+									<label for="nome">Nome do Médico</label>
+									<div class="input-group" style="width: 50%">
+										<input type="text" class="form-control" id="nomeMedico"
+											placeholder="insira seu nome completo" maxlength="40" required />
+										<div class="invalid-feedback">Nome é requerido.</div>
+									</div>
+								</div>
+								
+								
+								<div class="mb-3" style="margin-top: -86px;">
+									<label for="nome" style="margin-left: 60%;">CRM</label>
+									<div class="input-group" style="width: 20%; margin-left: 60%;">
+										<input type="text" class="form-control" maxlength="7" id="crm"
+											placeholder="CRM" required />
+										<div class="invalid-feedback">CRM é requerido.</div>
+									</div>
+								</div>
+								
+								<div class="mb-3" style="margin-left: 10%">
+									<label for="nome">Nome do Paciente</label>
+									<div class="input-group" style="width: 50%">
+										<input type="text" class="form-control" maxlength="40" id="nomePaciente"
+											placeholder="insira seu nome completo" required />
+										<div class="invalid-feedback">Nome é requerido.</div>
+									</div>
+								</div>
+								
+								<div class="mb-3" style="margin-top: -86px;">
+									<label for="rg" style="margin-left: 60%;">RG</label>
+									<div class="input-group" style="width: 20%; margin-left: 60%;">
+										<input type="text" class="form-control" maxlength="9" id="rg"
+											placeholder="00.000.000-00" required />
+									</div>
+								</div>
+								
+								
+								<div class="mb-3" style="margin-left: 10%">
+									<label for="dataConsulta">Data</label>
+									<div class="input-group" style="width: 50%">
+										<input type="date" class="form-control"id="dataConsulta"
+											placeholder="Data" required />
+										<div class="invalid-feedback">Data</div>
+									</div>
+								</div>
+								
+								<div class="mb-3" style="margin-top: -86px;">
+									<label for="cid" style="margin-left: 60%;">CID</label>
+									<div class="input-group" style="width: 20%;  margin-left: 60%;">
+										<input type="text" class="form-control" maxlength="11" id="cid"required />
+									</div>
+								</div>
+								
+								<div class="mb-3" style="margin-left: 10%;">
+									<label for="convalescença">Convalescença</label>
+									<div class="input-group" style="width: 50%">
+										<input type="text" class="form-control" id="convalescença"
+											placeholder="insira seu nome completo"  maxlength="50" required />
+										<div class="invalid-feedback">Nome é requerido.</div>
+									</div>
+								</div>		
+								
+								<div class="mb-3" style="margin-left: 10%;">
+									<br> <input type="submit" class="btn btn-primary" id="bt" value="Gerar Atestado">
+								</div>
+					</div>
+											
+		</main>
+	</section>
+	<script th:src="~{}" th:fragment="js"></script>
+	<script th:inline="javascript" th:fragment="inlinescript">
+	
+
+  
+
+		$(document).ready(function() {
+			$('#bt').click(function() {
+				var doc = new jsPDF();
+				
+				
+				var nomeMedico = $('#nomeMedico').val();
+				var nomePaciente = $('#nomePaciente').val();
+				var rg = $('#rg').val();
+				var dataPaciente = $('#dataPaciente').val();
+				var crm = $('#crm').val();
+				var date = new Date();
+				var dateString = "Data: " + date;
+				var atestado = $('#atestado').val();
+				var dataConsulta =$('#dataConsulta').val();
+				var convalescença = $('#convalescença').val();
+				var cid = $('#cid').val();
+				doc.setFont("Arial")
+				
+				doc.setFontSize(18);
+				doc.setTextColor(50,205,50);
+				doc.text(10,10,'Clínica');
+				doc.text(15,15,'Spring Security');
+				
+				doc.setFontSize(12);
+				doc.setTextColor(0,0,0);
+				doc.setFontType("bold")
+				doc.text(80,35,'ATESTADO MÉDICO ');
+				
+				doc.setFontType("normal")
+				doc.text(10,20,'_________________________________________________________________________________________');
+				
+				doc.setTextColor(0,0,0);
+				doc.setFontType("normal")
+				
+				doc.setFontSize(12);
+				doc.text(10,45,'_________________________________________________________________________________________');
+				
+				doc.setFontType("bold")
+				doc.text(10, 55,'Atesto para os devidos fins, que o(a) Sr(a)');
+				
+				doc.setFontType("normal")
+				doc.text(85, 55,'______________________________________________________');
+						
+				doc.setFontSize(13);
+				doc.setFontType("normal")
+				doc.text(86, 55, nomePaciente);
+				
+				doc.setFontSize(12);
+				doc.setFontType("bold")
+				doc.text(10, 65, 'Portador do RG:');
+				
+				doc.setFontType("normal")
+				doc.text(40, 65,'____________');
+				
+				doc.setFontSize(13);
+				doc.text(43, 65, rg);
+				
+				doc.setFontSize(12);
+				doc.setFontType("bold")
+				doc.text(68,65,'esteve sob meus cuidados profissionais no período do dia');
+		
+				doc.setFontType("normal")
+				doc.setFontSize(13);
+				doc.text(173, 65, dataConsulta);
+				
+				doc.setFontSize(12);
+				doc.setFontType("bold")
+				doc.text(10, 75, ' Necessitando o(a) mesmo(a) de:');
+				
+				doc.setFontType("normal")
+				doc.setFontSize(13);
+				doc.text(69,75,convalescença);
+				
+				doc.setFontType("normal")
+				doc.setFontSize(12);
+				doc.text(69,75,'_________________________________________________________');
+				
+				doc.setFontType("bold")
+				doc.setFontSize(12);
+				doc.text(10,85, 'de convalescença.');
+				
+				doc.text(10,95,'CDI:');
+				
+				doc.setFontType("normal")
+				doc.setFontSize(13);
+				doc.text(20,95,cid);
+				
+				doc.setFontSize(12);
+				doc.text(20,95,'____________.')
+				
+				
+				
+	            
+				doc.save('atestado.pdf');
+				
+			})
+		});
+	</script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.0/jquery.mask.js"></script>
+</body>
+</html>
+
+
+
+

@@ -43,9 +43,10 @@
 					
 					<li class="nav-item dropdown" sec:authorize="hasAnyAuthority('MEDICO')"><a
 						class="btn  dropdown-toggle" href="#" id="dropdown02"
-						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:#DCDCDC">Serviços Médicos</a>
+						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:#DCDCDC">Serviços Médicos  <i class="fas fa-stethoscope"></i></a>
 						<div class="dropdown-menu" aria-labelledby="dropdown02">
-							<a class="dropdown-item" th:href="@{/receita}">Gerar Receita</a>	
+							<a class="dropdown-item" th:href="@{/receita}">Gerar Receita Médica</a>	
+							<a class="dropdown-item" th:href="@{/atestado-medico}">Gerar Atestado Médico</a>	
 						</div>
 					</li>
 					
@@ -56,10 +57,18 @@
 							<a class="dropdown-item" th:href="@{/pacientes/dados}">Cadastrar Dados</a>
 							<a class="dropdown-item" th:href="@{/u/editar/senha}">Editar Senha</a>
 							<div class="dropdown-divider"></div>
-							<a class="dropdown-item" th:href="@{/agendamentos/agendar}">Agendar Consulta</a>
 							<a class="dropdown-item" th:href="@{/agendamentos/historico/paciente}">Histórico de Consultas</a>
 						</div>
-					</li>					
+					</li>	
+					
+					<li class="nav-item dropdown" sec:authorize="hasAnyAuthority('PACIENTE')"><a
+						class="btn  dropdown-toggle" href="#" id="dropdown02"
+						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:#DCDCDC">Serviços Paciente  <i class="fas fa-stethoscope"></i></a>
+						<div class="dropdown-menu" aria-labelledby="dropdown02">
+						<a class="dropdown-item" th:href="@{/agendamentos/agendar}">Agendar Consulta</a>
+								
+						</div>
+					</li>				
 				</ul>
 		
 				<form class="form-inline mt-2 mt-md-0" sec:authorize="!isAuthenticated()">
@@ -68,7 +77,7 @@
 						  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:#DCDCDC;">Serviços <i class="fas fa-stethoscope"></i></a>
 
 					  <div class="dropdown-menu" aria-labelledby="dropdown09">
-					    <a class="dropdown-item" th:href="@{/consultas-lista}">Consultas</a>
+					    <a class="dropdown-item" th:href="@{especialidades/consultas-lista}">Consultas</a>
 					    <a class="dropdown-item" th:href="@{/check-ups}">Check-ups</a>
 					    <a class="dropdown-item" th:href="@{/exames}">Exames</a>
 					  </div>
